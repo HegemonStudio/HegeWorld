@@ -2,6 +2,8 @@ package com.hegemonstudio.hegeworld;
 
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.highlight.BlockHighlight;
+import com.hegemonstudio.hegeworld.api.tasks.HWTask;
+import com.hegemonstudio.hegeworld.api.tasks.TaskManager;
 import com.hegemonstudio.hegeworld.commands.*;
 import com.hegemonstudio.hegeworld.listeners.FunListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerBlockListener;
@@ -22,6 +24,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Item;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginManager;
@@ -89,7 +92,16 @@ public final class HegeWorldPlugin extends JavaPlugin {
     if (Bukkit.getAllowNether()) {
       HWLogger.Err(Component.text("PLEASE DISABLE NETHER!"));
     }
-
+    TaskManager.AddTickTask("groundingitems", new HWTask() {
+      @Override
+      public void run() {
+        for(Item item : Bukkit.getWorld("world").getEntitiesByClass(Item.class)){
+          if(item.isOnGround()) {
+            item.remove();
+          }
+        }
+      }
+    });
 
   }
 
