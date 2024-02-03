@@ -1,0 +1,10 @@
+name: HegeWorldAPI
+version: '${project.version}'
+main: com.hegemonstudio.hegeworld.api.HegeWorldAPIPlugin
+api-version: '1.20'
+depend:
+  - ImpactLib
+  - WorldEdit
+permissions:
+  hegeworld.block.admin:
+    default: false
