@@ -1,7 +1,6 @@
 package com.hegemonstudio.hegeworld.commands;
 
 import com.impact.lib.api.command.MPlayerCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,13 +12,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpawnItemCommand extends MPlayerCommand{
+public class SpawnItemCommand extends MPlayerCommand {
 
-  public SpawnItemCommand(@NotNull String label) {
-    super(label);
+  public SpawnItemCommand() {
+    super("spawnitem");
   }
+
   public void perform(@NotNull Player sender, @NotNull Command command, int argc, @NotNull String @NotNull [] args) {
-    if (argc == 0){
+    if (argc == 0) {
       error(-1, "za mało argumentów!");
     }
     Material material = Material.valueOf(args[0].toUpperCase());
@@ -29,14 +29,14 @@ public class SpawnItemCommand extends MPlayerCommand{
 
   @Override
   public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-    if (args[0].isEmpty()) {
+    if (args.length == 1) {
       List<String> materials = new ArrayList<>();
       for (Material material : Material.values()) {
         materials.add(material.toString().toLowerCase());
       }
       return materials;
     }
-    if (args[1].isEmpty()){
+    if (args.length == 2) {
       return List.of("count");
     }
     return null;
