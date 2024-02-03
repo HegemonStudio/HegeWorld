@@ -5,6 +5,7 @@ import com.hegemonstudio.hegeworld.api.highlight.BlockHighlight;
 import com.hegemonstudio.hegeworld.commands.ChunkInfoCommand;
 import com.hegemonstudio.hegeworld.commands.CreateCommand;
 import com.hegemonstudio.hegeworld.commands.HWDebugCommand;
+import com.hegemonstudio.hegeworld.commands.TPWCommand;
 import com.hegemonstudio.hegeworld.listeners.FunListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerBlockListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerDeathListener;
@@ -14,6 +15,7 @@ import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollectionListener;
 import com.hegemonstudio.hegeworld.modules.guns.AK47Gun;
 import com.impact.lib.Impact;
+import com.impact.lib.api.command.MCommand;
 import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
 import net.kyori.adventure.text.Component;
@@ -97,6 +99,7 @@ public final class HegeWorldPlugin extends JavaPlugin {
     Impact.registerCommand(new NamespacedKey(this, "hwchunk"), new ChunkInfoCommand());
     Impact.registerCommand(new NamespacedKey(this, HWDebugCommand.LABEL), new HWDebugCommand());
     Impact.registerCommand(new NamespacedKey(this, "create"), new CreateCommand());
+    registerCommand(new TPWCommand());
   }
 
   private void createWorldsData() throws IOException, InvalidConfigurationException {
@@ -159,5 +162,9 @@ public final class HegeWorldPlugin extends JavaPlugin {
   @Contract(value = "_ -> new", pure = true)
   public static @NotNull MetadataValue CreateMetadata(Object value) {
     return new FixedMetadataValue(instance, value);
+  }
+
+  private static void registerCommand(MCommand<?> command) {
+    Impact.registerCommand(new NamespacedKey(instance, command.getLabel()), command);
   }
 }
