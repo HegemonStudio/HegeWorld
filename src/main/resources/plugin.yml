@@ -1,6 +1,6 @@
-name: HegeWorldAPI
+name: HegeWorld
 version: '${project.version}'
-main: com.hegemonstudio.hegeworld.api.HegeWorldAPIPlugin
+main: com.hegemonstudio.hegeworld.HegeWorldPlugin
 api-version: '1.20'
 depend:
   - ImpactLib

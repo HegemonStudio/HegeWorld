@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld.api.guns;
+package com.hegemonstudio.hegeworld.modules.guns;
 
 import com.impact.lib.api.item.CustomItemSettings;
 import org.bukkit.Material;

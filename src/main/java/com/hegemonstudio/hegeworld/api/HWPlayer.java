@@ -1,5 +1,6 @@
 package com.hegemonstudio.hegeworld.api;
 
+import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.impact.lib.api.player.WrappedPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -57,28 +58,28 @@ public class HWPlayer extends WrappedPlayer {
   }
 
   public void setData(String path, Object value) {
-    HegeWorldAPIPlugin.getInstance().getPlayersData().set(makeDataPath(path), value);
-    HegeWorldAPIPlugin.getInstance().savePlayersData();
+    HegeWorldPlugin.getInstance().getPlayersData().set(makeDataPath(path), value);
+    HegeWorldPlugin.getInstance().savePlayersData();
   }
 
   public boolean isDataSet(String path) {
-    return HegeWorldAPIPlugin.getInstance().getPlayersData().isSet(makeDataPath(path));
+    return HegeWorldPlugin.getInstance().getPlayersData().isSet(makeDataPath(path));
   }
 
   public Location getDataLocation(String path) {
-    return HegeWorldAPIPlugin.getInstance().getPlayersData().getLocation(makeDataPath(path));
+    return HegeWorldPlugin.getInstance().getPlayersData().getLocation(makeDataPath(path));
   }
 
   public String getDataString(String path) {
-    return HegeWorldAPIPlugin.getInstance().getPlayersData().getString(makeDataPath(path));
+    return HegeWorldPlugin.getInstance().getPlayersData().getString(makeDataPath(path));
   }
 
   public ItemStack getDataItemStack(String path) {
-    return HegeWorldAPIPlugin.getInstance().getPlayersData().getItemStack(makeDataPath(path));
+    return HegeWorldPlugin.getInstance().getPlayersData().getItemStack(makeDataPath(path));
   }
 
   public int getDataInt(String path) {
-    return HegeWorldAPIPlugin.getInstance().getPlayersData().getInt(makeDataPath(path));
+    return HegeWorldPlugin.getInstance().getPlayersData().getInt(makeDataPath(path));
   }
 
   /**

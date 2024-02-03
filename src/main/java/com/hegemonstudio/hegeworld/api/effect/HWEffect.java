@@ -1,9 +1,7 @@
 package com.hegemonstudio.hegeworld.api.effect;
 
-import com.hegemonstudio.hegeworld.api.HegeWorldAPIPlugin;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;

@@ -1,13 +1,10 @@
-package com.hegemonstudio.hegeworld.api.commands;
+package com.hegemonstudio.hegeworld.commands;
 
 import com.hegemonstudio.hegeworld.api.HWPlayer;
-import com.hegemonstudio.hegeworld.api.collection.GroundCollection;
-import com.hegemonstudio.hegeworld.api.guns.AK47Gun;
-import com.hegemonstudio.hegeworld.api.guns.GunMechanics;
+import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
+import com.hegemonstudio.hegeworld.modules.guns.AK47Gun;
 import com.impact.lib.api.command.MPlayerCommand;
-import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.registry.ImpactRegistries;
-import com.impact.lib.api.registry.ImpactRegistry;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;

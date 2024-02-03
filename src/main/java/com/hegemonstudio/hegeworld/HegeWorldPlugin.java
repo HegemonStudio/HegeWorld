@@ -1,15 +1,17 @@
-package com.hegemonstudio.hegeworld.api;
+package com.hegemonstudio.hegeworld;
 
-import com.hegemonstudio.hegeworld.api.collection.GroundCollection;
-import com.hegemonstudio.hegeworld.api.collection.GroundCollectionListener;
-import com.hegemonstudio.hegeworld.api.commands.ChunkInfoCommand;
-import com.hegemonstudio.hegeworld.api.commands.HWDebugCommand;
-import com.hegemonstudio.hegeworld.api.guns.AK47Gun;
+import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.highlight.BlockHighlight;
-import com.hegemonstudio.hegeworld.api.listeners.FunListener;
-import com.hegemonstudio.hegeworld.api.listeners.PlayerBlockListener;
-import com.hegemonstudio.hegeworld.api.listeners.PlayerDeathListener;
-import com.hegemonstudio.hegeworld.api.listeners.PlayerJoinListener;
+import com.hegemonstudio.hegeworld.commands.ChunkInfoCommand;
+import com.hegemonstudio.hegeworld.commands.CreateCommand;
+import com.hegemonstudio.hegeworld.commands.HWDebugCommand;
+import com.hegemonstudio.hegeworld.listeners.FunListener;
+import com.hegemonstudio.hegeworld.listeners.PlayerBlockListener;
+import com.hegemonstudio.hegeworld.listeners.PlayerDeathListener;
+import com.hegemonstudio.hegeworld.listeners.PlayerJoinListener;
+import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
+import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollectionListener;
+import com.hegemonstudio.hegeworld.modules.guns.AK47Gun;
 import com.impact.lib.Impact;
 import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
@@ -22,17 +24,16 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.units.qual.N;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 
-public final class HegeWorldAPIPlugin extends JavaPlugin {
+public final class HegeWorldPlugin extends JavaPlugin {
 
-  private static HegeWorldAPIPlugin instance;
+  private static HegeWorldPlugin instance;
 
-  public static HegeWorldAPIPlugin getInstance() {
+  public static HegeWorldPlugin getInstance() {
     return instance;
   }
 
@@ -88,6 +89,7 @@ public final class HegeWorldAPIPlugin extends JavaPlugin {
   private void loadCommands() {
     Impact.registerCommand(new NamespacedKey(this, "hwchunk"), new ChunkInfoCommand());
     Impact.registerCommand(new NamespacedKey(this, HWDebugCommand.LABEL), new HWDebugCommand());
+    Impact.registerCommand(new NamespacedKey(this, "create"), new CreateCommand());
   }
 
   private void createWorldsData() throws IOException, InvalidConfigurationException {

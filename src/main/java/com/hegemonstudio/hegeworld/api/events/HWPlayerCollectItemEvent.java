@@ -2,7 +2,6 @@ package com.hegemonstudio.hegeworld.api.events;
 
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

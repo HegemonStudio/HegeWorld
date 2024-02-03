@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hegemonstudio</groupId>
-    <artifactId>HegeWorldAPI</artifactId>
+    <artifactId>HegeWorld</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 

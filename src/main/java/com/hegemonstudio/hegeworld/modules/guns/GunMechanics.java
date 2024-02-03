@@ -1,11 +1,10 @@
-package com.hegemonstudio.hegeworld.api.guns;
+package com.hegemonstudio.hegeworld.modules.guns;
 
 import com.hegemonstudio.hegeworld.api.effect.HWEffect;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Pose;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,5 @@
-package com.hegemonstudio.hegeworld.api.listeners;
+package com.hegemonstudio.hegeworld.listeners;
 
-import com.hegemonstudio.hegeworld.api.events.HWPlayerSpawnEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

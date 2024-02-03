@@ -1,11 +1,9 @@
 package com.hegemonstudio.hegeworld.api.highlight;
 
+import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
-import com.hegemonstudio.hegeworld.api.HegeWorldAPIPlugin;
-import com.hegemonstudio.hegeworld.api.effect.HWEffect;
 import com.hegemonstudio.hegeworld.api.events.HWPlayerTargetBlockEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +21,7 @@ public class BlockHighlight {
   }
 
   public void run() {
-    Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldAPIPlugin.getInstance(), () -> {
+    Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldPlugin.getInstance(), () -> {
       for (Player player : Bukkit.getOnlinePlayers()) {
         UUID uuid = player.getUniqueId();
         Block target = player.getTargetBlockExact(5);

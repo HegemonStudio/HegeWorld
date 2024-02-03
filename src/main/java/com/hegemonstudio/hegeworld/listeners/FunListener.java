@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld.api.listeners;
+package com.hegemonstudio.hegeworld.listeners;
 
 import org.bukkit.event.Listener;
 

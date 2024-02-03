@@ -1,7 +1,6 @@
-package com.hegemonstudio.hegeworld.api.collection;
+package com.hegemonstudio.hegeworld.modules.grounditems;
 
 import com.hegemonstudio.hegeworld.api.HWPlayer;
-import com.hegemonstudio.hegeworld.api.HegeWorldAPIPlugin;
 import com.hegemonstudio.hegeworld.api.events.HWPlayerCollectItemEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
