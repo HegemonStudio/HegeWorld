@@ -8,6 +8,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -44,6 +46,18 @@ public class GroundCollectionListener implements Listener {
 
       GroundCollection.RemoveGroundItem(frame);
     }
+  }
+
+  @EventHandler
+  public void onItemFrameBreak(HangingBreakEvent event) {
+    if (!GroundCollection.IsGroundItem(event.getEntity())) return;
+    event.setCancelled(true);
+  }
+
+  @EventHandler
+  public void onItemFrameBreak(HangingBreakByEntityEvent event) {
+    if (!GroundCollection.IsGroundItem(event.getEntity())) return;
+    event.setCancelled(true);
   }
 
 }
