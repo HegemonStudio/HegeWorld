@@ -27,15 +27,17 @@ public class TPWCommand extends MPlayerCommand {
       return;
     }
     String worldName = args[0];
-    World world = Bukkit.getWorld(worldName);
-    boolean isWorldExists = world != null;
+    boolean isWorldExists =  Bukkit.getWorld(worldName) != null;
+
     if (!isWorldExists) {
-      // create world
+      // required confirm
       if (argc == 1) {
         error(0, "World does not exist. Please add confirm");
         return;
       }
       if (!args[1].equalsIgnoreCase("confirm")) return;
+
+      // create world
       HWLogger.Log(Component.text(sender.getName() + " creating world " + worldName + "..."));
       WorldCreator
           .name(worldName)
@@ -44,8 +46,10 @@ public class TPWCommand extends MPlayerCommand {
           .createWorld();
       HWLogger.Log(Component.text(sender.getName() + " created new world " + worldName));
     }
-    world = Bukkit.getWorld(worldName);
+
+    World world = Bukkit.getWorld(worldName);
     assert world != null;
+
     sender.teleport(world.getSpawnLocation());
     sender.sendMessage(Component.text("Teleported to " + worldName).color(NamedTextColor.GREEN));
     responseSound(Sound.ENTITY_ENDERMAN_TELEPORT);
