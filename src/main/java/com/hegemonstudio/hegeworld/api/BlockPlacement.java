@@ -6,6 +6,8 @@ import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class BlockPlacement {
 
@@ -22,6 +24,17 @@ public class BlockPlacement {
         onPlace.accept(block);
       }
     }
+  }
+
+  public static boolean CheckPlatform(@NotNull Location center, int size, @NotNull Function<Block, Boolean> blockCheck) {
+    Location location = center.clone().subtract(size/2, 0, size/2);
+    for (int x = 0; x < size; x += 1) {
+      for (int z = 0; z < size; z += 1) {
+        Block block = location.clone().add(x, 0, z).getBlock();
+        if (!blockCheck.apply(block)) return false;
+      }
+    }
+    return true;
   }
 
 }

@@ -20,9 +20,9 @@ public class FoundationPlacerItem extends CustomItem {
   @Override
   public Result onBlockUse(@NotNull Player player, @NotNull ItemStack item, boolean isLeftClick, @NotNull Block clickedBlock, @NotNull BlockFace clickedFace) {
     if (isLeftClick) return Result.DENY;
-    if (clickedBlock.hasMetadata("notmapobject")) return Result.DENY;
     if (BuildMechanics.IsGenerated(clickedBlock)) return Result.DENY;
     Location platform = clickedBlock.getLocation().add(0, 1,0);
+    if (!BlockPlacement.CheckPlatform(platform, 5, (block) -> !BuildMechanics.IsGenerated(block))) return Result.DENY;
     BlockPlacement.PlacePlatform(platform, Material.ANDESITE, 5, BuildMechanics::SelectAsGenerated);
     return Result.CONSUME;
    }
