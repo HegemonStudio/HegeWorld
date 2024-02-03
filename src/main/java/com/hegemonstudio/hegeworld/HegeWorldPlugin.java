@@ -9,6 +9,7 @@ import com.hegemonstudio.hegeworld.listeners.FunListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerBlockListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerDeathListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerJoinListener;
+import com.hegemonstudio.hegeworld.modules.bulding.BuildingModule;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollectionListener;
 import com.hegemonstudio.hegeworld.modules.guns.AK47Gun;
@@ -22,8 +23,12 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -72,6 +77,8 @@ public final class HegeWorldPlugin extends JavaPlugin {
     NamespacedKey key = new NamespacedKey(this, "ak47");
     AK47Gun.KEY = key;
     ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, key, new AK47Gun());
+
+    new BuildingModule().start();
 
     long end = System.currentTimeMillis() - start;
     HWLogger.Log(Component.text("Enabled " + this + " in " + end + "ms").color(NamedTextColor.GREEN));
@@ -147,5 +154,10 @@ public final class HegeWorldPlugin extends JavaPlugin {
     } catch (IOException e) {
       return false;
     }
+  }
+
+  @Contract(value = "_ -> new", pure = true)
+  public static @NotNull MetadataValue CreateMetadata(Object value) {
+    return new FixedMetadataValue(instance, value);
   }
 }
