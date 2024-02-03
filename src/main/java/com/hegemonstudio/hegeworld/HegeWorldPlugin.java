@@ -101,6 +101,7 @@ public final class HegeWorldPlugin extends JavaPlugin {
           if(item.isOnGround()) {
             ItemStack itemStack = item.getItemStack();
             if (itemStack.getAmount() > 1 || itemStack.getType() == Material.ITEM_FRAME) continue;
+
             GroundCollection.SpawnGroundItem(item.getLocation(), itemStack);
             item.remove();
           }
