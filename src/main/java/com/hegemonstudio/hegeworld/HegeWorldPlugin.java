@@ -20,11 +20,13 @@ import com.impact.lib.api.registry.ImpactRegistry;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginManager;
@@ -97,6 +99,9 @@ public final class HegeWorldPlugin extends JavaPlugin {
       public void run() {
         for(Item item : Bukkit.getWorld("world").getEntitiesByClass(Item.class)){
           if(item.isOnGround()) {
+            ItemStack itemStack = item.getItemStack();
+            if (itemStack.getAmount() > 1 || itemStack.getType() == Material.ITEM_FRAME) continue;
+            GroundCollection.SpawnGroundItem(item.getLocation(), itemStack);
             item.remove();
           }
         }
