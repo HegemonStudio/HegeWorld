@@ -36,7 +36,7 @@ public class TPWCommand extends MPlayerCommand {
         return;
       }
       if (!args[1].equalsIgnoreCase("confirm")) return;
-      HWLogger.Log(Component.text(sender.getName() + "creating world " + worldName + "..."));
+      HWLogger.Log(Component.text(sender.getName() + " creating world " + worldName + "..."));
       WorldCreator
           .name(worldName)
           .environment(World.Environment.NORMAL)
