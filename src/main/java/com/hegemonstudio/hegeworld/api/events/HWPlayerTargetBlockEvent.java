@@ -1,12 +1,14 @@
 package com.hegemonstudio.hegeworld.api.events;
 
 import com.hegemonstudio.hegeworld.api.HWPlayer;
+import lombok.Getter;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class HWPlayerTargetBlockEvent extends Event {
+@Getter
+public final class HWPlayerTargetBlockEvent extends Event {
 
   private static final HandlerList HANDLERS_LIST = new HandlerList();
 
@@ -27,12 +29,5 @@ public class HWPlayerTargetBlockEvent extends Event {
     this.block = block;
   }
 
-  public HWPlayer getPlayer() {
-    return player;
-  }
-
-  public Block getBlock() {
-    return block;
-  }
 }
 

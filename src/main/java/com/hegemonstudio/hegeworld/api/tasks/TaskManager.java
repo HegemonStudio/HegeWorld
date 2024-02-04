@@ -10,9 +10,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public class TaskManager {
+public final class TaskManager {
 
   private static final Map<String, HWTask> TASKS = new HashMap<>();
+
+  private TaskManager() {
+
+  }
 
   static void AddTask(@NotNull String uid, HWTask task) {
     TASKS.put(uid, task);
@@ -31,14 +35,14 @@ public class TaskManager {
     });
   }
 
-  public static String OnTick(@NotNull Runnable onTick) {
+  public static @NotNull String OnTick(@NotNull Runnable onTick) {
     String uid = UUID.randomUUID().toString();
     ListenTick(uid, onTick);
     return uid;
   }
 
   public static void ListenTicks(@NotNull String uid, @NotNull HWTask task, long periodTicks) {
-    task.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldPlugin.getInstance(), task, 0L, periodTicks);
+    task.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldPlugin.GetInstance(), task, 0L, periodTicks);
     AddTask(uid, task);
   }
 

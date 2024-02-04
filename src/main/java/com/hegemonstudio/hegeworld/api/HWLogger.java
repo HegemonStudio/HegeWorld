@@ -6,7 +6,11 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class HWLogger {
+public final class HWLogger {
+
+  private HWLogger() {
+
+  }
 
   public static void Log(Component component) {
     TextComponent.Builder builder = Component.text();

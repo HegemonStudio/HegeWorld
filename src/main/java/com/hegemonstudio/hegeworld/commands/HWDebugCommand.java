@@ -69,7 +69,7 @@ public class HWDebugCommand extends MPlayerCommand {
         return;
       } catch (IllegalArgumentException exception) {}
 
-      CustomItem customItem = ImpactRegistries.CUSTOM_ITEM.get(new NamespacedKey(HegeWorldPlugin.getInstance(), args[1].toLowerCase()));
+      CustomItem customItem = ImpactRegistries.CUSTOM_ITEM.get(new NamespacedKey(HegeWorldPlugin.GetInstance(), args[1].toLowerCase()));
       if (customItem != null) {
         hwplayer.giveItem(customItem.getItemStack(count));
         return;

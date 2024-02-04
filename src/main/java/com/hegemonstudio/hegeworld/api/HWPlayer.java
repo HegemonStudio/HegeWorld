@@ -58,28 +58,28 @@ public class HWPlayer extends WrappedPlayer {
   }
 
   public void setData(String path, Object value) {
-    HegeWorldPlugin.getInstance().getPlayersData().set(makeDataPath(path), value);
-    HegeWorldPlugin.getInstance().savePlayersData();
+    HegeWorldPlugin.GetInstance().getPlayersData().set(makeDataPath(path), value);
+    HegeWorldPlugin.GetInstance().savePlayersData();
   }
 
   public boolean isDataSet(String path) {
-    return HegeWorldPlugin.getInstance().getPlayersData().isSet(makeDataPath(path));
+    return HegeWorldPlugin.GetInstance().getPlayersData().isSet(makeDataPath(path));
   }
 
   public Location getDataLocation(String path) {
-    return HegeWorldPlugin.getInstance().getPlayersData().getLocation(makeDataPath(path));
+    return HegeWorldPlugin.GetInstance().getPlayersData().getLocation(makeDataPath(path));
   }
 
   public String getDataString(String path) {
-    return HegeWorldPlugin.getInstance().getPlayersData().getString(makeDataPath(path));
+    return HegeWorldPlugin.GetInstance().getPlayersData().getString(makeDataPath(path));
   }
 
   public ItemStack getDataItemStack(String path) {
-    return HegeWorldPlugin.getInstance().getPlayersData().getItemStack(makeDataPath(path));
+    return HegeWorldPlugin.GetInstance().getPlayersData().getItemStack(makeDataPath(path));
   }
 
   public int getDataInt(String path) {
-    return HegeWorldPlugin.getInstance().getPlayersData().getInt(makeDataPath(path));
+    return HegeWorldPlugin.GetInstance().getPlayersData().getInt(makeDataPath(path));
   }
 
   /**

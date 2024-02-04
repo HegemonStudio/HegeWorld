@@ -39,11 +39,11 @@ public final class HegeWorldPlugin extends JavaPlugin {
   private static HegeWorldPlugin instance;
   private static World mainWorld;
 
-  public static @NotNull HegeWorldPlugin getInstance() {
+  public static @NotNull HegeWorldPlugin GetInstance() {
     return instance;
   }
 
-  public static @NotNull World getMainWorld() {
+  public static @NotNull World GetMainWorld() {
     return mainWorld;
   }
 
@@ -83,6 +83,7 @@ public final class HegeWorldPlugin extends JavaPlugin {
   }
 
   private void loadModules() {
+    new BlockHighlight().start();
     new GroundCollectionModule().start();
     new BuildingModule().start();
   }
@@ -135,7 +136,7 @@ public final class HegeWorldPlugin extends JavaPlugin {
   }
 
   private void loadTasks() {
-    new BlockHighlight().run();
+
   }
 
   private void loadData() {

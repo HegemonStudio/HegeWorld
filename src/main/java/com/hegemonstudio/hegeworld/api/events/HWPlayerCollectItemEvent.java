@@ -8,7 +8,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class HWPlayerCollectItemEvent extends Event implements Cancellable {
+public final class HWPlayerCollectItemEvent extends Event implements Cancellable {
 
   private static final HandlerList HANDLERS_LIST = new HandlerList();
 

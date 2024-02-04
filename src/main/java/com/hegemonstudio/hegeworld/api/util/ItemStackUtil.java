@@ -74,7 +74,7 @@ public class ItemStackUtil {
     @Contract("_, _ -> param1")
     public static @NotNull ItemStack changeName(ItemStack item, String changedName) {
         ItemMeta im = item.getItemMeta();
-        im.setDisplayName(ColorUtil.color(changedName));
+        im.setDisplayName(ColorUtil.Color(changedName));
         item.setItemMeta(im);
         return item;
     }

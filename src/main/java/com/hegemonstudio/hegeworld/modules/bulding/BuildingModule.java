@@ -10,7 +10,7 @@ public class BuildingModule extends HWModule {
 
   public void start() {
     // Register FoundationPlacerItem
-    NamespacedKey foundation = new NamespacedKey(HegeWorldPlugin.getInstance(), "foundation");
+    NamespacedKey foundation = new NamespacedKey(HegeWorldPlugin.GetInstance(), "foundation");
     ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, foundation, new FoundationPlacerItem());
   }
 

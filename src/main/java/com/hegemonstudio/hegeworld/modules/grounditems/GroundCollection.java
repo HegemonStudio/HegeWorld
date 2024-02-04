@@ -86,7 +86,7 @@ public class GroundCollection {
     frame.setVisible(false);
     frame.setRotation(Rotation.values()[(int) Math.floor(Math.random() * Rotation.values().length)]);
     frame.setItem(spawnEvent.getItemStack());
-    frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.getInstance(), true));
+    frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
 
     SaveFrame(frame);
   }
@@ -115,8 +115,8 @@ public class GroundCollection {
     GroundItemData data = new GroundItemData(frame, item);
     GROUND_ITEMS.put(frame.getUniqueId(), data);
 
-    frame.setMetadata(ITEM_FRAME_DATA_KEY, new FixedMetadataValue(HegeWorldPlugin.getInstance(), true));
-    frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.getInstance(), true));
+    frame.setMetadata(ITEM_FRAME_DATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
+    frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
 
     SaveFrame(frame);
     // TODO SaveFrameData(data);
@@ -124,7 +124,7 @@ public class GroundCollection {
 
   public static void LoadFrames(@Nullable World world) {
     if (world == null) return;
-    FileConfiguration data = HegeWorldPlugin.getInstance().getWorldsData();
+    FileConfiguration data = HegeWorldPlugin.GetInstance().getWorldsData();
     String groundItemsPath = world.getName() + "." + ITEM_FRAME_DATA_KEY;
     if (!data.isSet(groundItemsPath)) return;
     List<String> suids = data.getStringList(groundItemsPath);
@@ -141,7 +141,7 @@ public class GroundCollection {
         continue;
       }
       ItemFrame frame = (ItemFrame) entity;
-      frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.getInstance(), true));
+      frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
       successfullyLoaded += 1;
     }
     HWLogger.Log(Component.text("Loaded " + successfullyLoaded + "/" + suids.size() + " ground items."));
@@ -149,23 +149,23 @@ public class GroundCollection {
 
   public static void SaveFrame(@Nullable ItemFrame frame) {
     if (frame == null) return;
-    FileConfiguration data = HegeWorldPlugin.getInstance().getWorldsData();
+    FileConfiguration data = HegeWorldPlugin.GetInstance().getWorldsData();
     World world = frame.getWorld();
     String groundItemsPath = world.getName() + "." + ITEM_FRAME_DATA_KEY;
     List<String> uuids = data.isSet(groundItemsPath) ? data.getStringList(groundItemsPath) : new ArrayList<>();
     uuids.add(frame.getUniqueId().toString());
     data.set(groundItemsPath, uuids);
-    HegeWorldPlugin.getInstance().saveWorldsData();
+    HegeWorldPlugin.GetInstance().saveWorldsData();
   }
 
   public static void UnsetFrame(@NotNull World world, @NotNull UUID uuid) {
-    FileConfiguration data = HegeWorldPlugin.getInstance().getWorldsData();
+    FileConfiguration data = HegeWorldPlugin.GetInstance().getWorldsData();
     String groundItemsPath = world.getName() + "." + ITEM_FRAME_DATA_KEY;
     if (!data.isSet(groundItemsPath)) return;
     List<String> uuids = data.getStringList(groundItemsPath);
     uuids.remove(uuid.toString());
     data.set(groundItemsPath, uuids);
-    HegeWorldPlugin.getInstance().saveWorldsData();
+    HegeWorldPlugin.GetInstance().saveWorldsData();
   }
 
 }

@@ -14,7 +14,7 @@ public class PlayerDeathListener implements Listener {
   @EventHandler
   public void onPlayerJoin(@NotNull PlayerDeathEvent event) {
     Player player = event.getPlayer();
-    Bukkit.getScheduler().runTask(HegeWorldPlugin.getInstance(), () -> {
+    Bukkit.getScheduler().runTask(HegeWorldPlugin.GetInstance(), () -> {
       Bukkit.getPluginManager().callEvent(new HWPlayerDeathEvent(player));
     });
     event.setCancelled(true);

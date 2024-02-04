@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class HWPlayerJoinEvent extends Event {
+public final class HWPlayerJoinEvent extends Event {
 
   private static final HandlerList HANDLERS_LIST = new HandlerList();
 

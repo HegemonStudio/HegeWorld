@@ -7,7 +7,11 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class HWEffect {
+public final class HWEffect {
+
+  private HWEffect() {
+
+  }
 
   public static double DEFAULT_STEP = 0.5D;
 

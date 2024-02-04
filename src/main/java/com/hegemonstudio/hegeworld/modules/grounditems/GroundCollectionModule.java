@@ -14,10 +14,10 @@ public class GroundCollectionModule extends HWModule {
   @Override
   public void start() {
     // TODO use GroundItemData
-    HegeWorldPlugin.getInstance().registerListener(new GroundCollectionListener());
+    HegeWorldPlugin.GetInstance().registerListener(new GroundCollectionListener());
 
     TaskManager.OnTick(() -> {
-      for (Item item : HegeWorldPlugin.getMainWorld().getEntitiesByClass(Item.class)) {
+      for (Item item : HegeWorldPlugin.GetMainWorld().getEntitiesByClass(Item.class)) {
         if (!item.isOnGround()) continue;
         ItemStack itemStack = item.getItemStack();
         if (itemStack.getAmount() > 1 || itemStack.getType() == Material.ITEM_FRAME) continue;

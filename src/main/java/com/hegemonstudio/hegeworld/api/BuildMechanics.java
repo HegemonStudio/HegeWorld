@@ -30,7 +30,7 @@ public class BuildMechanics {
 
   public static @NotNull Block DeselectAsGenerated(@NotNull Block block) {
     if (!IsGenerated(block)) return block;
-    block.removeMetadata(GENERATED_KEY, HegeWorldPlugin.getInstance());
+    block.removeMetadata(GENERATED_KEY, HegeWorldPlugin.GetInstance());
     return block;
   }
   //</editor-fold>

@@ -17,10 +17,10 @@ public class ChunkInfoCommand extends MPlayerCommand {
   @Override
   public void perform(@NotNull Player player, @NotNull Command command, int i, @NotNull String @NotNull [] strings) {
     Particle particle = Particle.valueOf(args[0]);
-    int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldPlugin.getInstance(), () -> {
+    int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldPlugin.GetInstance(), () -> {
       HWEffect.HighlightChunk(player.getChunk(), particle, player.getY());
     }, 0, 10L);
-    Bukkit.getScheduler().runTaskLater(HegeWorldPlugin.getInstance(), () -> {
+    Bukkit.getScheduler().runTaskLater(HegeWorldPlugin.GetInstance(), () -> {
       Bukkit.getScheduler().cancelTask(id);
     }, 20L * 5L);
   }

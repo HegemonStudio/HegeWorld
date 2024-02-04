@@ -1,11 +1,13 @@
 package com.hegemonstudio.hegeworld.api.events;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class HWPlayerDeathEvent extends Event {
+@Getter
+public final class HWPlayerDeathEvent extends Event {
 
   private static final HandlerList HANDLERS_LIST = new HandlerList();
 
@@ -22,10 +24,6 @@ public class HWPlayerDeathEvent extends Event {
 
   public HWPlayerDeathEvent(@NotNull Player player) {
     this.player = player;
-  }
-
-  public Player getPlayer() {
-    return player;
   }
 
 }
