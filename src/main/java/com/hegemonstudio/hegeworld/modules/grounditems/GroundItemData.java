@@ -1,5 +1,7 @@
 package com.hegemonstudio.hegeworld.modules.grounditems;
 
+import lombok.Getter;
+import lombok.ToString;
 import org.bukkit.World;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.ItemStack;
@@ -7,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
+@Getter
+@ToString
 public class GroundItemData {
 
   private final World world;
@@ -25,18 +29,10 @@ public class GroundItemData {
     this.itemStack = item;
   }
 
-  public World getWorld() {
-    return world;
-  }
-
   public ItemFrame getItemFrame() {
     // TODO capture data corruption
     // TODO check frame is valid
     return (ItemFrame) world.getEntity(frameUuid);
-  }
-
-  public ItemStack getItemStack() {
-    return itemStack;
   }
 
   public void setItemStack(@NotNull ItemStack item) {

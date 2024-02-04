@@ -19,19 +19,18 @@ import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class GroundCollection {
 
   public static final String ITEM_FRAME_METADATA_KEY = "natural";
   public static final String ITEM_FRAME_DATA_KEY = "grounditems";
 
+  private static final Map<UUID, GroundItemData> GROUND_ITEMS = new HashMap<>();
+
   public static boolean IsGroundItem(@Nullable ItemFrame frame) {
     if (frame == null) return false;
-    return frame.hasMetadata(ITEM_FRAME_METADATA_KEY);
+    return frame.hasMetadata(ITEM_FRAME_DATA_KEY);
   }
 
   public static boolean IsGroundItem(@Nullable Entity entity) {
@@ -40,7 +39,20 @@ public class GroundCollection {
     return IsGroundItem((ItemFrame) entity);
   }
 
-  public static Optional<ItemFrame> GetGroundItem(@Nullable Entity entity) {
+  public static @NotNull Optional<GroundItemData> GetGroundItemData(@Nullable ItemFrame frame) {
+    if (frame == null) return Optional.empty();
+    if (!IsGroundItem(frame)) return Optional.empty();
+    UUID uuid = frame.getUniqueId();
+    return Optional.ofNullable(GROUND_ITEMS.get(uuid));
+  }
+
+  public static @NotNull Optional<GroundItemData> GetGroundItemData(@Nullable Entity entity) {
+    if (entity == null) return Optional.empty();
+    if (!(entity instanceof ItemFrame)) return Optional.empty();
+    return GetGroundItemData((ItemFrame) entity);
+  }
+
+  public static Optional<ItemFrame> GetFrame(@Nullable Entity entity) {
     if (entity == null) return Optional.empty();
     if (!(entity instanceof ItemFrame)) return Optional.empty();
     ItemFrame frame = (ItemFrame) entity;
@@ -101,8 +113,11 @@ public class GroundCollection {
 
     // Add mechanics
     GroundItemData data = new GroundItemData(frame, item);
-    // TODO put in hashmap<UUID, GroundItemData>
+    GROUND_ITEMS.put(frame.getUniqueId(), data);
+
+    frame.setMetadata(ITEM_FRAME_DATA_KEY, new FixedMetadataValue(HegeWorldPlugin.getInstance(), true));
     frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.getInstance(), true));
+
     SaveFrame(frame);
     // TODO SaveFrameData(data);
   }
