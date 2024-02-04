@@ -20,7 +20,7 @@ public class GroundCollectionModule extends HWModule {
       for (Item item : HegeWorldPlugin.GetMainWorld().getEntitiesByClass(Item.class)) {
         if (!item.isOnGround()) continue;
         ItemStack itemStack = item.getItemStack();
-        if (itemStack.getAmount() > 1 || itemStack.getType() == Material.ITEM_FRAME) continue;
+        if (itemStack.getType() == Material.ITEM_FRAME) continue;
         GroundCollection.SpawnGroundItem(item.getLocation(), itemStack);
         item.remove();
       }
