@@ -8,12 +8,18 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.generator.WorldInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * HegeWorld command to teleport and create worlds.<br>
+ * Usage /tpw
+ */
 public class TPWCommand extends MPlayerCommand {
   public TPWCommand() {
     super("tpw");
@@ -33,6 +39,7 @@ public class TPWCommand extends MPlayerCommand {
       // required confirm
       if (argc == 1) {
         error(0, "World does not exist. Please add confirm");
+        responseSound(Sound.ENTITY_VILLAGER_NO);
         return;
       }
       if (!args[1].equalsIgnoreCase("confirm")) return;
@@ -56,13 +63,13 @@ public class TPWCommand extends MPlayerCommand {
   }
 
   @Override
-  public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+  public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String @NotNull [] args) {
+    // First argument
     if (args.length == 1) {
-      List<String> worldNames = new ArrayList<>();
-      for (World world : Bukkit.getWorlds()) {
-        worldNames.add(world.getName());
-      }
-      return worldNames;
+      return Bukkit.getWorlds()
+          .stream()
+          .map(WorldInfo::getName)
+          .collect(Collectors.toCollection(ArrayList::new));
     }
     return null;
   }
