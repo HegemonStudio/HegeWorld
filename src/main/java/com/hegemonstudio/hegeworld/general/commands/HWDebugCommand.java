@@ -1,9 +1,9 @@
-package com.hegemonstudio.hegeworld.commands;
+package com.hegemonstudio.hegeworld.general.commands;
 
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
-import com.hegemonstudio.hegeworld.modules.guns.AK47Gun;
+import com.hegemonstudio.hegeworld.modules.guns.items.AK47Gun;
 import com.impact.lib.api.command.MPlayerCommand;
 import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.registry.ImpactRegistries;

@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld.commands;
+package com.hegemonstudio.hegeworld.general.commands;
 
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.effect.HWEffect;

@@ -1,5 +1,6 @@
-package com.hegemonstudio.hegeworld.modules.guns;
+package com.hegemonstudio.hegeworld.modules.guns.items;
 
+import com.hegemonstudio.hegeworld.modules.guns.GunMechanics;
 import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.item.CustomItemSettings;
 import org.bukkit.entity.Player;

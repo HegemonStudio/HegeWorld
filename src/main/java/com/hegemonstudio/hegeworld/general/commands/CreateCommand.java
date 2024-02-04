@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld.commands;
+package com.hegemonstudio.hegeworld.general.commands;
 
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
 import com.impact.lib.api.command.MPlayerCommand;

@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld.commands;
+package com.hegemonstudio.hegeworld.general.commands;
 
 import com.impact.lib.api.command.MPlayerCommand;
 import org.bukkit.Material;

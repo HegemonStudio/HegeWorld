@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld.listeners;
+package com.hegemonstudio.hegeworld.general.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
