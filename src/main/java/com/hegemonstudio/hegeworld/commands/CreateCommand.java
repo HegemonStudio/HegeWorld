@@ -28,7 +28,7 @@ public class CreateCommand extends MPlayerCommand {
         error(0, "Required material name");
         return;
       }
-      GroundCollection.SpawnGroundItem(player.getLocation(), new ItemStack(Material.valueOf(args[1].toUpperCase())));
+      GroundCollection.SpawnGroundItemLegacy(player.getLocation(), new ItemStack(Material.valueOf(args[1].toUpperCase())));
       return;
     }
     error(0, "Invalid argument");

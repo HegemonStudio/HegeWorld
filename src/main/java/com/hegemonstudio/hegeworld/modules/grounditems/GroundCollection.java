@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Rotation;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -43,7 +44,7 @@ public class GroundCollection {
     if (entity == null) return Optional.empty();
     if (!(entity instanceof ItemFrame)) return Optional.empty();
     ItemFrame frame = (ItemFrame) entity;
-    if(!IsGroundItem(frame)) return Optional.empty();
+    if (!IsGroundItem(frame)) return Optional.empty();
     return Optional.of(frame);
   }
 
@@ -56,7 +57,12 @@ public class GroundCollection {
     frame.remove();
   }
 
-  public static void SpawnGroundItem(@NotNull Location location, @NotNull ItemStack item) {
+  /**
+   * @deprecated
+   * @param location
+   * @param item
+   */
+  public static void SpawnGroundItemLegacy(@NotNull Location location, @NotNull ItemStack item) {
     PluginManager pm = Bukkit.getPluginManager();
     HWPlayerGroundSpawnEvent spawnEvent = new HWPlayerGroundSpawnEvent(location, item);
     pm.callEvent(spawnEvent);
@@ -71,6 +77,34 @@ public class GroundCollection {
     frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.getInstance(), true));
 
     SaveFrame(frame);
+  }
+
+  public static void SpawnGroundItem(@NotNull Location location, @NotNull ItemStack item) {
+    HWPlayerGroundSpawnEvent spawnEvent = new HWPlayerGroundSpawnEvent(location, item);
+    Bukkit.getPluginManager().callEvent(spawnEvent);
+
+    if (spawnEvent.isCancelled()) return;
+
+    location = spawnEvent.getLocation();
+    item = spawnEvent.getItemStack();
+    World world = location.getWorld();
+
+    // Spawn ItemFrame
+    ItemFrame frame = (ItemFrame) world.spawnEntity(location, EntityType.ITEM_FRAME);
+    frame.setVisible(false);
+    frame.setGravity(false);
+    frame.setInvulnerable(true);
+    frame.setItemDropChance(0);
+    frame.setFacingDirection(BlockFace.UP);
+    frame.setItem(item);
+    frame.setRotation(Rotation.values()[(int) Math.floor(Math.random() * Rotation.values().length)]);
+
+    // Add mechanics
+    GroundItemData data = new GroundItemData(frame, item);
+    // TODO put in hashmap<UUID, GroundItemData>
+    frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.getInstance(), true));
+    SaveFrame(frame);
+    // TODO SaveFrameData(data);
   }
 
   public static void LoadFrames(@Nullable World world) {

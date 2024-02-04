@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class TaskManager {
 
@@ -17,8 +18,27 @@ public class TaskManager {
     TASKS.put(uid, task);
   }
 
-  public static void AddTickTask(@NotNull String uid, @NotNull HWTask task) {
-    task.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldPlugin.getInstance(), task, 0, 1L);
+  public static void ListenTick(@NotNull String uid, @NotNull HWTask task) {
+    ListenTicks(uid, task, 1L);
+  }
+
+  public static void ListenTick(@NotNull String uid, @NotNull Runnable onTick) {
+    ListenTick(uid, new HWTask() {
+      @Override
+      public void run() {
+        onTick.run();
+      }
+    });
+  }
+
+  public static String OnTick(@NotNull Runnable onTick) {
+    String uid = UUID.randomUUID().toString();
+    ListenTick(uid, onTick);
+    return uid;
+  }
+
+  public static void ListenTicks(@NotNull String uid, @NotNull HWTask task, long periodTicks) {
+    task.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldPlugin.getInstance(), task, 0L, periodTicks);
     AddTask(uid, task);
   }
 
@@ -29,6 +49,7 @@ public class TaskManager {
   public static void CancelTask(@Nullable String uid) {
     GetTask(uid).ifPresent((task) -> {
       Bukkit.getScheduler().cancelTask(task.id);
+      TASKS.remove(uid);
     });
   }
 

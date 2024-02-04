@@ -2,16 +2,13 @@ package com.hegemonstudio.hegeworld;
 
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.highlight.BlockHighlight;
-import com.hegemonstudio.hegeworld.api.tasks.HWTask;
-import com.hegemonstudio.hegeworld.api.tasks.TaskManager;
 import com.hegemonstudio.hegeworld.commands.*;
-import com.hegemonstudio.hegeworld.listeners.FunListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerBlockListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerDeathListener;
 import com.hegemonstudio.hegeworld.listeners.PlayerJoinListener;
 import com.hegemonstudio.hegeworld.modules.bulding.BuildingModule;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
-import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollectionListener;
+import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollectionModule;
 import com.hegemonstudio.hegeworld.modules.guns.AK47Gun;
 import com.impact.lib.Impact;
 import com.impact.lib.api.command.MCommand;
@@ -19,19 +16,17 @@ import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Item;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.Listener;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -42,9 +37,14 @@ import java.io.IOException;
 public final class HegeWorldPlugin extends JavaPlugin {
 
   private static HegeWorldPlugin instance;
+  private static World mainWorld;
 
-  public static HegeWorldPlugin getInstance() {
+  public static @NotNull HegeWorldPlugin getInstance() {
     return instance;
+  }
+
+  public static @NotNull World getMainWorld() {
+    return mainWorld;
   }
 
   private final Logger logger = getSLF4JLogger();
@@ -54,61 +54,37 @@ public final class HegeWorldPlugin extends JavaPlugin {
   private FileConfiguration playersData;
   private FileConfiguration worldsData;
 
-  public FileConfiguration getPlayersData() {
+  public @NotNull FileConfiguration getPlayersData() {
     return playersData;
   }
 
-  public FileConfiguration getWorldsData() {
+  public @NotNull FileConfiguration getWorldsData() {
     return worldsData;
   }
 
   @Override
   public void onEnable() {
-    instance = this;
     long start = System.currentTimeMillis();
-    try {
-      createPlayersData();
-      createWorldsData();
-    } catch (IOException | InvalidConfigurationException e) {
-      throw new RuntimeException(e);
-    }
+    instance = this;
+    mainWorld = Bukkit.getWorlds().get(0);
+    createYAMLFiles();
+    loadAPI();
     loadListeners();
     loadCommands();
-
-    GroundCollection.LoadFrames(Bukkit.getWorld("world"));
-
-    new BlockHighlight().run();
-
-    NamespacedKey key = new NamespacedKey(this, "ak47");
-    AK47Gun.KEY = key;
-    ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, key, new AK47Gun());
-
-    new BuildingModule().start();
-
+    loadModules();
+    loadCustomGuis();
+    loadCustomBlocks();
+    loadCustomItems();
+    loadData();
+    loadTasks();
+    afterLoad();
     long end = System.currentTimeMillis() - start;
     HWLogger.Log(Component.text("Enabled " + this + " in " + end + "ms").color(NamedTextColor.GREEN));
+  }
 
-    if (Bukkit.getAllowEnd()) {
-      HWLogger.Err(Component.text("PLEASE DISABLE END!"));
-    }
-    if (Bukkit.getAllowNether()) {
-      HWLogger.Err(Component.text("PLEASE DISABLE NETHER!"));
-    }
-    TaskManager.AddTickTask("groundingitems", new HWTask() {
-      @Override
-      public void run() {
-        for(Item item : Bukkit.getWorld("world").getEntitiesByClass(Item.class)){
-          if(item.isOnGround()) {
-            ItemStack itemStack = item.getItemStack();
-            if (itemStack.getAmount() > 1 || itemStack.getType() == Material.ITEM_FRAME) continue;
-
-            GroundCollection.SpawnGroundItem(item.getLocation(), itemStack);
-            item.remove();
-          }
-        }
-      }
-    });
-
+  private void loadModules() {
+    new GroundCollectionModule().start();
+    new BuildingModule().start();
   }
 
   private void loadCommands() {
@@ -119,24 +95,82 @@ public final class HegeWorldPlugin extends JavaPlugin {
     registerCommand(new SpawnItemCommand());
   }
 
-  private void createWorldsData() throws IOException, InvalidConfigurationException {
-    worldsDataFile = new File(getDataFolder(), "worlds_data.yml");
-    if (!worldsDataFile.exists()) {
-      worldsDataFile.getParentFile().mkdirs();
-      worldsDataFile.createNewFile();
-    }
-    worldsData = new YamlConfiguration();
-    worldsData.load(worldsDataFile);
+  private void loadListeners() {
+    registerListener(new PlayerJoinListener());
+    registerListener(new PlayerDeathListener());
+    registerListener(new PlayerBlockListener());
+    registerListener(new PlayerDeathListener());
   }
 
-  private void createPlayersData() throws IOException, InvalidConfigurationException {
-    playersDataFile = new File(getDataFolder(), "players_data.yml");
-    if (!playersDataFile.exists()) {
-      playersDataFile.getParentFile().mkdirs();
-      playersDataFile.createNewFile();
+  @Override
+  public void onDisable() {
+    long start = System.currentTimeMillis();
+    savePlayersData();
+    saveWorldsData();
+    long end = System.currentTimeMillis() - start;
+    logger.info("Disabled {} in {}ms", getName(), end);
+  }
+
+  private void loadCustomItems() {
+    NamespacedKey key = new NamespacedKey(this, "ak47");
+    AK47Gun.KEY = key;
+    ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, key, new AK47Gun());
+  }
+
+  private void loadCustomBlocks() {
+
+  }
+
+  private void loadCustomGuis() {
+
+  }
+
+  private void afterLoad() {
+    if (Bukkit.getAllowEnd()) {
+      HWLogger.Err(Component.text("PLEASE DISABLE END!"));
     }
-    playersData = new YamlConfiguration();
-    playersData.load(playersDataFile);
+    if (Bukkit.getAllowNether()) {
+      HWLogger.Err(Component.text("PLEASE DISABLE NETHER!"));
+    }
+  }
+
+  private void loadTasks() {
+    new BlockHighlight().run();
+  }
+
+  private void loadData() {
+    GroundCollection.LoadFrames(Bukkit.getWorld("world"));
+  }
+
+  private void loadAPI() {
+
+  }
+
+  private void createYAMLFiles() {
+    try {
+      // players
+      Pair<File, YamlConfiguration> players = createYAMLFile("players_data.yml");
+      playersDataFile = players.getLeft();
+      playersData = players.getRight();
+      // worlds
+      Pair<File, YamlConfiguration> worlds = createYAMLFile("worlds_data.yml");
+      worldsDataFile = worlds.getLeft();
+      worldsData = worlds.getRight();
+    } catch (IOException | InvalidConfigurationException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private @NotNull Pair<File, YamlConfiguration> createYAMLFile(@NotNull String fileName) throws IOException, InvalidConfigurationException {
+    if (!fileName.endsWith(".yml")) fileName = fileName + ".yml";
+    File file = new File(getDataFolder(), fileName);
+    if (!file.exists()) {
+      file.getParentFile().mkdirs();
+      file.createNewFile();
+    }
+    YamlConfiguration config = new YamlConfiguration();
+    config.load(file);
+    return Pair.of(file, config);
   }
 
   public boolean savePlayersData() {
@@ -146,25 +180,6 @@ public final class HegeWorldPlugin extends JavaPlugin {
     } catch (IOException e) {
       return false;
     }
-  }
-
-  @Override
-  public void onDisable() {
-    long start = System.currentTimeMillis();
-    savePlayersData();
-    long end = System.currentTimeMillis() - start;
-    logger.info("Disabled {} in {}ms", getName(), end);
-  }
-
-  private void loadListeners() {
-    logger.info("Loading listeners..");
-    PluginManager pm = getServer().getPluginManager();
-    pm.registerEvents(new PlayerJoinListener(), this);
-    pm.registerEvents(new PlayerDeathListener(), this);
-    pm.registerEvents(new PlayerBlockListener(), this);
-    pm.registerEvents(new GroundCollectionListener(), this);
-    pm.registerEvents(new FunListener(), this);
-    logger.info("Loaded listeners");
   }
 
   public boolean saveWorldsData() {
@@ -181,7 +196,11 @@ public final class HegeWorldPlugin extends JavaPlugin {
     return new FixedMetadataValue(instance, value);
   }
 
-  private void registerCommand(MCommand<?> command) {
+  public void registerCommand(@NotNull MCommand<?> command) {
     Impact.registerCommand(new NamespacedKey(this, command.getLabel()), command);
+  }
+
+  public void registerListener(@NotNull Listener listener) {
+    getServer().getPluginManager().registerEvents(listener, this);
   }
 }

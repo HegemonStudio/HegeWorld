@@ -49,13 +49,13 @@ public class GroundCollectionListener implements Listener {
   }
 
   @EventHandler
-  public void onItemFrameBreak(HangingBreakEvent event) {
+  public void onItemFrameBreak(@NotNull HangingBreakEvent event) {
     if (!GroundCollection.IsGroundItem(event.getEntity())) return;
     event.setCancelled(true);
   }
 
   @EventHandler
-  public void onItemFrameBreak(HangingBreakByEntityEvent event) {
+  public void onItemFrameBreak(@NotNull HangingBreakByEntityEvent event) {
     if (!GroundCollection.IsGroundItem(event.getEntity())) return;
     event.setCancelled(true);
   }
