@@ -21,7 +21,7 @@ public class GroundCollectionModule extends HWModule {
         if (!item.isOnGround()) continue;
         ItemStack itemStack = item.getItemStack();
         if (itemStack.getAmount() > 1 || itemStack.getType() == Material.ITEM_FRAME) continue;
-        GroundCollection.SpawnGroundItemLegacy(item.getLocation(), itemStack);
+        GroundCollection.SpawnGroundItem(item.getLocation(), itemStack);
         item.remove();
       }
     });
