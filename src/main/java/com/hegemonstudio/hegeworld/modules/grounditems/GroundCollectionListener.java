@@ -27,7 +27,7 @@ public class GroundCollectionListener implements Listener {
       event.setCancelled(true);
 
       HWPlayer player = HWPlayer.of(event.getPlayer());
-      ItemStack groundItem = GroundCollection.GetItemStackFromGround(frame);
+      ItemStack groundItem = GroundCollection.GetGroundItemData(frame).orElseThrow().getItemStack();
 
       HWPlayerCollectItemEvent collectEvent = new HWPlayerCollectItemEvent(player, frame.getLocation(), groundItem, HWPlayerCollectItemEvent.CollectionType.HAND_FROM_GROUND);
 
