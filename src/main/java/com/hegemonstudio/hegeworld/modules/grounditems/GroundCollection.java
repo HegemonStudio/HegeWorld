@@ -70,9 +70,9 @@ public class GroundCollection {
   }
 
   /**
-   * @deprecated
    * @param location
    * @param item
+   * @deprecated
    */
   public static void SpawnGroundItemLegacy(@NotNull Location location, @NotNull ItemStack item) {
     PluginManager pm = Bukkit.getPluginManager();

@@ -28,13 +28,13 @@ public class GunMechanics {
     }
 
 
-    world.playSound(start, Sound.ENTITY_IRON_GOLEM_REPAIR,1,2);
+    world.playSound(start, Sound.ENTITY_IRON_GOLEM_REPAIR, 1, 2);
 //    world.playSound(hit, Sound.ENTITY_IRON_GOLEM_REPAIR,1,2);
 
     if (result != null) {
       Entity hitEntity = result.getHitEntity();
       if (hitEntity != null) {
-        player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1,2);
+        player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
         if (hitEntity instanceof Player) {
           Player hitPlayer = (Player) hitEntity;
           hitPlayer.playSound(hitPlayer.getLocation(), Sound.ENTITY_IRON_GOLEM_REPAIR, 0.6f, 2);

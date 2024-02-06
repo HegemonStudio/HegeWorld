@@ -11,22 +11,21 @@ import java.util.Optional;
 public final class HWPlayerJoinEvent extends Event {
 
   private static final HandlerList HANDLERS_LIST = new HandlerList();
-
-  @Override
-  public @NotNull HandlerList getHandlers() {
-    return HANDLERS_LIST;
-  }
-
-  public static HandlerList getHandlerList() {
-    return HANDLERS_LIST;
-  }
-
   private final Player player;
   private Component joinMessage;
 
   public HWPlayerJoinEvent(@NotNull Player player) {
     this.player = player;
     this.joinMessage = null;
+  }
+
+  public static HandlerList getHandlerList() {
+    return HANDLERS_LIST;
+  }
+
+  @Override
+  public @NotNull HandlerList getHandlers() {
+    return HANDLERS_LIST;
   }
 
   public Player getPlayer() {

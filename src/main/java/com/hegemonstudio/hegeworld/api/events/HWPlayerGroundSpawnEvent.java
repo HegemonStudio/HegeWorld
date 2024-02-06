@@ -10,24 +10,21 @@ import org.jetbrains.annotations.NotNull;
 public final class HWPlayerGroundSpawnEvent extends Event implements Cancellable {
 
   private static final HandlerList HANDLERS_LIST = new HandlerList();
-
-  @Override
-  public @NotNull HandlerList getHandlers() {
-    return HANDLERS_LIST;
+  private Location location;
+  private ItemStack itemStack;
+  private boolean isCancelled;
+  public HWPlayerGroundSpawnEvent(@NotNull Location location, @NotNull ItemStack itemStack) {
+    this.location = location;
+    this.itemStack = itemStack;
   }
 
   public static HandlerList getHandlerList() {
     return HANDLERS_LIST;
   }
 
-  private Location location;
-  private ItemStack itemStack;
-
-  private boolean isCancelled;
-
-  public HWPlayerGroundSpawnEvent(@NotNull Location location, @NotNull ItemStack itemStack) {
-    this.location = location;
-    this.itemStack = itemStack;
+  @Override
+  public @NotNull HandlerList getHandlers() {
+    return HANDLERS_LIST;
   }
 
   @Override

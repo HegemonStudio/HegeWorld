@@ -6,16 +6,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class BuildMechanics {
 
-  private BuildMechanics() {}
-
   // Not Minecraft generated
   public static final String GENERATED_KEY = "generated";
-
   // Multi blocks
   public static final String MULTIBLOCK_KEY = "multiblock";
-
   // Building
   public static final String STRUCTURE_TYPE_KEY = "struct";
+
+  private BuildMechanics() {
+  }
 
   //<editor-fold> Generated Block
   public static boolean IsGenerated(@NotNull Block block) {

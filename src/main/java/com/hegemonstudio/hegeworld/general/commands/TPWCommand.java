@@ -33,7 +33,7 @@ public class TPWCommand extends MPlayerCommand {
       return;
     }
     String worldName = args[0];
-    boolean isWorldExists =  Bukkit.getWorld(worldName) != null;
+    boolean isWorldExists = Bukkit.getWorld(worldName) != null;
 
     if (!isWorldExists) {
       // required confirm

@@ -1,19 +1,15 @@
 package com.hegemonstudio.hegeworld;
 
 import com.hegemonstudio.hegeworld.api.HWLogger;
-import com.hegemonstudio.hegeworld.api.highlight.BlockHighlight;
-import com.hegemonstudio.hegeworld.general.commands.*;
-import com.hegemonstudio.hegeworld.general.listeners.PlayerBlockListener;
-import com.hegemonstudio.hegeworld.general.listeners.PlayerDeathListener;
-import com.hegemonstudio.hegeworld.general.listeners.PlayerJoinListener;
+import com.hegemonstudio.hegeworld.api.highlight.BlockHighlightModule;
+import com.hegemonstudio.hegeworld.general.HegeWorldModule;
 import com.hegemonstudio.hegeworld.modules.bulding.BuildingModule;
-import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollectionModule;
-import com.hegemonstudio.hegeworld.modules.guns.items.AK47Gun;
+import com.hegemonstudio.hegeworld.modules.guns.GunModule;
+import com.hegemonstudio.hegeworld.modules.raids.RaidModule;
 import com.impact.lib.Impact;
 import com.impact.lib.api.command.MCommand;
-import com.impact.lib.api.registry.ImpactRegistries;
-import com.impact.lib.api.registry.ImpactRegistry;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang3.tuple.Pair;
@@ -38,6 +34,13 @@ public final class HegeWorldPlugin extends JavaPlugin {
 
   private static HegeWorldPlugin instance;
   private static World mainWorld;
+  private final Logger logger = getSLF4JLogger();
+  private File playersDataFile;
+  private File worldsDataFile;
+  private FileConfiguration playersData;
+  private FileConfiguration worldsData;
+  @Getter
+  private HWModuleManager moduleManager;
 
   public static @NotNull HegeWorldPlugin GetInstance() {
     return instance;
@@ -47,12 +50,24 @@ public final class HegeWorldPlugin extends JavaPlugin {
     return mainWorld;
   }
 
-  private final Logger logger = getSLF4JLogger();
+  public static @NotNull HWModuleManager GetModuleManager() {
+    return HegeWorldPlugin.instance.moduleManager;
+  }
 
-  private File playersDataFile;
-  private File worldsDataFile;
-  private FileConfiguration playersData;
-  private FileConfiguration worldsData;
+  @Contract(value = "_ -> new", pure = true)
+  public static @NotNull MetadataValue CreateMetadata(Object value) {
+    return new FixedMetadataValue(instance, value);
+  }
+
+  /**
+   * Returns {@link NamespacedKey} with namespace of {@link HegeWorldPlugin} and given value.
+   *
+   * @param value The given value.
+   * @return The HegeWorldPlugin NamespacedKey.
+   */
+  public static @NotNull NamespacedKey CreateKey(@NotNull String value) {
+    return new NamespacedKey(HegeWorldPlugin.instance, value);
+  }
 
   public @NotNull FileConfiguration getPlayersData() {
     return playersData;
@@ -68,39 +83,21 @@ public final class HegeWorldPlugin extends JavaPlugin {
     instance = this;
     mainWorld = Bukkit.getWorlds().get(0);
     createYAMLFiles();
-    loadAPI();
-    loadListeners();
-    loadCommands();
+    moduleManager = new HWModuleManager();
     loadModules();
-    loadCustomGuis();
-    loadCustomBlocks();
-    loadCustomItems();
-    loadData();
-    loadTasks();
     afterLoad();
     long end = System.currentTimeMillis() - start;
     HWLogger.Log(Component.text("Enabled " + this + " in " + end + "ms").color(NamedTextColor.GREEN));
   }
 
   private void loadModules() {
-    new BlockHighlight().start();
-    new GroundCollectionModule().start();
-    new BuildingModule().start();
-  }
+    moduleManager.addModule(new GroundCollectionModule());
+    moduleManager.addModule(new BlockHighlightModule());
+    moduleManager.addModule(new BuildingModule());
+    moduleManager.addModule(new RaidModule());
+    moduleManager.addModule(new GunModule());
 
-  private void loadCommands() {
-    registerCommand(new ChunkInfoCommand());
-    registerCommand(new HWDebugCommand());
-    registerCommand(new CreateCommand());
-    registerCommand(new TPWCommand());
-    registerCommand(new SpawnItemCommand());
-  }
-
-  private void loadListeners() {
-    registerListener(new PlayerJoinListener());
-    registerListener(new PlayerDeathListener());
-    registerListener(new PlayerBlockListener());
-    registerListener(new PlayerDeathListener());
+    moduleManager.addModule(new HegeWorldModule());
   }
 
   @Override
@@ -112,20 +109,6 @@ public final class HegeWorldPlugin extends JavaPlugin {
     logger.info("Disabled {} in {}ms", getName(), end);
   }
 
-  private void loadCustomItems() {
-    NamespacedKey key = new NamespacedKey(this, "ak47");
-    AK47Gun.KEY = key;
-    ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, key, new AK47Gun());
-  }
-
-  private void loadCustomBlocks() {
-
-  }
-
-  private void loadCustomGuis() {
-
-  }
-
   private void afterLoad() {
     if (Bukkit.getAllowEnd()) {
       HWLogger.Err(Component.text("PLEASE DISABLE END!"));
@@ -133,18 +116,6 @@ public final class HegeWorldPlugin extends JavaPlugin {
     if (Bukkit.getAllowNether()) {
       HWLogger.Err(Component.text("PLEASE DISABLE NETHER!"));
     }
-  }
-
-  private void loadTasks() {
-
-  }
-
-  private void loadData() {
-    GroundCollection.LoadFrames(Bukkit.getWorld("world"));
-  }
-
-  private void loadAPI() {
-
   }
 
   private void createYAMLFiles() {
@@ -190,11 +161,6 @@ public final class HegeWorldPlugin extends JavaPlugin {
     } catch (IOException e) {
       return false;
     }
-  }
-
-  @Contract(value = "_ -> new", pure = true)
-  public static @NotNull MetadataValue CreateMetadata(Object value) {
-    return new FixedMetadataValue(instance, value);
   }
 
   public void registerCommand(@NotNull MCommand<?> command) {

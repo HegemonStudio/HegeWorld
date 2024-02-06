@@ -11,28 +11,26 @@ import org.jetbrains.annotations.NotNull;
 public final class HWPlayerCollectItemEvent extends Event implements Cancellable {
 
   private static final HandlerList HANDLERS_LIST = new HandlerList();
-
-  @Override
-  public @NotNull HandlerList getHandlers() {
-    return HANDLERS_LIST;
-  }
-
-  public static HandlerList getHandlerList() {
-    return HANDLERS_LIST;
-  }
-
   private final HWPlayer player;
   private final Location source;
   private final CollectionType collectionType;
   private ItemStack itemStack;
   private boolean isCancelled;
   private boolean playDefaultPickupSound = true;
-
   public HWPlayerCollectItemEvent(@NotNull HWPlayer player, @NotNull Location source, @NotNull ItemStack itemStack, @NotNull CollectionType collectionType) {
     this.player = player;
     this.source = source;
     this.itemStack = itemStack;
     this.collectionType = collectionType;
+  }
+
+  public static HandlerList getHandlerList() {
+    return HANDLERS_LIST;
+  }
+
+  @Override
+  public @NotNull HandlerList getHandlers() {
+    return HANDLERS_LIST;
   }
 
   public HWPlayer getPlayer() {

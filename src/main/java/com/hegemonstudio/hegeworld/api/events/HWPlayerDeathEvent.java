@@ -10,20 +10,19 @@ import org.jetbrains.annotations.NotNull;
 public final class HWPlayerDeathEvent extends Event {
 
   private static final HandlerList HANDLERS_LIST = new HandlerList();
+  private final Player player;
 
-  @Override
-  public @NotNull HandlerList getHandlers() {
-    return HANDLERS_LIST;
+  public HWPlayerDeathEvent(@NotNull Player player) {
+    this.player = player;
   }
 
   public static HandlerList getHandlerList() {
     return HANDLERS_LIST;
   }
 
-  private final Player player;
-
-  public HWPlayerDeathEvent(@NotNull Player player) {
-    this.player = player;
+  @Override
+  public @NotNull HandlerList getHandlers() {
+    return HANDLERS_LIST;
   }
 
 }

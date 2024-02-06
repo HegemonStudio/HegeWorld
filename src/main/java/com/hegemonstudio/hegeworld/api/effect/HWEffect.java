@@ -9,11 +9,11 @@ import org.jetbrains.annotations.Nullable;
 
 public final class HWEffect {
 
+  public static double DEFAULT_STEP = 0.5D;
+
   private HWEffect() {
 
   }
-
-  public static double DEFAULT_STEP = 0.5D;
 
   public static void DrawLineDust(@NotNull Location start, @NotNull Location end) {
     DrawLineDust(start, end, new Particle.DustOptions(Color.LIME, 1), DEFAULT_STEP);

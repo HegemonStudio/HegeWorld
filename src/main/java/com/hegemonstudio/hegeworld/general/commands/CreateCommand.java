@@ -1,6 +1,7 @@
 package com.hegemonstudio.hegeworld.general.commands;
 
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
+import com.hegemonstudio.hegeworld.modules.grounditems.GroundItemData;
 import com.impact.lib.api.command.MPlayerCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -12,12 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.hegemonstudio.hegeworld.modules.grounditems.GroundItemData;
 
 import java.util.List;
 
 /**
  * HegeWorld Create Command to easily spawn objects.
+ *
  * @see GroundItemData
  */
 public class CreateCommand extends MPlayerCommand {

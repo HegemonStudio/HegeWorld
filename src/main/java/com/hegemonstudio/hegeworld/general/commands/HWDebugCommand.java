@@ -38,7 +38,7 @@ public class HWDebugCommand extends MPlayerCommand {
   public void perform(@NotNull Player player, @NotNull Command command, int argc, @NotNull String @NotNull [] args) {
     if (argc == 0) {
       error(-1, "Not enough arguments");
-      player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO,1f,1f);
+      player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
       return;
     }
     if (args[0].equalsIgnoreCase("shoot")) {
@@ -67,7 +67,8 @@ public class HWDebugCommand extends MPlayerCommand {
         Material material = Material.valueOf(args[1].toUpperCase());
         hwplayer.giveItem(new ItemStack(material, count));
         return;
-      } catch (IllegalArgumentException exception) {}
+      } catch (IllegalArgumentException exception) {
+      }
 
       CustomItem customItem = ImpactRegistries.CUSTOM_ITEM.get(new NamespacedKey(HegeWorldPlugin.GetInstance(), args[1].toLowerCase()));
       if (customItem != null) {

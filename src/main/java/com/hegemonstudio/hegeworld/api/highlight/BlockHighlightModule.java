@@ -1,9 +1,9 @@
 package com.hegemonstudio.hegeworld.api.highlight;
 
+import com.hegemonstudio.hegeworld.HWModule;
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.api.events.HWPlayerTargetBlockEvent;
-import com.hegemonstudio.hegeworld.api.module.HWModule;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class BlockHighlight extends HWModule {
+public final class BlockHighlightModule extends HWModule {
 
   public static Map<UUID, Block> HIGHLIGHTED_BLOCKS = new HashMap<>();
 
@@ -22,7 +22,7 @@ public final class BlockHighlight extends HWModule {
   }
 
   @Override
-  public void start() {
+  public void onEnable() {
     Bukkit.getScheduler().scheduleSyncRepeatingTask(HegeWorldPlugin.GetInstance(), () -> {
       for (Player player : Bukkit.getOnlinePlayers()) {
         UUID uuid = player.getUniqueId();

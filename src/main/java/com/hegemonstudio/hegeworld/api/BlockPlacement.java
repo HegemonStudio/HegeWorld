@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public final class BlockPlacement {
 
@@ -16,7 +15,7 @@ public final class BlockPlacement {
   }
 
   public static void PlacePlatform(@NotNull Location center, @NotNull Material material, @NotNull Dimensions<Integer> size, Consumer<Block> onPlace) {
-    Location location = center.clone().subtract(size.getX()/2, size.getY(), size.getZ()/2);
+    Location location = center.clone().subtract(size.getX() / 2, size.getY(), size.getZ() / 2);
     for (int x = 0; x < size.getX(); x += 1) {
       for (int z = 0; z < size.getZ(); z += 1) {
         for (int y = 0; y < size.getY(); y += 1) {
@@ -29,7 +28,7 @@ public final class BlockPlacement {
   }
 
   public static boolean CheckPlatform(@NotNull Location center, @NotNull Dimensions<Integer> size, @NotNull Function<Block, Boolean> blockCheck) {
-    Location location = center.clone().subtract(size.getX()/2, size.getY(), size.getZ()/2);
+    Location location = center.clone().subtract(size.getX() / 2, size.getY(), size.getZ() / 2);
     for (int x = 0; x < size.getX(); x += 1) {
       for (int z = 0; z < size.getZ(); z += 1) {
         for (int y = 0; y < size.getY(); y += 1) {
