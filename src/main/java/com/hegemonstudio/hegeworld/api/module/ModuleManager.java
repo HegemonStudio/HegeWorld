@@ -44,6 +44,14 @@ public class ModuleManager<T extends ModuleBase> implements ModuleManagerBase<T>
   }
 
   @Override
+  public @NotNull Optional<T> getModuleByName(@NotNull String moduleName) {
+    for (T module : modules.values()) {
+      if (module.getModuleName().equals(moduleName)) return Optional.of(module);
+    }
+    return Optional.empty();
+  }
+
+  @Override
   public @NotNull Collection<T> getModules() {
     return modules.values();
   }

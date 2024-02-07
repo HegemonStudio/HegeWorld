@@ -30,6 +30,10 @@ public abstract class HWModule implements ModuleBase {
     return moduleManager.getModule(classPath);
   }
 
+  protected @NotNull Optional<HWModule> getModuleByName(@NotNull String moduleName) {
+    return moduleManager.getModuleByName(moduleName);
+  }
+
   protected void assertModule(@NotNull Class<? extends HWModule> moduleClass, @Nullable String message) {
     if (!moduleManager.hasModule(moduleClass) && moduleManager.getModule(moduleClass).orElseThrow().isEnabled())
       throw new AssertionError(message == null ? "Module " + moduleClass.getSimpleName() + " is not loaded or enabled!" : message);
@@ -37,6 +41,12 @@ public abstract class HWModule implements ModuleBase {
 
   protected void assertModule(@NotNull Class<? extends HWModule> moduleClass) {
     assertModule(moduleClass, null);
+  }
+
+  protected void assertModuleByName(@NotNull String moduleName) {
+    Optional<HWModule> moduleOptional = getModuleByName(moduleName);
+    if (moduleOptional.isEmpty() || !moduleOptional.get().isEnabled())
+      throw new AssertionError("Module " + moduleName + " is not loaded or enabled!");
   }
 
   @Override

@@ -17,6 +17,7 @@ public interface ModuleManagerBase<T extends ModuleBase> {
   @NotNull Optional<T> getModule(@NotNull Class<? extends T> moduleClass);
 
   @NotNull Optional<T> getModule(@NotNull String classPath) throws ClassNotFoundException;
+  @NotNull Optional<T> getModuleByName(@NotNull String moduleName);
 
   @NotNull Collection<T> getModules();
 
