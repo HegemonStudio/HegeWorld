@@ -25,6 +25,7 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -133,16 +134,23 @@ public final class HegeWorldPlugin extends JavaPlugin {
     }
   }
 
-  private @NotNull Pair<File, YamlConfiguration> createYAMLFile(@NotNull String fileName) throws IOException, InvalidConfigurationException {
+  private @NotNull Pair<File, YamlConfiguration> createYAMLFile(@NotNull String fileName, @Nullable String defaultResource) throws IOException, InvalidConfigurationException {
     if (!fileName.endsWith(".yml")) fileName = fileName + ".yml";
     File file = new File(getDataFolder(), fileName);
     if (!file.exists()) {
       file.getParentFile().mkdirs();
-      file.createNewFile();
+      if (defaultResource == null)
+        file.createNewFile();
+      else
+        saveResource(defaultResource, true);
     }
     YamlConfiguration config = new YamlConfiguration();
     config.load(file);
     return Pair.of(file, config);
+  }
+
+  private @NotNull Pair<File, YamlConfiguration> createYAMLFile(@NotNull String fileName) throws IOException, InvalidConfigurationException {
+    return createYAMLFile(fileName, null);
   }
 
   private boolean saveYAML(@NotNull Pair<File, YamlConfiguration> yamlFile) {
