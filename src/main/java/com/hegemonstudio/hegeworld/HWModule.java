@@ -4,9 +4,14 @@ import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.module.ModuleBase;
 import com.impact.lib.Impact;
 import com.impact.lib.api.command.MCommand;
+import com.impact.lib.api.registry.ImpactRegistries;
+import com.impact.lib.api.registry.ImpactRegistry;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.event.Listener;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public abstract class HWModule implements ModuleBase {
@@ -39,13 +44,25 @@ public abstract class HWModule implements ModuleBase {
 
   @Override
   public void setEnabled(boolean enabled) {
-    // TODO detect registry changed
-    // ExampleModule: Registered x tasks, y items, z blocks.
+    ImpactRegistry<?>[] registries = {ImpactRegistries.COMMAND, ImpactRegistries.GUI, ImpactRegistries.CUSTOM_ITEM, ImpactRegistries.CUSTOM_BLOCK};
+    Map<ImpactRegistry<?>, Integer> registryChanges = new HashMap<>();
+    for (ImpactRegistry<?> registry : registries) {
+      registryChanges.put(registry, registry.getAll().size());
+    }
     this.enabled = enabled;
     if (enabled) {
       HWLogger.Log(Component.text("Enabling module '" + getModuleName() + "'"));
       try {
         onEnable();
+        TextComponent.Builder builder = Component.text();
+        builder.append(Component.text("Registered"));
+        for (ImpactRegistry<?> registry : registryChanges.keySet()) {
+          int registered = registry.getAll().size() -  registryChanges.get(registry);
+          if (registered > 0) {
+            builder.append(Component.text(" " + registered + " " + registry.getClass().getSimpleName()));
+          }
+        }
+        HWLogger.Log(builder.build());
       } catch (Exception exception) {
         exception.printStackTrace();
         HWLogger.Err(Component.text("Cannot enable module '" + getModuleName() + "'"));
