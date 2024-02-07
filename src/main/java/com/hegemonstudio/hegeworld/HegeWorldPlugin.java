@@ -37,8 +37,8 @@ public final class HegeWorldPlugin extends JavaPlugin {
   private final Logger logger = getSLF4JLogger();
   private File playersDataFile;
   private File worldsDataFile;
-  private FileConfiguration playersData;
-  private FileConfiguration worldsData;
+  private YamlConfiguration playersData;
+  private YamlConfiguration worldsData;
   @Getter
   private HWModuleManager moduleManager;
 
@@ -69,11 +69,11 @@ public final class HegeWorldPlugin extends JavaPlugin {
     return new NamespacedKey(HegeWorldPlugin.instance, value);
   }
 
-  public @NotNull FileConfiguration getPlayersData() {
+  public @NotNull YamlConfiguration getPlayersData() {
     return playersData;
   }
 
-  public @NotNull FileConfiguration getWorldsData() {
+  public @NotNull YamlConfiguration getWorldsData() {
     return worldsData;
   }
 
@@ -145,29 +145,28 @@ public final class HegeWorldPlugin extends JavaPlugin {
     return Pair.of(file, config);
   }
 
-  public boolean savePlayersData() {
+  private boolean saveYAML(@NotNull Pair<File, YamlConfiguration> yamlFile) {
+    File file = yamlFile.getLeft();
+    YamlConfiguration config = yamlFile.getRight();
     try {
-      playersData.save(playersDataFile);
+      config.save(file);
       return true;
     } catch (IOException e) {
+      e.printStackTrace();
       return false;
     }
+  }
+
+  private boolean saveYAML(File file, YamlConfiguration config) {
+    return saveYAML(Pair.of(file, config));
+  }
+
+  public boolean savePlayersData() {
+    return saveYAML(playersDataFile, playersData);
   }
 
   public boolean saveWorldsData() {
-    try {
-      worldsData.save(worldsDataFile);
-      return true;
-    } catch (IOException e) {
-      return false;
-    }
+    return saveYAML(worldsDataFile, worldsData);
   }
 
-  public void registerCommand(@NotNull MCommand<?> command) {
-    Impact.registerCommand(new NamespacedKey(this, command.getLabel()), command);
-  }
-
-  public void registerListener(@NotNull Listener listener) {
-    getServer().getPluginManager().registerEvents(listener, this);
-  }
 }
