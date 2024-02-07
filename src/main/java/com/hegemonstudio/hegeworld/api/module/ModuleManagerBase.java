@@ -1,25 +1,29 @@
 package com.hegemonstudio.hegeworld.api.module;
 
+import com.hegemonstudio.hegeworld.HWModule;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.Optional;
 
 public interface ModuleManagerBase<T extends ModuleBase> {
 
-  void addModule(T module);
+  void addModule(@NotNull T module);
 
-  void removeModule(Class<? extends T> moduleClass);
+  void removeModule(@NotNull Class<? extends T> moduleClass);
 
-  boolean hasModule(Class<? extends T> moduleClass);
+  boolean hasModule(@NotNull Class<? extends T> moduleClass);
 
-  Optional<T> getModule(Class<? extends T> moduleClass);
+  @NotNull Optional<T> getModule(@NotNull Class<? extends T> moduleClass);
 
-  Collection<T> getModules();
+  @NotNull Optional<T> getModule(@NotNull String classPath) throws ClassNotFoundException;
 
-  void setModuleEnable(Class<? extends T> moduleClass, boolean enabled);
+  @NotNull Collection<T> getModules();
 
-  void enableModule(Class<? extends T> moduleClass);
+  void setModuleEnable(@NotNull Class<? extends T> moduleClass, boolean enabled);
 
-  void disableModule(Class<? extends T> moduleClass);
+  void enableModule(@NotNull Class<? extends T> moduleClass);
 
+  void disableModule(@NotNull Class<? extends T> moduleClass);
 
 }

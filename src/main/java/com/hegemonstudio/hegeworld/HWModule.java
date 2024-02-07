@@ -9,6 +9,7 @@ import com.impact.lib.api.registry.ImpactRegistry;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,10 @@ public abstract class HWModule implements ModuleBase {
 
   protected Optional<HWModule> getModule(Class<? extends HWModule> moduleClass) {
     return moduleManager.getModule(moduleClass);
+  }
+
+  protected @NotNull Optional<HWModule> getModule(@NotNull String classPath) throws ClassNotFoundException {
+    return moduleManager.getModule(classPath);
   }
 
   @Override
