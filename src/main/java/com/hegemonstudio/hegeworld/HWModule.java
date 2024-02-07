@@ -10,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,15 @@ public abstract class HWModule implements ModuleBase {
 
   protected @NotNull Optional<HWModule> getModule(@NotNull String classPath) throws ClassNotFoundException {
     return moduleManager.getModule(classPath);
+  }
+
+  protected void assertModule(@NotNull Class<? extends HWModule> moduleClass, @Nullable String message) {
+    if (!moduleManager.hasModule(moduleClass) && moduleManager.getModule(moduleClass).orElseThrow().isEnabled())
+      throw new AssertionError(message == null ? "Module " + moduleClass.getSimpleName() + " is not loaded or enabled!" : message);
+  }
+
+  protected void assertModule(@NotNull Class<? extends HWModule> moduleClass) {
+    assertModule(moduleClass, null);
   }
 
   @Override
