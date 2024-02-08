@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld;
+package com.hegemonstudio.hegeworld.module;
 
 import com.hegemonstudio.hegeworld.api.module.ModuleManager;
 

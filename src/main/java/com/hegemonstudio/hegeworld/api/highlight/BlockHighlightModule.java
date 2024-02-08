@@ -1,6 +1,6 @@
 package com.hegemonstudio.hegeworld.api.highlight;
 
-import com.hegemonstudio.hegeworld.HWModule;
+import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.api.events.HWPlayerTargetBlockEvent;

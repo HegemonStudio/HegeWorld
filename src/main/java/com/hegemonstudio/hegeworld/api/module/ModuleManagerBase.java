@@ -1,6 +1,5 @@
 package com.hegemonstudio.hegeworld.api.module;
 
-import com.hegemonstudio.hegeworld.HWModule;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

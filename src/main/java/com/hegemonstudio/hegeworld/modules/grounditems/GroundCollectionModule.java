@@ -1,6 +1,6 @@
 package com.hegemonstudio.hegeworld.modules.grounditems;
 
-import com.hegemonstudio.hegeworld.HWModule;
+import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.tasks.TaskManager;
 import org.bukkit.Material;

@@ -1,6 +1,6 @@
 package com.hegemonstudio.hegeworld.general;
 
-import com.hegemonstudio.hegeworld.HWModule;
+import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.general.commands.*;
 import com.hegemonstudio.hegeworld.general.listeners.PlayerBlockListener;
 import com.hegemonstudio.hegeworld.general.listeners.PlayerDeathListener;

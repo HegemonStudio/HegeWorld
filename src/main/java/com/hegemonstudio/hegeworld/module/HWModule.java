@@ -1,5 +1,6 @@
-package com.hegemonstudio.hegeworld;
+package com.hegemonstudio.hegeworld.module;
 
+import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.module.ModuleBase;
 import com.impact.lib.Impact;
