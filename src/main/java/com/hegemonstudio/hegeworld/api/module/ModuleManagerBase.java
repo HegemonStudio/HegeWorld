@@ -14,6 +14,11 @@ public interface ModuleManagerBase<T extends ModuleBase> {
 
   boolean hasModule(@NotNull Class<? extends T> moduleClass);
 
+  boolean isModuleEnabled(@NotNull T module);
+  boolean isModuleEnabled(@NotNull Class<? extends T> moduleClass);
+  boolean isModuleEnabled(@NotNull String classPath) throws ClassNotFoundException;
+  boolean isModuleByNameEnabled(@NotNull String moduleName);
+
   @NotNull Optional<T> getModule(@NotNull Class<? extends T> moduleClass);
 
   @NotNull Optional<T> getModule(@NotNull String classPath) throws ClassNotFoundException;

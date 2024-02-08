@@ -68,6 +68,11 @@ public abstract class HWModule implements ModuleBase {
   }
 
   @Override
+  public boolean isDisabled() {
+    return !enabled;
+  }
+
+  @Override
   public void setEnabled(boolean enabled) {
     ImpactRegistry<?>[] registries = {ImpactRegistries.COMMAND, ImpactRegistries.GUI, ImpactRegistries.CUSTOM_ITEM, ImpactRegistries.CUSTOM_BLOCK};
     Map<ImpactRegistry<?>, Integer> registryChanges = new HashMap<>();

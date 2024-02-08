@@ -33,6 +33,29 @@ public class ModuleManager<T extends ModuleBase> implements ModuleManagerBase<T>
   }
 
   @Override
+  public boolean isModuleEnabled(@NotNull T module) {
+    return module.isEnabled();
+  }
+
+  @Override
+  public boolean isModuleEnabled(@NotNull Class<? extends T> moduleClass) {
+    Optional<T> optionalModule = getModule(moduleClass);
+    if (optionalModule.isEmpty()) return false;
+    return isModuleEnabled(optionalModule.get());
+  }
+
+  @Override
+  public boolean isModuleEnabled(@NotNull String classPath) throws ClassNotFoundException {
+    Class<? extends T> clazz = (Class<? extends T>) Class.forName(classPath);
+    return isModuleEnabled(clazz);
+  }
+
+  @Override
+  public boolean isModuleByNameEnabled(@NotNull String moduleName) {
+    return getModuleByName(moduleName).filter(this::isModuleEnabled).isPresent();
+  }
+
+  @Override
   public @NotNull Optional<T> getModule(@NotNull Class<? extends T> moduleClass) {
     return Optional.ofNullable(modules.get(moduleClass));
   }

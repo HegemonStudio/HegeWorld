@@ -9,6 +9,7 @@ public interface ModuleBase {
   void onDisable();
 
   boolean isEnabled();
+  boolean isDisabled();
 
   void setEnabled(boolean enabled);
 
