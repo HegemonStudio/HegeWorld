@@ -7,4 +7,4 @@ depend:
   - WorldEdit
 permissions:
   hegeworld.block.admin:
-    default: false
+    default: op
