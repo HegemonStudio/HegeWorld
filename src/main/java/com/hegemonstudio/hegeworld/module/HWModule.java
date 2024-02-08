@@ -23,16 +23,16 @@ public abstract class HWModule implements ModuleBase {
   protected HWModuleManager moduleManager = HegeWorldPlugin.GetModuleManager();
   private boolean enabled = false;
 
-  protected Optional<HWModule> getModule(Class<? extends HWModule> moduleClass) {
-    return moduleManager.getModule(moduleClass);
+  protected @NotNull HWModule getModule(Class<? extends HWModule> moduleClass) {
+    return moduleManager.getModule(moduleClass).orElseThrow();
   }
 
-  protected @NotNull Optional<HWModule> getModule(@NotNull String classPath) throws ClassNotFoundException {
-    return moduleManager.getModule(classPath);
+  protected @NotNull HWModule getModule(@NotNull String classPath) throws ClassNotFoundException {
+    return moduleManager.getModule(classPath).orElseThrow();
   }
 
-  protected @NotNull Optional<HWModule> getModuleByName(@NotNull String moduleName) {
-    return moduleManager.getModuleByName(moduleName);
+  protected @NotNull HWModule getModuleByName(@NotNull String moduleName) {
+    return moduleManager.getModuleByName(moduleName).orElseThrow();
   }
 
   protected void assertModule(@NotNull Class<? extends HWModule> moduleClass, @Nullable String message) {
@@ -45,8 +45,13 @@ public abstract class HWModule implements ModuleBase {
   }
 
   protected void assertModuleByName(@NotNull String moduleName) {
-    Optional<HWModule> moduleOptional = getModuleByName(moduleName);
-    if (moduleOptional.isEmpty() || !moduleOptional.get().isEnabled())
+    HWModule module;
+    try {
+      module = getModuleByName(moduleName);
+    } catch (Exception exception) {
+      throw new AssertionError("Module " + moduleName + " is not loaded or enabled!");
+    }
+    if (!module.isEnabled())
       throw new AssertionError("Module " + moduleName + " is not loaded or enabled!");
   }
 
