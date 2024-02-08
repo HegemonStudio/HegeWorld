@@ -2,9 +2,11 @@ package com.hegemonstudio.hegeworld;
 
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.highlight.BlockHighlightModule;
+import com.hegemonstudio.hegeworld.crafting.CraftingManager;
 import com.hegemonstudio.hegeworld.general.HegeWorldModule;
 import com.hegemonstudio.hegeworld.module.HWModuleManager;
 import com.hegemonstudio.hegeworld.modules.bulding.BuildingModule;
+import com.hegemonstudio.hegeworld.modules.crafting.CraftingModule;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollectionModule;
 import com.hegemonstudio.hegeworld.modules.guns.GunModule;
 import com.hegemonstudio.hegeworld.modules.raids.RaidModule;
@@ -39,6 +41,8 @@ public final class HegeWorldPlugin extends JavaPlugin {
   private YamlConfiguration worldsData;
   @Getter
   private HWModuleManager moduleManager;
+  @Getter
+  private CraftingManager craftingManager;
 
   public static @NotNull HegeWorldPlugin GetInstance() {
     return instance;
@@ -50,6 +54,10 @@ public final class HegeWorldPlugin extends JavaPlugin {
 
   public static @NotNull HWModuleManager GetModuleManager() {
     return HegeWorldPlugin.instance.moduleManager;
+  }
+
+  public static @NotNull CraftingManager GetCraftingManager() {
+    return HegeWorldPlugin.instance.craftingManager;
   }
 
   @Contract(value = "_ -> new", pure = true)
@@ -81,6 +89,7 @@ public final class HegeWorldPlugin extends JavaPlugin {
     instance = this;
     mainWorld = Bukkit.getWorlds().get(0);
     createYAMLFiles();
+    craftingManager = new CraftingManager();
     moduleManager = new HWModuleManager();
     loadModules();
     afterLoad();
@@ -96,6 +105,7 @@ public final class HegeWorldPlugin extends JavaPlugin {
     moduleManager.addModule(new GunModule());
 
     moduleManager.addModule(new HegeWorldModule());
+    moduleManager.addModule(new CraftingModule());
   }
 
   @Override
