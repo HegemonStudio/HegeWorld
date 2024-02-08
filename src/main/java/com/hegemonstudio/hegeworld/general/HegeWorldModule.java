@@ -19,5 +19,6 @@ public final class HegeWorldModule extends HWModule {
     registerCommand(new CreateCommand());
     registerCommand(new TPWCommand());
     registerCommand(new SpawnItemCommand());
+    registerCommand(new CraftCommand());
   }
 }

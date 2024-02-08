@@ -4,6 +4,9 @@ import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
 import com.hegemonstudio.hegeworld.crafting.HWRecipe;
 import com.hegemonstudio.hegeworld.module.HWModule;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -29,6 +32,16 @@ public class CraftingModule extends HWModule {
                 new ItemStack(Material.STONE_AXE)
             )
         );
-    // dodanie przykladowego craftingu
+    HegeWorldPlugin.GetCraftingManager()
+        .addRecipe(
+            HegeWorldPlugin.CreateKey("stone_pickaxe"),
+            new HWRecipe(
+                List.of(
+                    new ItemStack(Material.STONE, 3),
+                    new ItemStack(Material.STICK, 2)
+                ),
+                new ItemStack(Material.STONE_PICKAXE)
+            )
+        );
   }
 }
