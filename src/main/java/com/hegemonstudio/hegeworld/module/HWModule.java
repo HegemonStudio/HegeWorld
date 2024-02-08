@@ -23,8 +23,8 @@ public abstract class HWModule implements ModuleBase {
   protected HWModuleManager moduleManager = HegeWorldPlugin.GetModuleManager();
   private boolean enabled = false;
 
-  protected @NotNull HWModule getModule(Class<? extends HWModule> moduleClass) {
-    return moduleManager.getModule(moduleClass).orElseThrow();
+  protected <T extends HWModule> @NotNull T getModule(@NotNull Class<T> moduleClass) {
+    return moduleClass.cast(moduleManager.getModule(moduleClass).orElseThrow());
   }
 
   protected @NotNull HWModule getModule(@NotNull String classPath) throws ClassNotFoundException {
