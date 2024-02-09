@@ -15,7 +15,6 @@ public class HWRecipe {
   @Getter
   private List<ItemStack> ingredients;
 
-  @Getter
   @Setter
   private ItemStack result;
 
@@ -53,6 +52,14 @@ public class HWRecipe {
 
   public boolean canCraft(@NotNull CraftingSource source) {
     return craftingSources.contains(source);
+  }
+
+  /**
+   * The recipe {@link ItemStack} result.
+   * @return New instance of item stack.
+   */
+  public @NotNull ItemStack getResult() {
+    return this.result.clone();
   }
 
   @Override
