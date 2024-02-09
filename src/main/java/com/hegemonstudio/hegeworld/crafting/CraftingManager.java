@@ -27,7 +27,9 @@ public final class CraftingManager {
   }
 
   public @NotNull Optional<HWRecipe> getRecipe(@NotNull String recipeKey) {
-    return Optional.ofNullable(recipes.get(NamespacedKey.fromString(recipeKey)));
+    NamespacedKey key = NamespacedKey.fromString(recipeKey);
+    if (key == null) return Optional.empty();
+    return Optional.ofNullable(recipes.get(key));
   }
 
   public @NotNull Collection<HWRecipe> getAll() {
