@@ -13,6 +13,7 @@ public final class HWPlayerGroundSpawnEvent extends Event implements Cancellable
   private Location location;
   private ItemStack itemStack;
   private boolean isCancelled;
+
   public HWPlayerGroundSpawnEvent(@NotNull Location location, @NotNull ItemStack itemStack) {
     this.location = location;
     this.itemStack = itemStack;

@@ -4,24 +4,28 @@ import com.hegemonstudio.hegeworld.api.util.ChatUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * HegeWorld Recipe
+ */
 public class HWRecipe {
 
-  @Getter
-  private List<ItemStack> ingredients;
-
-  @Setter
-  private ItemStack result;
-
-  @Setter
-  private String translatableName;
 
   private final Set<CraftingSource> craftingSources = new HashSet<>();
+  private transient NamespacedKey recipeId;
+  @Getter
+  private List<ItemStack> ingredients;
+  @Setter
+  private ItemStack result;
+  @Setter
+  private String translatableName;
 
   public HWRecipe() {
     ingredients = new ArrayList<>();
@@ -33,6 +37,14 @@ public class HWRecipe {
     this.result = result;
   }
 
+  public @NotNull NamespacedKey getRecipeId() {
+    return Objects.requireNonNull(recipeId);
+  }
+
+  void setRecipeId(@Nullable NamespacedKey recipeId) {
+    this.recipeId = recipeId;
+  }
+
   public void setIngredients(@NotNull ItemStack... ingredients) {
     this.ingredients = Arrays.stream(ingredients).collect(Collectors.toList());
   }
@@ -42,9 +54,7 @@ public class HWRecipe {
   }
 
   public void allowCraft(CraftingSource @NotNull ... sources) {
-    for (CraftingSource source : sources) {
-      craftingSources.add(source);
-    }
+    Collections.addAll(craftingSources, sources);
   }
 
   public void disallowCraft(CraftingSource @NotNull ... sources) {
@@ -66,6 +76,7 @@ public class HWRecipe {
 
   /**
    * The recipe {@link ItemStack} result.
+   *
    * @return New instance of item stack.
    */
   public @NotNull ItemStack getResult() {

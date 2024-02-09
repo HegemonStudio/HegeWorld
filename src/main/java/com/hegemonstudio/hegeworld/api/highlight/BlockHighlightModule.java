@@ -1,9 +1,9 @@
 package com.hegemonstudio.hegeworld.api.highlight;
 
-import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.api.events.HWPlayerTargetBlockEvent;
+import com.hegemonstudio.hegeworld.module.HWModule;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

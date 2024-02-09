@@ -1,7 +1,7 @@
 package com.hegemonstudio.hegeworld.modules.guns;
 
-import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
+import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.modules.guns.items.AK47Gun;
 import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;

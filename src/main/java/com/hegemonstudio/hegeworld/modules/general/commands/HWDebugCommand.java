@@ -94,7 +94,6 @@ public class HWDebugCommand extends MPlayerCommand {
               .text("You are not looking at anything")
               .color(NamedTextColor.YELLOW)
       );
-      return;
     }
   }
 

@@ -17,6 +17,7 @@ public final class HWPlayerCollectItemEvent extends Event implements Cancellable
   private ItemStack itemStack;
   private boolean isCancelled;
   private boolean playDefaultPickupSound = true;
+
   public HWPlayerCollectItemEvent(@NotNull HWPlayer player, @NotNull Location source, @NotNull ItemStack itemStack, @NotNull CollectionType collectionType) {
     this.player = player;
     this.source = source;

@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * HegeWorld module that adds crafting functionality
+ *
  * @since 1.0-SNAPSHOT
  */
 public class CraftingModule extends HWModule {

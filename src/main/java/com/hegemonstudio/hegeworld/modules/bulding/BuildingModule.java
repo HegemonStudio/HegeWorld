@@ -1,7 +1,7 @@
 package com.hegemonstudio.hegeworld.modules.bulding;
 
-import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
+import com.hegemonstudio.hegeworld.module.HWModule;
 import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
 import org.bukkit.NamespacedKey;

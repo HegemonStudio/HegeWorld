@@ -1,7 +1,6 @@
 package com.hegemonstudio.hegeworld.modules.general;
 
 import com.hegemonstudio.hegeworld.module.HWModule;
-import com.hegemonstudio.hegeworld.modules.crafting.commands.CraftCommand;
 import com.hegemonstudio.hegeworld.modules.general.commands.*;
 import com.hegemonstudio.hegeworld.modules.general.listeners.PlayerBlockListener;
 import com.hegemonstudio.hegeworld.modules.general.listeners.PlayerDeathListener;

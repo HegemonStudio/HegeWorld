@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public abstract class HWModule implements ModuleBase {
 
@@ -74,11 +73,6 @@ public abstract class HWModule implements ModuleBase {
   }
 
   @Override
-  public boolean isDisabled() {
-    return !enabled;
-  }
-
-  @Override
   public void setEnabled(boolean enabled) {
     ImpactRegistry<?>[] registries = {ImpactRegistries.COMMAND, ImpactRegistries.GUI, ImpactRegistries.CUSTOM_ITEM, ImpactRegistries.CUSTOM_BLOCK};
     Map<ImpactRegistry<?>, Integer> registryChanges = new HashMap<>();
@@ -93,7 +87,7 @@ public abstract class HWModule implements ModuleBase {
         TextComponent.Builder builder = Component.text();
         builder.append(Component.text("Registered"));
         for (ImpactRegistry<?> registry : registryChanges.keySet()) {
-          int registered = registry.getAll().size() -  registryChanges.get(registry);
+          int registered = registry.getAll().size() - registryChanges.get(registry);
           if (registered > 0) {
             builder.append(Component.text(" " + registered + " " + registry.getClass().getSimpleName()));
           }
@@ -113,6 +107,11 @@ public abstract class HWModule implements ModuleBase {
       exception.printStackTrace();
       HWLogger.Err(Component.text("Error while disabling module '" + getModuleName() + "'"));
     }
+  }
+
+  @Override
+  public boolean isDisabled() {
+    return !enabled;
   }
 
   protected void registerCommand(MCommand<?> command) {
