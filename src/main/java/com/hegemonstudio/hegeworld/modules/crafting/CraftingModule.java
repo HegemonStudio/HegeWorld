@@ -1,47 +1,47 @@
 package com.hegemonstudio.hegeworld.modules.crafting;
 
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
+import com.hegemonstudio.hegeworld.crafting.CraftingManager;
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
 import com.hegemonstudio.hegeworld.crafting.HWRecipe;
 import com.hegemonstudio.hegeworld.module.HWModule;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import org.bukkit.Bukkit;
+import com.hegemonstudio.hegeworld.modules.crafting.commands.CraftCommand;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-
+/**
+ * HegeWorld module that adds crafting functionality
+ * @since 1.0-SNAPSHOT
+ */
 public class CraftingModule extends HWModule {
+
   @Override
   public void onEnable() {
-//    HegeWorldPlugin.GetCraftingManager().getAllBySources(CraftingSource.INVENTORY);
-    // wszystkie craftingi w inventory "/craft"
-//    HegeWorldPlugin.GetCraftingManager().getAll();
-    // wszystkie craftingi
-//    HegeWorldPlugin.GetCraftingManager().getAllBySources(CraftingSource.INVENTORY, CraftingSource.WORKBENCH);
-    // wszystkie craftingi w inventory i workbenchu
-    HegeWorldPlugin.GetCraftingManager()
-        .addRecipe(
-            HegeWorldPlugin.CreateKey("stone_axe"),
-            new HWRecipe(
-                List.of(
-                    new ItemStack(Material.STONE, 3),
-                    new ItemStack(Material.STICK, 2)
-                ),
-                new ItemStack(Material.STONE_AXE)
-            )
-        );
-    HegeWorldPlugin.GetCraftingManager()
-        .addRecipe(
-            HegeWorldPlugin.CreateKey("stone_pickaxe"),
-            new HWRecipe(
-                List.of(
-                    new ItemStack(Material.STONE, 3),
-                    new ItemStack(Material.STICK, 2)
-                ),
-                new ItemStack(Material.STONE_PICKAXE)
-            )
-        );
+    loadRecipes();
+    registerCommand(new CraftCommand());
   }
+
+  /**
+   * Loads all crafting recipes
+   */
+  private void loadRecipes() {
+    CraftingManager cm = HegeWorldPlugin.GetCraftingManager();
+
+    // Flint Axe
+    HWRecipe flintAxe = new HWRecipe();
+    flintAxe.setIngredients(new ItemStack(Material.FLINT, 3), new ItemStack(Material.STICK, 2));
+    flintAxe.setResult(new ItemStack(Material.STONE_AXE));
+    flintAxe.allowCraft(CraftingSource.INVENTORY);
+
+    cm.addRecipe(HegeWorldPlugin.CreateKey("flint_axe"), flintAxe);
+
+    // Stone Pickaxe
+    HWRecipe stonePickaxe = new HWRecipe();
+    stonePickaxe.setIngredients(new ItemStack(Material.STONE_BUTTON, 5), new ItemStack(Material.STICK, 2));
+    stonePickaxe.setResult(new ItemStack(Material.STONE_PICKAXE));
+    stonePickaxe.allowCraft(CraftingSource.INVENTORY);
+
+    cm.addRecipe(HegeWorldPlugin.CreateKey("stone_pickaxe"), stonePickaxe);
+  }
+
 }

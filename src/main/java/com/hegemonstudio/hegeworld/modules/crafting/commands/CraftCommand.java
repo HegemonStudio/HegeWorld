@@ -1,18 +1,14 @@
-package com.hegemonstudio.hegeworld.general.commands;
+package com.hegemonstudio.hegeworld.modules.crafting.commands;
 
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.crafting.HWRecipe;
-import com.hegemonstudio.hegeworld.modules.crafting.CraftingModule;
 import com.impact.lib.api.command.MPlayerCommand;
-import net.kyori.adventure.text.TextComponent;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Recipe;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

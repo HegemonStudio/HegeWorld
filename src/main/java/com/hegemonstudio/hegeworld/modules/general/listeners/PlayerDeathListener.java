@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld.general.listeners;
+package com.hegemonstudio.hegeworld.modules.general.listeners;
 
 import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.events.HWPlayerDeathEvent;

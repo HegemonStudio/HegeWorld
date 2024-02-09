@@ -1,4 +1,4 @@
-package com.hegemonstudio.hegeworld.general.commands;
+package com.hegemonstudio.hegeworld.modules.general.commands;
 
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.impact.lib.api.command.MPlayerCommand;

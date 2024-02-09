@@ -3,7 +3,7 @@ package com.hegemonstudio.hegeworld;
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.highlight.BlockHighlightModule;
 import com.hegemonstudio.hegeworld.crafting.CraftingManager;
-import com.hegemonstudio.hegeworld.general.HegeWorldModule;
+import com.hegemonstudio.hegeworld.modules.general.HegeWorldModule;
 import com.hegemonstudio.hegeworld.module.HWModuleManager;
 import com.hegemonstudio.hegeworld.modules.bulding.BuildingModule;
 import com.hegemonstudio.hegeworld.modules.crafting.CraftingModule;

@@ -7,47 +7,57 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public final class HWRecipe {
+public class HWRecipe {
 
   @Getter
-  @Setter
   private List<ItemStack> ingredients;
+
   @Getter
   @Setter
   private ItemStack result;
 
-  private Set<CraftingSource> craftingSources = new HashSet<>();
+  private final Set<CraftingSource> craftingSources = new HashSet<>();
 
   public HWRecipe() {
     ingredients = new ArrayList<>();
     result = new ItemStack(Material.AIR);
   }
 
-  public HWRecipe(List<ItemStack> ingredients, ItemStack result) {
+  public HWRecipe(@NotNull List<ItemStack> ingredients, @NotNull ItemStack result) {
     this.ingredients = ingredients;
     this.result = result;
   }
 
-  public void allowCraft(CraftingSource source) {
-    craftingSources.add(source);
+  public void setIngredients(@NotNull ItemStack... ingredients) {
+    this.ingredients = Arrays.stream(ingredients).collect(Collectors.toList());
   }
 
-  public void disallowCraft(CraftingSource source) {
-    craftingSources.remove(source);
+  public void setIngredients(@NotNull List<ItemStack> ingredients) {
+    this.ingredients = ingredients;
   }
 
-  public boolean canCraft(CraftingSource source) {
+  public void allowCraft(CraftingSource @NotNull ... sources) {
+    for (CraftingSource source : sources) {
+      craftingSources.add(source);
+    }
+  }
+
+  public void disallowCraft(CraftingSource @NotNull ... sources) {
+    for (CraftingSource source : sources) {
+      craftingSources.remove(source);
+    }
+  }
+
+  public boolean canCraft(@NotNull CraftingSource source) {
     return craftingSources.contains(source);
   }
 
   @Override
   public @NotNull String toString() {
-    return "HWRecipe{"  + ChatUtil.Format(result.getType()) + "}";
+    return "HWRecipe{" + ChatUtil.Format(result.getType()) + "}";
   }
 
 }
