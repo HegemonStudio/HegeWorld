@@ -1,16 +1,13 @@
 package com.hegemonstudio.hegeworld.modules.general.commands;
 
-import com.hegemonstudio.hegeworld.HegeWorldPlugin;
+import com.hegemonstudio.hegeworld.HegeWorld;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
 import com.hegemonstudio.hegeworld.modules.guns.items.AK47Gun;
 import com.impact.lib.api.command.MPlayerCommand;
-import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.registry.ImpactRegistries;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -18,11 +15,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HWDebugCommand extends MPlayerCommand {
@@ -63,6 +58,7 @@ public class HWDebugCommand extends MPlayerCommand {
         if (count <= 0) throw new AssertionError();
       }
 
+      /*
       try {
         Material material = Material.valueOf(args[1].toUpperCase());
         hwplayer.giveItem(new ItemStack(material, count));
@@ -75,7 +71,9 @@ public class HWDebugCommand extends MPlayerCommand {
         hwplayer.giveItem(customItem.getItemStack(count));
         return;
       }
-      error(1, "Unknown item");
+       */
+//      error(1, "Unknown item");
+      hwplayer.giveItem(HegeWorld.Item(args[1], count));
       return;
     }
     if (args[0].equalsIgnoreCase("looking")) {
@@ -118,14 +116,7 @@ public class HWDebugCommand extends MPlayerCommand {
       return List.of("looking", "grounditem", "block", "entity", "shoot", "giveitem");
     }
     if (args[0].equalsIgnoreCase("giveitem") && args.length == 2) {
-      List<String> materials = new ArrayList<>();
-      for (Material material : Material.values()) {
-        materials.add(material.toString().toLowerCase());
-      }
-      for (CustomItem customItem : ImpactRegistries.CUSTOM_ITEM.getAll()) {
-        materials.add(customItem.getNamespacedKey().getKey());
-      }
-      return materials;
+      return HegeWorld.GetItemSelectors();
     }
     if (args[0].equalsIgnoreCase("giveitem") && args.length == 3) {
       return List.of("[count]");

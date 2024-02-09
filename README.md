@@ -5,13 +5,19 @@
 HegeWorld is an innovative custom Minecraft hard-survival mode with build and gunplay.
 
 # About The Project
+
 TODO Gifs
+
 ## Collecting Resources
+
 ## Building Structures
+
 ## Raiding
+
 ## Game Events and Gun play
 
 # How To Install
+
 TUTORIAL
 
 # Documentation
@@ -19,8 +25,11 @@ TUTORIAL
 # Community
 
 ## HegeWorld Website
+
 ## HegeWorld Addons
+
 ## HegeWorld Scripts
+
 How to script
 
 # For Developers
