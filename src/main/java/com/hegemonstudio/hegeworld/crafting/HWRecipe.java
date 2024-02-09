@@ -18,6 +18,9 @@ public class HWRecipe {
   @Setter
   private ItemStack result;
 
+  @Setter
+  private String translatableName;
+
   private final Set<CraftingSource> craftingSources = new HashSet<>();
 
   public HWRecipe() {
@@ -52,6 +55,13 @@ public class HWRecipe {
 
   public boolean canCraft(@NotNull CraftingSource source) {
     return craftingSources.contains(source);
+  }
+
+  public String getTranslatableName() {
+    if (translatableName == null) {
+      return result.translationKey();
+    }
+    return translatableName;
   }
 
   /**
