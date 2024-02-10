@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
  */
 public class HegeWorld {
 
+  public static final Object NULL = null;
+
   private static List<String> itemSelectors;
   private static int itemSelectorsCustomItemCount;
 
@@ -26,7 +28,7 @@ public class HegeWorld {
 
   }
 
-  public static @Nullable ItemStack Item(@NotNull String itemName, int count) {
+  public static @Nullable ItemStack hwGetItem(@NotNull String itemName, int count) {
     assert count >= 0;
     itemName = itemName.replace(' ', '_');
     NamespacedKey key = NamespacedKey.fromString(itemName);
@@ -44,7 +46,7 @@ public class HegeWorld {
     return new ItemStack(material, count);
   }
 
-  public static @NotNull List<Player> PlayerSelector(@NotNull String selector, @Nullable Player context) {
+  public static @NotNull List<Player> hwPlayersBySelector(@NotNull String selector, @Nullable Player context) {
     if (selector.equalsIgnoreCase("@p")) {
       assert context != null;
       return List.of(context);
@@ -63,7 +65,7 @@ public class HegeWorld {
     return List.of();
   }
 
-  public static @NotNull List<String> GetPlayerSelectors(@Nullable Player context) {
+  public static @NotNull List<String> hwPlayerSelectors(@Nullable Player context) {
     List<String> strings = new ArrayList<>();
     strings.add("@p");
     strings.add("@a");
@@ -77,7 +79,7 @@ public class HegeWorld {
     return strings;
   }
 
-  public static @NotNull List<String> GetItemSelectors() {
+  public static @NotNull List<String> hwItemSelectors() {
     if (itemSelectorsCustomItemCount == ImpactRegistries.CUSTOM_ITEM.getAll().size() && itemSelectors != null) {
       return itemSelectors;
     }

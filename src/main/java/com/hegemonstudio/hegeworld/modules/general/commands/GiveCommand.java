@@ -30,7 +30,7 @@ public class GiveCommand extends UniversalCommand {
       return;
     }
     String selector = args[0];
-    List<Player> players = HegeWorld.PlayerSelector(selector, player);
+    List<Player> players = HegeWorld.hwPlayersBySelector(selector, player);
     String itemName = args[1];
     int count = 1;
     if (args.length > 2) {
@@ -39,7 +39,7 @@ public class GiveCommand extends UniversalCommand {
       } catch (Exception ignored) {
       }
     }
-    ItemStack item = HegeWorld.Item(itemName, count);
+    ItemStack item = HegeWorld.hwGetItem(itemName, count);
     if (item == null) {
       player.sendMessage(Component.text("Unknown item.").color(NamedTextColor.RED));
       player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
@@ -68,10 +68,10 @@ public class GiveCommand extends UniversalCommand {
   @Override
   public @Nullable List<String> onPlayerTabComplete(@NotNull Player player, int i, @NotNull String @NotNull [] args) {
     if (args.length == 1) {
-      return HegeWorld.GetPlayerSelectors(player);
+      return HegeWorld.hwPlayerSelectors(player);
     }
     if (args.length == 2) {
-      return HegeWorld.GetItemSelectors();
+      return HegeWorld.hwItemSelectors();
     }
     if (args.length == 3) {
       return List.of("[<count>]");
@@ -85,10 +85,10 @@ public class GiveCommand extends UniversalCommand {
   @Override
   public @Nullable List<String> onConsoleTabComplete(@NotNull ConsoleCommandSender consoleCommandSender, int i, @NotNull String @NotNull [] args) {
     if (args.length == 1) {
-      return HegeWorld.GetPlayerSelectors(null);
+      return HegeWorld.hwPlayerSelectors(null);
     }
     if (args.length == 2) {
-      return HegeWorld.GetItemSelectors();
+      return HegeWorld.hwItemSelectors();
     }
     if (args.length == 3) {
       return List.of("[<count>]");

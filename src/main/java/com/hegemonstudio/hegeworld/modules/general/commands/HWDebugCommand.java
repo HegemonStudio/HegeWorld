@@ -73,7 +73,7 @@ public class HWDebugCommand extends MPlayerCommand {
       }
        */
 //      error(1, "Unknown item");
-      hwplayer.giveItem(HegeWorld.Item(args[1], count));
+      hwplayer.giveItem(HegeWorld.hwGetItem(args[1], count));
       return;
     }
     if (args[0].equalsIgnoreCase("looking")) {
@@ -116,7 +116,7 @@ public class HWDebugCommand extends MPlayerCommand {
       return List.of("looking", "grounditem", "block", "entity", "shoot", "giveitem");
     }
     if (args[0].equalsIgnoreCase("giveitem") && args.length == 2) {
-      return HegeWorld.GetItemSelectors();
+      return HegeWorld.hwItemSelectors();
     }
     if (args[0].equalsIgnoreCase("giveitem") && args.length == 3) {
       return List.of("[count]");
