@@ -1,6 +1,5 @@
 package com.hegemonstudio.hegeworld.modules.general.commands;
 
-import com.hegemonstudio.hegeworld.HegeWorld;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.impact.lib.api.command.UniversalCommand;
 import net.kyori.adventure.text.Component;
@@ -13,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import static com.hegemonstudio.hegeworld.HegeWorld.*;
 
 public class GiveCommand extends UniversalCommand {
   public GiveCommand() {
@@ -30,7 +31,7 @@ public class GiveCommand extends UniversalCommand {
       return;
     }
     String selector = args[0];
-    List<Player> players = HegeWorld.hwPlayersBySelector(selector, player);
+    List<Player> players = hwPlayersBySelector(selector, player);
     String itemName = args[1];
     int count = 1;
     if (args.length > 2) {
@@ -39,7 +40,7 @@ public class GiveCommand extends UniversalCommand {
       } catch (Exception ignored) {
       }
     }
-    ItemStack item = HegeWorld.hwGetItem(itemName, count);
+    ItemStack item = hwGetItem(itemName, count);
     if (item == null) {
       player.sendMessage(Component.text("Unknown item.").color(NamedTextColor.RED));
       player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
@@ -68,10 +69,10 @@ public class GiveCommand extends UniversalCommand {
   @Override
   public @Nullable List<String> onPlayerTabComplete(@NotNull Player player, int i, @NotNull String @NotNull [] args) {
     if (args.length == 1) {
-      return HegeWorld.hwPlayerSelectors(player);
+      return hwPlayerSelectors(player);
     }
     if (args.length == 2) {
-      return HegeWorld.hwItemSelectors();
+      return hwItemSelectors();
     }
     if (args.length == 3) {
       return List.of("[<count>]");
@@ -85,10 +86,10 @@ public class GiveCommand extends UniversalCommand {
   @Override
   public @Nullable List<String> onConsoleTabComplete(@NotNull ConsoleCommandSender consoleCommandSender, int i, @NotNull String @NotNull [] args) {
     if (args.length == 1) {
-      return HegeWorld.hwPlayerSelectors(null);
+      return hwPlayerSelectors(null);
     }
     if (args.length == 2) {
-      return HegeWorld.hwItemSelectors();
+      return hwItemSelectors();
     }
     if (args.length == 3) {
       return List.of("[<count>]");
