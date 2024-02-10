@@ -1,17 +1,22 @@
 package com.hegemonstudio.hegeworld;
 
+import com.hegemonstudio.hegeworld.crafting.CraftingManager;
+import com.hegemonstudio.hegeworld.module.HWModuleManager;
 import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.registry.ImpactRegistries;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +31,27 @@ public class HegeWorld {
 
   private HegeWorld() {
 
+  }
+
+  public static @NotNull HegeWorldPlugin hwPlugin() {
+    return Objects.requireNonNull(HegeWorldPlugin.GetInstance());
+  }
+
+  @Contract("_ -> new")
+  public static @NotNull NamespacedKey hwKey(@NotNull String value) {
+    return HegeWorldPlugin.CreateKey(value);
+  }
+
+  public static @NotNull HWModuleManager hwModules() {
+    return HegeWorldPlugin.GetModuleManager();
+  }
+
+  public static @NotNull CraftingManager hwCraftings() {
+    return HegeWorldPlugin.GetCraftingManager();
+  }
+
+  public static @NotNull World hwWorld() {
+    return HegeWorldPlugin.GetMainWorld();
   }
 
   public static @Nullable ItemStack hwGetItem(@NotNull String itemName, int count) {
