@@ -31,7 +31,7 @@ public class GiveCommand extends UniversalCommand {
       return;
     }
     String selector = args[0];
-    List<Player> players = hwPlayersBySelector(selector, player);
+    List<Player> players = hwGetPlayers(selector, player);
     String itemName = args[1];
     int count = 1;
     if (args.length > 2) {
@@ -69,10 +69,10 @@ public class GiveCommand extends UniversalCommand {
   @Override
   public @Nullable List<String> onPlayerTabComplete(@NotNull Player player, int i, @NotNull String @NotNull [] args) {
     if (args.length == 1) {
-      return hwPlayerSelectors(player);
+      return hwGetPlayerSelectors(player);
     }
     if (args.length == 2) {
-      return hwItemSelectors();
+      return hwGetItemSelectors();
     }
     if (args.length == 3) {
       return List.of("[<count>]");
@@ -86,10 +86,10 @@ public class GiveCommand extends UniversalCommand {
   @Override
   public @Nullable List<String> onConsoleTabComplete(@NotNull ConsoleCommandSender consoleCommandSender, int i, @NotNull String @NotNull [] args) {
     if (args.length == 1) {
-      return hwPlayerSelectors(null);
+      return hwGetPlayerSelectors(null);
     }
     if (args.length == 2) {
-      return hwItemSelectors();
+      return hwGetItemSelectors();
     }
     if (args.length == 3) {
       return List.of("[<count>]");

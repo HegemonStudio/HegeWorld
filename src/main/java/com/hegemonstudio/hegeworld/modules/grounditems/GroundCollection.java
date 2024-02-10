@@ -54,8 +54,7 @@ public class GroundCollection {
 
   public static Optional<ItemFrame> GetFrame(@Nullable Entity entity) {
     if (entity == null) return Optional.empty();
-    if (!(entity instanceof ItemFrame)) return Optional.empty();
-    ItemFrame frame = (ItemFrame) entity;
+    if (!(entity instanceof ItemFrame frame)) return Optional.empty();
     if (!IsGroundItem(frame)) return Optional.empty();
     return Optional.of(frame);
   }
@@ -136,11 +135,10 @@ public class GroundCollection {
         UnsetFrame(world, uuid);
         continue;
       }
-      if (!(entity instanceof ItemFrame)) {
+      if (!(entity instanceof ItemFrame frame)) {
         UnsetFrame(world, uuid);
         continue;
       }
-      ItemFrame frame = (ItemFrame) entity;
       frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
       successfullyLoaded += 1;
     }

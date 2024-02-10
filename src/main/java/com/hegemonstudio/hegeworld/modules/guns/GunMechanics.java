@@ -35,8 +35,7 @@ public class GunMechanics {
       Entity hitEntity = result.getHitEntity();
       if (hitEntity != null) {
         player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
-        if (hitEntity instanceof Player) {
-          Player hitPlayer = (Player) hitEntity;
+        if (hitEntity instanceof Player hitPlayer) {
           hitPlayer.playSound(hitPlayer.getLocation(), Sound.ENTITY_IRON_GOLEM_REPAIR, 0.6f, 2);
         }
         LivingEntity livingEntity = (LivingEntity) hitEntity;

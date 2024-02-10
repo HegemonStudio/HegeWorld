@@ -1,20 +1,19 @@
 package com.hegemonstudio.hegeworld.modules.general.commands;
 
-import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.impact.lib.api.command.MPlayerCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.*;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.generator.WorldInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.hegemonstudio.hegeworld.HegeWorld.*;
 
 /**
  * HegeWorld command to teleport and create worlds.<br>
@@ -33,9 +32,8 @@ public class TPWCommand extends MPlayerCommand {
       return;
     }
     String worldName = args[0];
-    boolean isWorldExists = Bukkit.getWorld(worldName) != null;
 
-    if (!isWorldExists) {
+    if (hwIsWorldExists(worldName)) {
       // required confirm
       if (argc == 1) {
         error(0, "World does not exist. Please add confirm");
@@ -43,18 +41,14 @@ public class TPWCommand extends MPlayerCommand {
         return;
       }
       if (!args[1].equalsIgnoreCase("confirm")) return;
+      String playerName = sender.getName();
 
-      // create world
-      HWLogger.Log(Component.text(sender.getName() + " creating world " + worldName + "..."));
-      WorldCreator
-          .name(worldName)
-          .environment(World.Environment.NORMAL)
-          .type(WorldType.NORMAL)
-          .createWorld();
-      HWLogger.Log(Component.text(sender.getName() + " created new world " + worldName));
+      hwLog(playerName + " creating world " + worldName + "...");
+      hwCreateWorld(worldName);
+      hwLog(playerName + " created new world " + worldName);
     }
 
-    World world = Bukkit.getWorld(worldName);
+    World world = hwGetWorld(worldName);
     assert world != null;
 
     sender.teleport(world.getSpawnLocation());
@@ -64,12 +58,8 @@ public class TPWCommand extends MPlayerCommand {
 
   @Override
   public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String @NotNull [] args) {
-    // First argument
     if (args.length == 1) {
-      return Bukkit.getWorlds()
-          .stream()
-          .map(WorldInfo::getName)
-          .collect(Collectors.toCollection(ArrayList::new));
+      return hwGetWorldNames();
     }
     return null;
   }

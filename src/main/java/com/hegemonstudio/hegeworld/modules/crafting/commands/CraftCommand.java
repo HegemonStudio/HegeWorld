@@ -1,8 +1,6 @@
 package com.hegemonstudio.hegeworld.modules.crafting.commands;
 
-import com.hegemonstudio.hegeworld.HegeWorldPlugin;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
-import com.hegemonstudio.hegeworld.crafting.CraftingManager;
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
 import com.hegemonstudio.hegeworld.crafting.HWRecipe;
 import com.impact.lib.api.command.MPlayerCommand;
@@ -15,7 +13,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.Optional;
+
+import static com.hegemonstudio.hegeworld.HegeWorld.hwGetRecipe;
+import static com.hegemonstudio.hegeworld.HegeWorld.hwGetRecipes;
 
 
 public class CraftCommand extends MPlayerCommand {
@@ -26,10 +26,9 @@ public class CraftCommand extends MPlayerCommand {
   @Override
   public void perform(@NotNull Player sender, @NotNull Command command, int argc, @NotNull String @NotNull [] args) {
     HWPlayer player = HWPlayer.of(sender);
-    CraftingManager cm = HegeWorldPlugin.GetCraftingManager();
 
     if (argc == 0) {
-      Collection<HWRecipe> recipes = cm.getAllBySources(CraftingSource.INVENTORY);
+      Collection<HWRecipe> recipes = hwGetRecipes(CraftingSource.INVENTORY);
       TextComponent.Builder builder = Component.text();
       builder.append(
           Component.text("Craftings:")
@@ -48,14 +47,12 @@ public class CraftCommand extends MPlayerCommand {
       return;
     }
 
-    String recipeId = args[0];
-    Optional<HWRecipe> recipeOptional = cm.getRecipe(recipeId);
-    if (recipeOptional.isEmpty()) {
+    HWRecipe recipe = hwGetRecipe(args[0], CraftingSource.INVENTORY);
+    if (recipe == null) {
       // TODO nie ma takiego craftingu
-      player.sendMessage("CANNOT CRAFT " + recipeId + " | NOT FOUND");
+      player.sendMessage("CANNOT CRAFT " + args[0] + " | NOT FOUND");
       return;
     }
-    HWRecipe recipe = recipeOptional.get();
     // TODO jest taki crafting
     player.sendMessage("CRAFT " + recipe.getRecipeId());
   }

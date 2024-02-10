@@ -32,6 +32,20 @@ public final class CraftingManager {
     return Optional.ofNullable(recipes.get(key));
   }
 
+  public @NotNull Optional<HWRecipe> getRecipe(@NotNull NamespacedKey recipeKey, @NotNull CraftingSource source) {
+    Optional<HWRecipe> recipe = getRecipe(recipeKey);
+    if (recipe.isEmpty()) return recipe;
+    if (recipe.get().canCraft(source)) return recipe;
+    return Optional.empty();
+  }
+
+  public @NotNull Optional<HWRecipe> getRecipe(@NotNull String recipeKey, @NotNull CraftingSource source) {
+    Optional<HWRecipe> recipe = getRecipe(recipeKey);
+    if (recipe.isEmpty()) return recipe;
+    if (recipe.get().canCraft(source)) return recipe;
+    return Optional.empty();
+  }
+
   public @NotNull Collection<HWRecipe> getAll() {
     return recipes.values();
   }

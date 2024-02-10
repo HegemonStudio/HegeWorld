@@ -20,8 +20,7 @@ public class GroundCollectionListener implements Listener {
   @EventHandler
   public void onItemFrameClick(@NotNull PlayerInteractEntityEvent event) {
     Entity clicked = event.getRightClicked();
-    if (clicked instanceof ItemFrame) {
-      ItemFrame frame = (ItemFrame) clicked;
+    if (clicked instanceof ItemFrame frame) {
 
       if (!GroundCollection.IsGroundItem(frame)) return;
       event.setCancelled(true);

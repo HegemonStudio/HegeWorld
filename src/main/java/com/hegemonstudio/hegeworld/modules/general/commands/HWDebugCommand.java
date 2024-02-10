@@ -116,7 +116,7 @@ public class HWDebugCommand extends MPlayerCommand {
       return List.of("looking", "grounditem", "block", "entity", "shoot", "giveitem");
     }
     if (args[0].equalsIgnoreCase("giveitem") && args.length == 2) {
-      return HegeWorld.hwItemSelectors();
+      return HegeWorld.hwGetItemSelectors();
     }
     if (args[0].equalsIgnoreCase("giveitem") && args.length == 3) {
       return List.of("[count]");
