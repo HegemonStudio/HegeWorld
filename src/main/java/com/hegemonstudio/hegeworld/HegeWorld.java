@@ -1,6 +1,8 @@
 package com.hegemonstudio.hegeworld;
 
 import com.hegemonstudio.hegeworld.api.HWLogger;
+import com.hegemonstudio.hegeworld.api.HWPlayer;
+import com.hegemonstudio.hegeworld.api.tasks.TaskManager;
 import com.hegemonstudio.hegeworld.crafting.CraftingManager;
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
 import com.hegemonstudio.hegeworld.crafting.HWRecipe;
@@ -8,14 +10,17 @@ import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.module.HWModuleManager;
 import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.registry.ImpactRegistries;
+import com.impact.lib.api.registry.ImpactRegistry;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
 import org.bukkit.generator.WorldInfo;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.Metadatable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,7 +64,36 @@ public class HegeWorld {
   }
 
   public static <T extends HWModule> @Nullable T hwGetModule(@NotNull Class<T> moduleClass) {
-    return moduleClass.cast(hwModules().getModule(moduleClass).orElse(null));
+    HWModule module = hwModules().getModule(moduleClass).orElse(null);
+    if (module == null) return null;
+    return moduleClass.cast(module);
+  }
+
+  public static void hwRegisterListener(@Nullable Listener listener) {
+    if (listener == null) return;
+    Bukkit.getPluginManager().registerEvents(listener, hwPlugin());
+  }
+
+  public static void hwRegisterItem(@NotNull String key, @NotNull CustomItem item) {
+    NamespacedKey namespacedKey = hwKey(key);
+    ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, namespacedKey, item);
+  }
+
+  public static void hwOnTickLater(@NotNull Runnable action) {
+    Bukkit.getScheduler().runTaskLater(hwPlugin(), action, 1L);
+  }
+
+  public static boolean hwHasPlayerPermission(@Nullable Player player, @NotNull String permission) {
+    return player != null && player.hasPermission(permission);
+  }
+
+  public static <T extends Event> @NotNull T hwCallEvent(@NotNull T event) {
+    Bukkit.getPluginManager().callEvent(event);
+    return event;
+  }
+
+  public static @NotNull String hwOnTick(@NotNull Runnable action) {
+    return TaskManager.OnTick(action);
   }
 
   public static @NotNull CraftingManager hwCraftings() {
@@ -136,6 +170,10 @@ public class HegeWorld {
 
   public static @Nullable ItemStack hwGetItem(@NotNull String itemName) {
     return hwGetItem(itemName, 1);
+  }
+
+  public static void hwPlayerGiveItem(@NotNull Player player, @NotNull ItemStack item) {
+    HWPlayer.of(player).giveItem(item);
   }
 
   public static @NotNull List<Player> hwGetPlayers(@NotNull String selector, @Nullable Player context) {
@@ -217,6 +255,32 @@ public class HegeWorld {
         .collect(Collectors.toCollection(ArrayList::new))
     );
     return strings;
+  }
+
+  public static @NotNull List<String> hwGetPlayerSelectors() {
+    return hwGetPlayerSelectors(null);
+  }
+
+  public static @NotNull Item hwDropItem(@NotNull Location location, @NotNull ItemStack item) {
+    return location.getWorld().dropItemNaturally(location, item);
+  }
+
+  public static @NotNull Item hwSpawnItem(@NotNull Location location, @NotNull ItemStack item) {
+    return hwDropItem(location, item);
+  }
+
+  public static <T extends Entity> @NotNull T hwSpawn(@NotNull Location location, @NotNull Class<T> toSpawn) {
+    return location.getWorld().spawn(location, toSpawn);
+  }
+
+  public static @NotNull Entity hwSpawn(@NotNull Location location, @NotNull EntityType entityType) {
+    assert entityType.getEntityClass() != null;
+    return location.getWorld().spawn(location, entityType.getEntityClass());
+  }
+
+  public static <T extends Metadatable> @NotNull T hwSetMetadata(@NotNull T metadatable, @NotNull String key, @NotNull Object value) {
+    metadatable.setMetadata(key, new FixedMetadataValue(hwPlugin(), value));
+    return metadatable;
   }
 
   public static @NotNull List<String> hwGetItemSelectors() {

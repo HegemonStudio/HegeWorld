@@ -9,14 +9,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.NotNull;
 
+import static com.hegemonstudio.hegeworld.HegeWorld.hwCallEvent;
+import static com.hegemonstudio.hegeworld.HegeWorld.hwOnTickLater;
+
 public class PlayerDeathListener implements Listener {
 
   @EventHandler
   public void onPlayerJoin(@NotNull PlayerDeathEvent event) {
     Player player = event.getPlayer();
-    Bukkit.getScheduler().runTask(HegeWorldPlugin.GetInstance(), () -> {
-      Bukkit.getPluginManager().callEvent(new HWPlayerDeathEvent(player));
-    });
+    hwOnTickLater(() -> hwCallEvent(new HWPlayerDeathEvent(player)));
     event.setCancelled(true);
   }
 

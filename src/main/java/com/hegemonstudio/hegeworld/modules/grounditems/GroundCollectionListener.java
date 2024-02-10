@@ -2,6 +2,7 @@ package com.hegemonstudio.hegeworld.modules.grounditems;
 
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.api.events.HWPlayerCollectItemEvent;
+import com.hegemonstudio.hegeworld.api.events.HWPlayerJoinEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -14,6 +15,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
+
+import static com.hegemonstudio.hegeworld.HegeWorld.hwCallEvent;
 
 public class GroundCollectionListener implements Listener {
 
@@ -28,10 +31,9 @@ public class GroundCollectionListener implements Listener {
       HWPlayer player = HWPlayer.of(event.getPlayer());
       ItemStack groundItem = GroundCollection.GetGroundItemData(frame).orElseThrow().getItemStack();
 
-      HWPlayerCollectItemEvent collectEvent = new HWPlayerCollectItemEvent(player, frame.getLocation(), groundItem, HWPlayerCollectItemEvent.CollectionType.HAND_FROM_GROUND);
-
-      PluginManager pluginManager = Bukkit.getPluginManager();
-      pluginManager.callEvent(collectEvent);
+      HWPlayerCollectItemEvent collectEvent = new HWPlayerCollectItemEvent(player, frame.getLocation(), groundItem,
+          HWPlayerCollectItemEvent.CollectionType.HAND_FROM_GROUND);
+      hwCallEvent(collectEvent);
 
       if (collectEvent.isCancelled()) return;
 

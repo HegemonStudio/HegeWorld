@@ -21,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+import static com.hegemonstudio.hegeworld.HegeWorld.*;
+
 public class GroundCollection {
 
   public static final String ITEM_FRAME_METADATA_KEY = "natural";
@@ -74,34 +76,27 @@ public class GroundCollection {
    * @deprecated
    */
   public static void SpawnGroundItemLegacy(@NotNull Location location, @NotNull ItemStack item) {
-    PluginManager pm = Bukkit.getPluginManager();
-    HWPlayerGroundSpawnEvent spawnEvent = new HWPlayerGroundSpawnEvent(location, item);
-    pm.callEvent(spawnEvent);
-
+    HWPlayerGroundSpawnEvent spawnEvent = hwCallEvent(new HWPlayerGroundSpawnEvent(location, item));
     if (spawnEvent.isCancelled()) return;
 
-    World world = spawnEvent.getLocation().getWorld();
-    ItemFrame frame = (ItemFrame) world.spawnEntity(spawnEvent.getLocation(), EntityType.ITEM_FRAME);
+    ItemFrame frame = hwSpawn(spawnEvent.getLocation(), ItemFrame.class);
     frame.setVisible(false);
     frame.setRotation(Rotation.values()[(int) Math.floor(Math.random() * Rotation.values().length)]);
     frame.setItem(spawnEvent.getItemStack());
-    frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
+    hwSetMetadata(frame, ITEM_FRAME_METADATA_KEY, true);
 
     SaveFrame(frame);
   }
 
   public static void SpawnGroundItem(@NotNull Location location, @NotNull ItemStack item) {
-    HWPlayerGroundSpawnEvent spawnEvent = new HWPlayerGroundSpawnEvent(location, item);
-    Bukkit.getPluginManager().callEvent(spawnEvent);
-
+    HWPlayerGroundSpawnEvent spawnEvent = hwCallEvent(new HWPlayerGroundSpawnEvent(location, item));
     if (spawnEvent.isCancelled()) return;
 
     location = spawnEvent.getLocation();
     item = spawnEvent.getItemStack();
-    World world = location.getWorld();
 
     // Spawn ItemFrame
-    ItemFrame frame = (ItemFrame) world.spawnEntity(location, EntityType.ITEM_FRAME);
+    ItemFrame frame = hwSpawn(location, ItemFrame.class);
     frame.setVisible(false);
     frame.setGravity(false);
     frame.setInvulnerable(true);
@@ -114,8 +109,8 @@ public class GroundCollection {
     GroundItemData data = new GroundItemData(frame, item);
     GROUND_ITEMS.put(frame.getUniqueId(), data);
 
-    frame.setMetadata(ITEM_FRAME_DATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
-    frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
+    hwSetMetadata(frame, ITEM_FRAME_DATA_KEY, true);
+    hwSetMetadata(frame, ITEM_FRAME_METADATA_KEY, true);
 
     SaveFrame(frame);
     // TODO SaveFrameData(data);
@@ -139,10 +134,10 @@ public class GroundCollection {
         UnsetFrame(world, uuid);
         continue;
       }
-      frame.setMetadata(ITEM_FRAME_METADATA_KEY, new FixedMetadataValue(HegeWorldPlugin.GetInstance(), true));
+      hwSetMetadata(frame, ITEM_FRAME_METADATA_KEY, true);
       successfullyLoaded += 1;
     }
-    HWLogger.Log(Component.text("Loaded " + successfullyLoaded + "/" + suids.size() + " ground items."));
+    hwLog("Loaded " + successfullyLoaded + "/" + suids.size() + " ground items.");
   }
 
   public static void SaveFrame(@Nullable ItemFrame frame) {

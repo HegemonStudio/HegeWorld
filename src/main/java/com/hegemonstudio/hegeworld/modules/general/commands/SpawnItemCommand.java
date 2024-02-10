@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hegemonstudio.hegeworld.HegeWorld.*;
+
 public class SpawnItemCommand extends MPlayerCommand {
 
   public SpawnItemCommand() {
@@ -22,23 +24,18 @@ public class SpawnItemCommand extends MPlayerCommand {
     if (argc == 0) {
       error(-1, "za mało argumentów!");
     }
-    Material material = Material.valueOf(args[0].toUpperCase());
     int count = Integer.parseInt(args[1]);
-    sender.getWorld().dropItemNaturally(sender.getLocation(), new ItemStack(material, count)).setCanPlayerPickup(false);
+    ItemStack item = hwGetItem(args[0], count);
+    assert item != null;
+    hwDropItem(sender.getLocation(), item)
+        .setCanPlayerPickup(false);
   }
 
   @Override
-  public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-    if (args.length == 1) {
-      List<String> materials = new ArrayList<>();
-      for (Material material : Material.values()) {
-        materials.add(material.toString().toLowerCase());
-      }
-      return materials;
-    }
-    if (args.length == 2) {
-      return List.of("count");
-    }
+  public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String @NotNull [] args) {
+    if (args.length == 1) return hwGetItemSelectors();
+    if (args.length == 2)
+      return List.of("<count>");
     return null;
   }
 

@@ -7,13 +7,13 @@ import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
 import org.bukkit.NamespacedKey;
 
+import static com.hegemonstudio.hegeworld.HegeWorld.hwRegisterItem;
+
 public final class GunModule extends HWModule {
 
   @Override
   public void onEnable() {
-    NamespacedKey key = HegeWorldPlugin.CreateKey("ak47");
-    AK47Gun.KEY = key;
-    ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, key, new AK47Gun());
+    hwRegisterItem("ak47", new AK47Gun());
   }
 
 }

@@ -10,20 +10,18 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
+import static com.hegemonstudio.hegeworld.HegeWorld.hwCallEvent;
+
 public class PlayerJoinListener implements Listener {
 
   @EventHandler
   public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
     Player player = event.getPlayer();
-    PluginManager pm = Bukkit.getPluginManager();
 
-    HWPlayerJoinEvent joinEvent = new HWPlayerJoinEvent(player);
-    pm.callEvent(joinEvent);
-
+    HWPlayerJoinEvent joinEvent = hwCallEvent(new HWPlayerJoinEvent(player));
     event.joinMessage(joinEvent.getJoinMessage().orElse(null));
 
-    HWPlayerSpawnEvent spawnEvent = new HWPlayerSpawnEvent(player);
-    pm.callEvent(spawnEvent);
+    hwCallEvent(new HWPlayerSpawnEvent(player));
   }
 
 }

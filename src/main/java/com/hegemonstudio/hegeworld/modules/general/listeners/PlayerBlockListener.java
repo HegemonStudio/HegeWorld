@@ -7,6 +7,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.jetbrains.annotations.NotNull;
 
+import static com.hegemonstudio.hegeworld.HegeWorld.hwHasPlayerPermission;
+
 /**
  * HegeWorld API Handling block events
  */
@@ -15,15 +17,13 @@ public class PlayerBlockListener implements Listener {
   @EventHandler
   public void onBlockBreak(@NotNull BlockBreakEvent event) {
     Player player = event.getPlayer();
-    boolean canBreak = player.hasPermission("hegeworld.block.admin");
-    event.setCancelled(!canBreak);
+    event.setCancelled(!hwHasPlayerPermission(player, "hegeworld.block.admin"));
   }
 
   @EventHandler
   public void onBlockPlace(@NotNull BlockPlaceEvent event) {
     Player player = event.getPlayer();
-    boolean canPlace = player.hasPermission("hegeworld.block.admin");
-    event.setBuild(canPlace);
+    event.setBuild(hwHasPlayerPermission(player, "hegeworld.block.admin"));
   }
 
 }

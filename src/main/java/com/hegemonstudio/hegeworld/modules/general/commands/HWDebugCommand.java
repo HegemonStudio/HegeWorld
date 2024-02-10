@@ -3,9 +3,7 @@ package com.hegemonstudio.hegeworld.modules.general.commands;
 import com.hegemonstudio.hegeworld.HegeWorld;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
-import com.hegemonstudio.hegeworld.modules.guns.items.AK47Gun;
 import com.impact.lib.api.command.MPlayerCommand;
-import com.impact.lib.api.registry.ImpactRegistries;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
@@ -15,10 +13,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
+
+import static com.hegemonstudio.hegeworld.HegeWorld.hwGetItem;
+import static com.hegemonstudio.hegeworld.HegeWorld.hwPlayerGiveItem;
 
 public class HWDebugCommand extends MPlayerCommand {
 
@@ -37,7 +40,7 @@ public class HWDebugCommand extends MPlayerCommand {
       return;
     }
     if (args[0].equalsIgnoreCase("shoot")) {
-      HWPlayer.of(player).giveItem(ImpactRegistries.CUSTOM_ITEM.get(AK47Gun.KEY).getItemStack(1));
+      hwPlayerGiveItem(player, Objects.requireNonNull(hwGetItem("hegeworld:ak47")));
       return;
     }
     if (args[0].equalsIgnoreCase("giveitem")) {
@@ -58,22 +61,9 @@ public class HWDebugCommand extends MPlayerCommand {
         if (count <= 0) throw new AssertionError();
       }
 
-      /*
-      try {
-        Material material = Material.valueOf(args[1].toUpperCase());
-        hwplayer.giveItem(new ItemStack(material, count));
-        return;
-      } catch (IllegalArgumentException exception) {
-      }
-
-      CustomItem customItem = ImpactRegistries.CUSTOM_ITEM.get(new NamespacedKey(HegeWorldPlugin.GetInstance(), args[1].toLowerCase()));
-      if (customItem != null) {
-        hwplayer.giveItem(customItem.getItemStack(count));
-        return;
-      }
-       */
-//      error(1, "Unknown item");
-      hwplayer.giveItem(HegeWorld.hwGetItem(args[1], count));
+      ItemStack itemStack = hwGetItem(args[1], count);
+      assert itemStack != null;
+      hwPlayerGiveItem(player, itemStack);
       return;
     }
     if (args[0].equalsIgnoreCase("looking")) {

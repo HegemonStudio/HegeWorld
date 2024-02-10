@@ -14,6 +14,7 @@ public class GunItem extends CustomItem {
 
   @Override
   public Result onUse(@NotNull Player player, @NotNull ItemStack item, boolean isLeftClick) {
+    if (isLeftClick) return Result.DENY;
     GunMechanics.Shoot(player);
     return Result.DENY;
   }

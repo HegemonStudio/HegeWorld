@@ -68,35 +68,27 @@ public class GiveCommand extends UniversalCommand {
 
   @Override
   public @Nullable List<String> onPlayerTabComplete(@NotNull Player player, int i, @NotNull String @NotNull [] args) {
-    if (args.length == 1) {
+    if (args.length == 1)
       return hwGetPlayerSelectors(player);
-    }
-    if (args.length == 2) {
+    if (args.length == 2)
       return hwGetItemSelectors();
-    }
-    if (args.length == 3) {
+    if (args.length == 3)
       return List.of("[<count>]");
-    }
-    if (args.length > 3) {
+    if (args.length > 3)
       return List.of("Incorrect argument");
-    }
     return null;
   }
 
   @Override
   public @Nullable List<String> onConsoleTabComplete(@NotNull ConsoleCommandSender consoleCommandSender, int i, @NotNull String @NotNull [] args) {
-    if (args.length == 1) {
-      return hwGetPlayerSelectors(null);
-    }
-    if (args.length == 2) {
+    if (args.length == 1)
+      return hwGetPlayerSelectors();
+    if (args.length == 2)
       return hwGetItemSelectors();
-    }
-    if (args.length == 3) {
+    if (args.length == 3)
       return List.of("[<count>]");
-    }
-    if (args.length > 3) {
+    if (args.length > 3)
       return List.of("Incorrect argument");
-    }
     return null;
   }
 }
