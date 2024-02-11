@@ -1,6 +1,8 @@
 package com.hegemonstudio.hegeworld.crafting;
 
 import com.hegemonstudio.hegeworld.api.util.ChatUtil;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 /**
  * HegeWorld Recipe
  */
+@Builder(access = AccessLevel.PUBLIC)
 public class HWRecipe {
 
 
