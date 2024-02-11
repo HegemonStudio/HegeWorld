@@ -2,8 +2,6 @@ package com.hegemonstudio.hegeworld.modules.grounditems;
 
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.api.events.HWPlayerCollectItemEvent;
-import com.hegemonstudio.hegeworld.api.events.HWPlayerJoinEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
@@ -13,7 +11,6 @@ import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
 import static com.hegemonstudio.hegeworld.HegeWorld.hwCallEvent;

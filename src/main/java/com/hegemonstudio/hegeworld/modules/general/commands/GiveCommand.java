@@ -1,6 +1,5 @@
 package com.hegemonstudio.hegeworld.modules.general.commands;
 
-import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.impact.lib.api.command.UniversalCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -52,7 +51,7 @@ public class GiveCommand extends UniversalCommand {
       return;
     }
     for (Player toGive : players) {
-      HWPlayer.of(toGive).giveItem(item);
+      hwPlayerGiveItem(toGive, item);
     }
     if (players.size() == 1) {
       player.sendMessage(Component.text("Given ").color(NamedTextColor.GREEN).append(Component.translatable(item.translationKey())).append(Component.text(" to " + players.get(0).getName())));
@@ -62,8 +61,43 @@ public class GiveCommand extends UniversalCommand {
   }
 
   @Override
-  public void onConsoleExecute(@NotNull ConsoleCommandSender consoleCommandSender, int i, @NotNull String[] args) {
+  public void onConsoleExecute(@NotNull ConsoleCommandSender console, int i, @NotNull String[] args) {
+    if (args.length == 0) {
+      error(-1, "Required player selector");
+      return;
+    }
+    if (args.length == 1) {
+      error(0, "Required item");
+      return;
+    }
+    String selector = args[0];
+    List<Player> players = hwGetPlayers(selector);
+    String itemName = args[1];
+    int count = 1;
+    if (args.length > 2) {
+      try {
+        count = Integer.parseInt(args[2]);
+      } catch (Exception ignored) {
+      }
+    }
+    ItemStack item = hwGetItem(itemName, count);
+    if (item == null) {
+      console.sendMessage(Component.text("Unknown item.").color(NamedTextColor.RED));
+      return;
+    }
 
+    if (players.isEmpty()) {
+      console.sendMessage(Component.text("No one received item.").color(NamedTextColor.YELLOW));
+      return;
+    }
+    for (Player toGive : players) {
+      hwPlayerGiveItem(toGive, item);
+    }
+    if (players.size() == 1) {
+      console.sendMessage(Component.text("Given ").color(NamedTextColor.GREEN).append(Component.translatable(item.translationKey())).append(Component.text(" to " + players.get(0).getName())));
+      return;
+    }
+    console.sendMessage(Component.text("Given ").color(NamedTextColor.GREEN).append(Component.translatable(item.translationKey())).append(Component.text(" to " + players.size() + " players")));
   }
 
   @Override

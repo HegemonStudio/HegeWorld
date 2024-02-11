@@ -8,6 +8,7 @@ import com.hegemonstudio.hegeworld.crafting.CraftingSource;
 import com.hegemonstudio.hegeworld.crafting.HWRecipe;
 import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.module.HWModuleManager;
+import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
 import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
@@ -54,9 +55,22 @@ public class HegeWorld {
     Bukkit.broadcast(message);
   }
 
+  public static <T extends Entity> @NotNull List<T> hwGetEntities(@NotNull Class<T> entityClass) {
+    return new ArrayList<>(hwWorld().getEntitiesByClass(entityClass));
+  }
+
+
+  public static @NotNull List<Entity> hwGetEntitiesWildcard(@NotNull Class<? extends Entity> classes) {
+    return new ArrayList<>(hwWorld().getEntitiesByClasses(classes));
+  }
+
+  public static @NotNull List<Entity> hwGetEntities() {
+    return new ArrayList<>(hwWorld().getEntities());
+  }
+
   @Contract("_ -> new")
   public static @NotNull NamespacedKey hwKey(@NotNull String value) {
-    return HegeWorldPlugin.CreateKey(value);
+    return HegeWorldPlugin.CreateKey(value.strip().replace(' ', '_').toLowerCase());
   }
 
   public static @NotNull HWModuleManager hwModules() {
@@ -102,6 +116,10 @@ public class HegeWorld {
 
   public static void hwAddRecipe(@NotNull NamespacedKey key, @NotNull HWRecipe recipe) {
     hwCraftings().addRecipe(key, recipe);
+  }
+
+  public static void hwAddRecipe(@NotNull String key, @NotNull HWRecipe recipe) {
+    hwCraftings().addRecipe(hwKey(key), recipe);
   }
 
   public static @NotNull Collection<HWRecipe> hwGetRecipes() {
@@ -152,7 +170,7 @@ public class HegeWorld {
 
   public static @Nullable ItemStack hwGetItem(@NotNull String itemName, int count) {
     assert count >= 0;
-    itemName = itemName.replace(' ', '_');
+    itemName = itemName.strip().replace(' ', '_').toLowerCase();
     NamespacedKey key = NamespacedKey.fromString(itemName);
     if (key != null) {
       if (!key.getNamespace().equalsIgnoreCase(NamespacedKey.MINECRAFT_NAMESPACE)) {
@@ -281,6 +299,10 @@ public class HegeWorld {
   public static <T extends Metadatable> @NotNull T hwSetMetadata(@NotNull T metadatable, @NotNull String key, @NotNull Object value) {
     metadatable.setMetadata(key, new FixedMetadataValue(hwPlugin(), value));
     return metadatable;
+  }
+
+  public static void hwSpawnGroundItem(@NotNull Location location, @NotNull ItemStack item) {
+    GroundCollection.SpawnGroundItem(location, item);
   }
 
   public static @NotNull List<String> hwGetItemSelectors() {

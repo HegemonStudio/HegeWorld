@@ -1,7 +1,6 @@
 package com.hegemonstudio.hegeworld.modules.general.commands;
 
 import com.impact.lib.api.command.MPlayerCommand;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.hegemonstudio.hegeworld.HegeWorld.*;

@@ -36,8 +36,8 @@ public class GroundItemData {
   }
 
   public void setItemStack(@NotNull ItemStack item) {
-    this.itemStack = item;
-    getItemFrame().setItem(this.itemStack);
+    itemStack = item;
+    getItemFrame().setItem(itemStack);
   }
 
 }

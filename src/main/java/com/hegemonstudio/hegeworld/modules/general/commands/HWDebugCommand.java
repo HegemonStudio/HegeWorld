@@ -1,7 +1,6 @@
 package com.hegemonstudio.hegeworld.modules.general.commands;
 
 import com.hegemonstudio.hegeworld.HegeWorld;
-import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
 import com.impact.lib.api.command.MPlayerCommand;
 import net.kyori.adventure.text.Component;
@@ -44,12 +43,10 @@ public class HWDebugCommand extends MPlayerCommand {
       return;
     }
     if (args[0].equalsIgnoreCase("giveitem")) {
-      HWPlayer hwplayer = HWPlayer.of(player);
       if (argc == 1) {
         error(0, "Required item name");
         return;
       }
-
       int count = 1;
       if (argc >= 3) {
         try {
@@ -58,9 +55,8 @@ public class HWDebugCommand extends MPlayerCommand {
           error(2, "Invalid number");
           return;
         }
-        if (count <= 0) throw new AssertionError();
+        assert count <= 0;
       }
-
       ItemStack itemStack = hwGetItem(args[1], count);
       assert itemStack != null;
       hwPlayerGiveItem(player, itemStack);

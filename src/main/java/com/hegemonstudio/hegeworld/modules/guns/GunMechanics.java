@@ -47,9 +47,6 @@ public class GunMechanics {
     HWEffect.DrawLineParticle(start.clone().subtract(0, 0.6f, 0), hit, Particle.ASH, 0.8f);
 //    HWEffect.DrawLineParticle(start.clone().subtract(0, 0.6f, 0), hit, Particle.ELECTRIC_SPARK, 0.1f);
 
-    Vector velocity = player.getVelocity().clone();
-    player.teleport(new Location(player.getWorld(), player.getX(), player.getY(), player.getZ(), (float) (player.getYaw() + (((Math.random() * 2) - 1) * 2)), player.getPitch() - 1));
-    player.setVelocity(velocity);
   }
 
 }
