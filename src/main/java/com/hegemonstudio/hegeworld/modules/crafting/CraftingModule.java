@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import static com.hegemonstudio.hegeworld.HegeWorld.hwAddRecipe;
+import static com.hegemonstudio.hegeworld.HegeWorld.hwGetItem;
 
 /**
  * HegeWorld module that adds crafting functionality
@@ -26,6 +27,14 @@ public class CraftingModule extends HWModule {
    * Loads all crafting recipes
    */
   private void loadRecipes() {
+    //// INVENTORY
+
+    /// Equipment
+    // TODO spear
+
+    /// Structure
+    // TODO campfire
+
     // Flint Axe
     HWRecipe flintAxe = new HWRecipe();
     flintAxe.setIngredients(new ItemStack(Material.FLINT, 3), new ItemStack(Material.STICK, 2));
@@ -40,7 +49,31 @@ public class CraftingModule extends HWModule {
     stonePickaxe.setResult(new ItemStack(Material.STONE_PICKAXE));
     stonePickaxe.allowCraft(CraftingSource.INVENTORY);
 
-    hwAddRecipe("atone_pickaxe", stonePickaxe);
+    hwAddRecipe("stone_pickaxe", stonePickaxe);
+
+    //// WORKBENCH
+
+    /// Materials
+    // TODO planks
+    // TODO concrete
+
+    /// Equipment
+    // TODO building hammer
+    // TODO bow
+    // TODO iron pickaxe
+    // TODO iron axe
+    // TODO backpack?
+
+    /// Structure
+    // TODO chest
+    // TODO totem of authority
+
+    HWRecipe blastFurnace = new HWRecipe();
+    blastFurnace.setIngredients(hwGetItem("clay", 50), hwGetItem("stone", 10));
+    blastFurnace.setResult(hwGetItem("blast furnace"));
+    blastFurnace.allowCraft(CraftingSource.WORKBENCH);
+
+    hwAddRecipe("blast_furnace", blastFurnace);
   }
 
 }

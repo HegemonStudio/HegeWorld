@@ -106,6 +106,21 @@ public class HegeWorld {
     return event;
   }
 
+
+  public static @NotNull List<String> hwGetRecipeSelectors() {
+    return hwGetRecipes().stream()
+        .map(HWRecipe::getRecipeId)
+        .map(NamespacedKey::toString)
+        .collect(Collectors.toList());
+  }
+
+  public static @NotNull List<String> hwGetRecipeSelectors(@NotNull CraftingSource... sources) {
+    return hwGetRecipes(sources).stream()
+        .map(HWRecipe::getRecipeId)
+        .map(NamespacedKey::toString)
+        .collect(Collectors.toList());
+  }
+
   public static @NotNull String hwOnTick(@NotNull Runnable action) {
     return TaskManager.OnTick(action);
   }

@@ -10,12 +10,14 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.hegemonstudio.hegeworld.HegeWorld.hwGetRecipe;
-import static com.hegemonstudio.hegeworld.HegeWorld.hwGetRecipes;
+import java.util.List;
+
+import static com.hegemonstudio.hegeworld.HegeWorld.*;
 
 
 public class CraftCommand extends MPlayerCommand {
@@ -49,6 +51,7 @@ public class CraftCommand extends MPlayerCommand {
             .color(NamedTextColor.DARK_GRAY)
     );
     for (HWRecipe recipe : hwGetRecipes(CraftingSource.INVENTORY)) {
+      builder.appendNewline();
       createRecipeElement(builder, recipe);
     }
   }
@@ -69,6 +72,13 @@ public class CraftCommand extends MPlayerCommand {
             .clickEvent(ClickEvent.runCommand("/craft " + recipe.getRecipeId()))
             .hoverEvent(HoverEvent.showText(Component.text(recipe.getRecipeId().toString())))
     );
+  }
+
+  @Override
+  public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String @NotNull [] args) {
+    if (args.length == 1)
+      return hwGetRecipeSelectors(CraftingSource.INVENTORY);
+    return List.of("Invalid argument");
   }
 }
 
