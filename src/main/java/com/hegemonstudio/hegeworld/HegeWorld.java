@@ -44,7 +44,7 @@ import static com.impact.lib.api.util.Result.Ok;
  * HegeWorld static method class
  * @since 1.0-SNAPSHOT
  */
-public class HegeWorld {
+public final class HegeWorld {
 
   public static final Object NULL = null;
 

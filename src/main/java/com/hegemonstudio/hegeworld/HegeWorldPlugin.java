@@ -34,15 +34,15 @@ public final class HegeWorldPlugin extends JavaPlugin {
 
   private static HegeWorldPlugin instance;
   private static World mainWorld;
-  private final Logger logger = getSLF4JLogger();
-  private File playersDataFile;
-  private File worldsDataFile;
-  private YamlConfiguration playersData;
-  private YamlConfiguration worldsData;
+  private final transient Logger logger = getSLF4JLogger();
+  private transient File playersDataFile;
+  private transient File worldsDataFile;
+  private transient YamlConfiguration playersData;
+  private transient YamlConfiguration worldsData;
   @Getter
-  private HWModuleManager moduleManager;
+  private transient HWModuleManager moduleManager;
   @Getter
-  private CraftingManager craftingManager;
+  private transient CraftingManager craftingManager;
 
   public static @NotNull HegeWorldPlugin GetInstance() {
     return instance;
