@@ -1,7 +1,7 @@
 package com.hegemonstudio.hegeworld.modules.crafting;
 
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
-import com.hegemonstudio.hegeworld.crafting.HWRecipe;
+import com.hegemonstudio.hegeworld.crafting.HwRecipe;
 import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.modules.crafting.commands.CraftCommand;
 import org.bukkit.Material;
@@ -36,7 +36,7 @@ public class CraftingModule extends HWModule {
     // TODO campfire
 
     // Flint Axe
-    HWRecipe flintAxe = new HWRecipe();
+    HwRecipe flintAxe = new HwRecipe();
     flintAxe.setIngredients(new ItemStack(Material.FLINT, 3), new ItemStack(Material.STICK, 2));
     flintAxe.setResult(new ItemStack(Material.STONE_AXE));
     flintAxe.allowCraft(CraftingSource.INVENTORY);
@@ -44,7 +44,7 @@ public class CraftingModule extends HWModule {
     hwAddRecipe("flint_axe", flintAxe);
 
     // Stone Pickaxe
-    HWRecipe stonePickaxe = new HWRecipe();
+    HwRecipe stonePickaxe = new HwRecipe();
     stonePickaxe.setIngredients(new ItemStack(Material.STONE_BUTTON, 5), new ItemStack(Material.STICK, 2));
     stonePickaxe.setResult(new ItemStack(Material.STONE_PICKAXE));
     stonePickaxe.allowCraft(CraftingSource.INVENTORY);
@@ -68,7 +68,7 @@ public class CraftingModule extends HWModule {
     // TODO chest
     // TODO totem of authority
 
-    HWRecipe blastFurnace = new HWRecipe();
+    HwRecipe blastFurnace = new HwRecipe();
     blastFurnace.setIngredients(hwGetItem("clay", 50), hwGetItem("stone", 10));
     blastFurnace.setResult(hwGetItem("blast furnace"));
     blastFurnace.allowCraft(CraftingSource.WORKBENCH);

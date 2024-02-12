@@ -21,7 +21,7 @@ import static com.hegemonstudio.hegeworld.HegeWorld.hwStr;
  * HegeWorld Recipe
  */
 @Builder(access = AccessLevel.PUBLIC)
-public class HWRecipe {
+public class HwRecipe {
 
 
   private final Set<CraftingSource> craftingSources = new HashSet<>();
@@ -33,14 +33,18 @@ public class HWRecipe {
   @Setter
   private String translatableName;
 
-  public HWRecipe() {
+  public HwRecipe() {
     ingredients = new ArrayList<>();
     result = new ItemStack(Material.AIR);
   }
 
-  public HWRecipe(@NotNull List<ItemStack> ingredients, @NotNull ItemStack result) {
+  public HwRecipe(@NotNull List<ItemStack> ingredients, @NotNull ItemStack result) {
     this.ingredients = ingredients;
     this.result = result;
+  }
+
+  public void addIngredient(@NotNull ItemStack ingredient) {
+    ingredients.add(ingredient);
   }
 
   public @NotNull NamespacedKey getRecipeId() {

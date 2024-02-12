@@ -1,7 +1,7 @@
 package com.hegemonstudio.hegeworld.modules.crafting.commands;
 
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
-import com.hegemonstudio.hegeworld.crafting.HWRecipe;
+import com.hegemonstudio.hegeworld.crafting.HwRecipe;
 import com.impact.lib.api.command.MPlayerCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -41,7 +41,7 @@ public class CraftCommand extends MPlayerCommand {
     }
 
     String recipeId = args[0];
-    HWRecipe recipe = hwGetRecipe(recipeId, CraftingSource.INVENTORY);
+    HwRecipe recipe = hwGetRecipe(recipeId, CraftingSource.INVENTORY);
     craftRecipe(player, recipeId, recipe);
   }
 
@@ -50,13 +50,13 @@ public class CraftCommand extends MPlayerCommand {
         Component.text("Craftings:")
             .color(NamedTextColor.DARK_GRAY)
     );
-    for (HWRecipe recipe : hwGetRecipes(CraftingSource.INVENTORY)) {
+    for (HwRecipe recipe : hwGetRecipes(CraftingSource.INVENTORY)) {
       builder.appendNewline();
       createRecipeElement(builder, recipe);
     }
   }
 
-  private void craftRecipe(@NotNull Player player, @NotNull String recipeId, @Nullable HWRecipe recipe) {
+  private void craftRecipe(@NotNull Player player, @NotNull String recipeId, @Nullable HwRecipe recipe) {
     // TODO crafting
     if (recipe == null) {
       player.sendMessage("CANNOT CRAFT " + recipeId + " | NOT FOUND");
@@ -65,7 +65,7 @@ public class CraftCommand extends MPlayerCommand {
     player.sendMessage("CRAFT " + recipe.getRecipeId());
   }
 
-  private void createRecipeElement(@NotNull TextComponent.Builder builder, @NotNull HWRecipe recipe) {
+  private void createRecipeElement(@NotNull TextComponent.Builder builder, @NotNull HwRecipe recipe) {
     builder.append(
         Component.translatable(recipe.getTranslatableName())
             .color(NamedTextColor.GREEN)

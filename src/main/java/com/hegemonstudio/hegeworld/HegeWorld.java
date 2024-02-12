@@ -5,7 +5,7 @@ import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.api.tasks.TaskManager;
 import com.hegemonstudio.hegeworld.crafting.CraftingManager;
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
-import com.hegemonstudio.hegeworld.crafting.HWRecipe;
+import com.hegemonstudio.hegeworld.crafting.HwRecipe;
 import com.hegemonstudio.hegeworld.module.HWModule;
 import com.hegemonstudio.hegeworld.module.HWModuleManager;
 import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
@@ -172,12 +172,12 @@ public class HegeWorld {
 
   public static @NotNull List<String> hwGetRecipeSelectors() {
     return hwGetRecipes().stream()
-        .map(HWRecipe::getRecipeId)
+        .map(HwRecipe::getRecipeId)
         .map(NamespacedKey::toString)
         .collect(Collectors.toList());
   }
 
-  public static @NotNull Collection<HWRecipe> hwGetRecipes() {
+  public static @NotNull Collection<HwRecipe> hwGetRecipes() {
     return hwCraftingManager().getAll();
   }
 
@@ -187,12 +187,12 @@ public class HegeWorld {
 
   public static @NotNull List<String> hwGetRecipeSelectors(@NotNull CraftingSource... sources) {
     return hwGetRecipes(sources).stream()
-        .map(HWRecipe::getRecipeId)
+        .map(HwRecipe::getRecipeId)
         .map(NamespacedKey::toString)
         .collect(Collectors.toList());
   }
 
-  public static @NotNull Collection<HWRecipe> hwGetRecipes(CraftingSource... sources) {
+  public static @NotNull Collection<HwRecipe> hwGetRecipes(CraftingSource... sources) {
     return hwCraftingManager().getAllBySources(sources);
   }
 
@@ -200,27 +200,27 @@ public class HegeWorld {
     return TaskManager.OnTick(action);
   }
 
-  public static void hwAddRecipe(@NotNull NamespacedKey key, @NotNull HWRecipe recipe) {
+  public static void hwAddRecipe(@NotNull NamespacedKey key, @NotNull HwRecipe recipe) {
     hwCraftingManager().addRecipe(key, recipe);
   }
 
-  public static void hwAddRecipe(@NotNull String key, @NotNull HWRecipe recipe) {
+  public static void hwAddRecipe(@NotNull String key, @NotNull HwRecipe recipe) {
     hwCraftingManager().addRecipe(hwKey(key), recipe);
   }
 
-  public static @Nullable HWRecipe hwGetRecipe(@NotNull NamespacedKey key) {
+  public static @Nullable HwRecipe hwGetRecipe(@NotNull NamespacedKey key) {
     return hwCraftingManager().getRecipe(key).orElse(null);
   }
 
-  public static @Nullable HWRecipe hwGetRecipe(@NotNull String key) {
+  public static @Nullable HwRecipe hwGetRecipe(@NotNull String key) {
     return hwCraftingManager().getRecipe(key).orElse(null);
   }
 
-  public static @Nullable HWRecipe hwGetRecipe(@NotNull NamespacedKey key, @NotNull CraftingSource source) {
+  public static @Nullable HwRecipe hwGetRecipe(@NotNull NamespacedKey key, @NotNull CraftingSource source) {
     return hwCraftingManager().getRecipe(key, source).orElse(null);
   }
 
-  public static @Nullable HWRecipe hwGetRecipe(@NotNull String key, @NotNull CraftingSource source) {
+  public static @Nullable HwRecipe hwGetRecipe(@NotNull String key, @NotNull CraftingSource source) {
     return hwCraftingManager().getRecipe(key, source).orElse(null);
   }
 
