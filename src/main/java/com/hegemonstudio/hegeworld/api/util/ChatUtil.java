@@ -32,6 +32,10 @@ public final class ChatUtil {
     for (int i = 0; i < 100; i++) player.sendMessage(Component.space());
   }
 
+  public static @NotNull String CenterMOTDLine(final String line) {
+    return CenterText(line, 53);
+  }
+
   public static @NotNull String CenterText(@NotNull String text, int lineLength) {
     final StringBuilder builder = new StringBuilder(text);
     final int distance = (lineLength - text.length()) / 2;
@@ -40,10 +44,6 @@ public final class ChatUtil {
       builder.append(' ');
     }
     return builder.toString();
-  }
-
-  public static @NotNull String CenterMOTDLine(final String line) {
-    return CenterText(line, 53);
   }
 
   /**

@@ -144,17 +144,6 @@ public class ItemStackUtil {
     return found;
   }
 
-  public static int getSameItems(@NotNull Player player, ItemStack item) {
-    int found = 0;
-    for (ItemStack is : player.getInventory().getContents()) {
-      if (is == null) continue;
-      if (is.isSimilar(item)) {
-        found += is.getAmount();
-      }
-    }
-    return found;
-  }
-
   public static boolean consumeItem(@NotNull Player player, int count, Material mat) {
     Map<Integer, ? extends ItemStack> ammo = player.getInventory().all(mat);
 
@@ -229,6 +218,17 @@ public class ItemStackUtil {
 //
 //        }
     return count == 0;
+  }
+
+  public static int getSameItems(@NotNull Player player, ItemStack item) {
+    int found = 0;
+    for (ItemStack is : player.getInventory().getContents()) {
+      if (is == null) continue;
+      if (is.isSimilar(item)) {
+        found += is.getAmount();
+      }
+    }
+    return found;
   }
 
   public static boolean getBooleanOfMaterial(@NotNull Player player, Material mat, int count) {

@@ -19,10 +19,6 @@ public final class HWEffect {
     DrawLineDust(start, end, new Particle.DustOptions(Color.LIME, 1), DEFAULT_STEP);
   }
 
-  public static void DrawLineDust(@NotNull Location start, @NotNull Location end, @NotNull Particle.DustOptions options) {
-    DrawLineDust(start, end, options, DEFAULT_STEP);
-  }
-
   public static void DrawLineDust(@NotNull Location start, @NotNull Location end, @NotNull Particle.DustOptions options, double step) {
     assert step > 0;
     World world = start.getWorld();
@@ -36,6 +32,10 @@ public final class HWEffect {
       world.spawnParticle(Particle.REDSTONE, startVec.getX(), startVec.getY(), startVec.getZ(), 1, options);
       covered += step;
     }
+  }
+
+  public static void DrawLineDust(@NotNull Location start, @NotNull Location end, @NotNull Particle.DustOptions options) {
+    DrawLineDust(start, end, options, DEFAULT_STEP);
   }
 
   public static void DrawLineParticle(@NotNull Location start, @NotNull Location end, @NotNull Particle particle) {

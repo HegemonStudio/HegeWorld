@@ -3,7 +3,6 @@ package com.hegemonstudio.hegeworld;
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.api.tasks.TaskManager;
-import com.hegemonstudio.hegeworld.api.util.ChatUtil;
 import com.hegemonstudio.hegeworld.crafting.CraftingManager;
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
 import com.hegemonstudio.hegeworld.crafting.HWRecipe;
@@ -38,7 +37,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.impact.lib.api.util.Result.*;
+import static com.impact.lib.api.util.Result.Err;
+import static com.impact.lib.api.util.Result.Ok;
 
 /**
  * HegeWorld static method class
@@ -52,10 +52,6 @@ public class HegeWorld {
 
   private HegeWorld() {
 
-  }
-
-  public static @NotNull HegeWorldPlugin hwPlugin() {
-    return Objects.requireNonNull(HegeWorldPlugin.GetInstance());
   }
 
   public static void hwBroadcast(@Nullable Component message) {
@@ -110,6 +106,10 @@ public class HegeWorld {
     return new ArrayList<>(hwWorld().getEntitiesByClass(entityClass));
   }
 
+  public static @NotNull World hwWorld() {
+    return HegeWorldPlugin.GetMainWorld();
+  }
+
   public static @NotNull Stream<World> hwWorlds() {
     return Bukkit.getWorlds()
         .stream();
@@ -124,17 +124,12 @@ public class HegeWorld {
     return new ArrayList<>(hwWorld().getEntities());
   }
 
-  @Contract("_ -> new")
-  public static @NotNull NamespacedKey hwKey(@NotNull String value) {
-    return HegeWorldPlugin.CreateKey(value.strip().replace(' ', '_').toLowerCase());
+  public static @NotNull Collection<HWModule> hwModules() {
+    return hwModuleManager().getModules();
   }
 
   public static @NotNull HWModuleManager hwModuleManager() {
     return HegeWorldPlugin.GetModuleManager();
-  }
-
-  public static @NotNull Collection<HWModule> hwModules() {
-    return hwModuleManager().getModules();
   }
 
   public static <T extends HWModule> @Nullable T hwGetModule(@NotNull Class<T> moduleClass) {
@@ -148,9 +143,18 @@ public class HegeWorld {
     Bukkit.getPluginManager().registerEvents(listener, hwPlugin());
   }
 
+  public static @NotNull HegeWorldPlugin hwPlugin() {
+    return Objects.requireNonNull(HegeWorldPlugin.GetInstance());
+  }
+
   public static void hwRegisterItem(@NotNull String key, @NotNull CustomItem item) {
     NamespacedKey namespacedKey = hwKey(key);
     ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, namespacedKey, item);
+  }
+
+  @Contract("_ -> new")
+  public static @NotNull NamespacedKey hwKey(@NotNull String value) {
+    return HegeWorldPlugin.CreateKey(value.strip().replace(' ', '_').toLowerCase());
   }
 
   public static void hwOnTickLater(@NotNull Runnable action) {
@@ -166,12 +170,19 @@ public class HegeWorld {
     return event;
   }
 
-
   public static @NotNull List<String> hwGetRecipeSelectors() {
     return hwGetRecipes().stream()
         .map(HWRecipe::getRecipeId)
         .map(NamespacedKey::toString)
         .collect(Collectors.toList());
+  }
+
+  public static @NotNull Collection<HWRecipe> hwGetRecipes() {
+    return hwCraftingManager().getAll();
+  }
+
+  public static @NotNull CraftingManager hwCraftingManager() {
+    return HegeWorldPlugin.GetCraftingManager();
   }
 
   public static @NotNull List<String> hwGetRecipeSelectors(@NotNull CraftingSource... sources) {
@@ -181,12 +192,12 @@ public class HegeWorld {
         .collect(Collectors.toList());
   }
 
-  public static @NotNull String hwOnTick(@NotNull Runnable action) {
-    return TaskManager.OnTick(action);
+  public static @NotNull Collection<HWRecipe> hwGetRecipes(CraftingSource... sources) {
+    return hwCraftingManager().getAllBySources(sources);
   }
 
-  public static @NotNull CraftingManager hwCraftingManager() {
-    return HegeWorldPlugin.GetCraftingManager();
+  public static @NotNull String hwOnTick(@NotNull Runnable action) {
+    return TaskManager.OnTick(action);
   }
 
   public static void hwAddRecipe(@NotNull NamespacedKey key, @NotNull HWRecipe recipe) {
@@ -195,14 +206,6 @@ public class HegeWorld {
 
   public static void hwAddRecipe(@NotNull String key, @NotNull HWRecipe recipe) {
     hwCraftingManager().addRecipe(hwKey(key), recipe);
-  }
-
-  public static @NotNull Collection<HWRecipe> hwGetRecipes() {
-    return hwCraftingManager().getAll();
-  }
-
-  public static @NotNull Collection<HWRecipe> hwGetRecipes(CraftingSource... sources) {
-    return hwCraftingManager().getAllBySources(sources);
   }
 
   public static @Nullable HWRecipe hwGetRecipe(@NotNull NamespacedKey key) {
@@ -221,10 +224,6 @@ public class HegeWorld {
     return hwCraftingManager().getRecipe(key, source).orElse(null);
   }
 
-  public static @NotNull World hwWorld() {
-    return HegeWorldPlugin.GetMainWorld();
-  }
-
   public static @Nullable Player hwGetPlayer(@NotNull String selector) {
     selector = selector.trim();
 
@@ -233,14 +232,18 @@ public class HegeWorld {
     return Bukkit.getPlayer(selector);
   }
 
-  public static @NotNull List<Player> hwGetPlayersOnline() {
-    return new ArrayList<>(Bukkit.getOnlinePlayers());
-  }
-
   public static @Nullable Player hwGetPlayerRandom() {
     List<Player> players = hwGetPlayersOnline();
     if (players.isEmpty()) return null;
     return players.get((int) Math.floor(Math.random() * players.size()));
+  }
+
+  public static @NotNull List<Player> hwGetPlayersOnline() {
+    return new ArrayList<>(Bukkit.getOnlinePlayers());
+  }
+
+  public static @Nullable ItemStack hwGetItem(@NotNull String itemName) {
+    return hwGetItem(itemName, 1);
   }
 
   public static @Nullable ItemStack hwGetItem(@NotNull String itemName, int count) {
@@ -261,12 +264,54 @@ public class HegeWorld {
     return new ItemStack(material, count);
   }
 
-  public static @Nullable ItemStack hwGetItem(@NotNull String itemName) {
-    return hwGetItem(itemName, 1);
-  }
-
   public static void hwPlayerGiveItem(@NotNull Player player, @NotNull ItemStack item) {
     HWPlayer.of(player).giveItem(item);
+  }
+
+  public static @NotNull List<String> hwGetWorldNames() {
+    return Bukkit.getWorlds()
+        .stream()
+        .map(WorldInfo::getName)
+        .collect(Collectors.toCollection(ArrayList::new));
+  }
+
+  public static @NotNull List<String> hwGetPlayerNames() {
+    return Bukkit.getOnlinePlayers()
+        .stream()
+        .map(Player::getName)
+        .collect(Collectors.toList());
+  }
+
+  public static boolean hwIsWorldExists(@Nullable String name) {
+    return name != null && hwGetWorld(name) != null;
+  }
+
+  public static @Nullable World hwGetWorld(@NotNull String name) {
+    return Bukkit.getWorld(name);
+  }
+
+  public static @Nullable World hwCreateWorld(@NotNull String name) {
+    return WorldCreator
+        .name(name)
+        .environment(World.Environment.NORMAL)
+        .type(WorldType.NORMAL)
+        .createWorld();
+  }
+
+  public static void hwLog(@NotNull Component message) {
+    HWLogger.Log(message);
+  }
+
+  public static void hwLog(@NotNull Object message) {
+    hwLog(String.valueOf(message));
+  }
+
+  public static void hwLog(@NotNull String message) {
+    HWLogger.Log(Component.text(message));
+  }
+
+  public static @NotNull List<Player> hwGetPlayers(@NotNull String selector) {
+    return hwGetPlayers(selector, null);
   }
 
   public static @NotNull List<Player> hwGetPlayers(@NotNull String selector, @Nullable Player context) {
@@ -288,50 +333,8 @@ public class HegeWorld {
     return List.of();
   }
 
-  public static @Nullable World hwGetWorld(@NotNull String name) {
-    return Bukkit.getWorld(name);
-  }
-
-  public static @NotNull List<String> hwGetWorldNames() {
-    return Bukkit.getWorlds()
-        .stream()
-        .map(WorldInfo::getName)
-        .collect(Collectors.toCollection(ArrayList::new));
-  }
-
-  public static @NotNull List<String> hwGetPlayerNames() {
-    return Bukkit.getOnlinePlayers()
-        .stream()
-        .map(Player::getName)
-        .collect(Collectors.toList());
-  }
-
-  public static boolean hwIsWorldExists(@Nullable String name) {
-    return name != null && hwGetWorld(name) != null;
-  }
-
-  public static @Nullable World hwCreateWorld(@NotNull String name) {
-    return WorldCreator
-        .name(name)
-        .environment(World.Environment.NORMAL)
-        .type(WorldType.NORMAL)
-        .createWorld();
-  }
-
-  public static void hwLog(@NotNull Component message) {
-    HWLogger.Log(message);
-  }
-
-  public static void hwLog(@NotNull String message) {
-    HWLogger.Log(Component.text(message));
-  }
-
-  public static void hwLog(@NotNull Object message) {
-    hwLog(String.valueOf(message));
-  }
-
-  public static @NotNull List<Player> hwGetPlayers(@NotNull String selector) {
-    return hwGetPlayers(selector, null);
+  public static @NotNull List<String> hwGetPlayerSelectors() {
+    return hwGetPlayerSelectors(null);
   }
 
   public static @NotNull List<String> hwGetPlayerSelectors(@Nullable Player context) {
@@ -350,16 +353,12 @@ public class HegeWorld {
     return strings;
   }
 
-  public static @NotNull List<String> hwGetPlayerSelectors() {
-    return hwGetPlayerSelectors(null);
+  public static @NotNull Item hwSpawnItem(@NotNull Location location, @NotNull ItemStack item) {
+    return hwDropItem(location, item);
   }
 
   public static @NotNull Item hwDropItem(@NotNull Location location, @NotNull ItemStack item) {
     return location.getWorld().dropItemNaturally(location, item);
-  }
-
-  public static @NotNull Item hwSpawnItem(@NotNull Location location, @NotNull ItemStack item) {
-    return hwDropItem(location, item);
   }
 
   public static <T extends Entity> @NotNull T hwSpawn(@NotNull Location location, @NotNull Class<T> toSpawn) {
@@ -396,6 +395,10 @@ public class HegeWorld {
     return items;
   }
 
+  public static boolean hwBlockDestroy(@Nullable Block block) {
+    return hwBlockDestroy(block, null);
+  }
+
   public static boolean hwBlockDestroy(@Nullable Block block, @Nullable Entity destroyer) {
     if (block == null) return false;
     Material beforeDestroy = block.getType();
@@ -411,10 +414,6 @@ public class HegeWorld {
     }
     block.setType(Material.AIR);
     return beforeDestroy != block.getType();
-  }
-
-  public static boolean hwBlockDestroy(@Nullable Block block) {
-    return hwBlockDestroy(block, null);
   }
 
 }

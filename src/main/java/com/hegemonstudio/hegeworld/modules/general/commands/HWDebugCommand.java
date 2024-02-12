@@ -81,11 +81,6 @@ public class HWDebugCommand extends MPlayerCommand {
     }
   }
 
-  private void debugBlock(@NotNull Player player, @NotNull Block targetBlock) {
-    player.sendMessage(Component.translatable(targetBlock.translationKey()));
-    player.sendMessage(Component.text(targetBlock.getLocation().toString()));
-  }
-
   public void debugEntity(@NotNull Player player, Entity entity) {
     boolean isGroundItem = GroundCollection.IsGroundItem(entity);
     player.sendMessage(Component.text("Is GroundItem = " + isGroundItem));
@@ -94,6 +89,11 @@ public class HWDebugCommand extends MPlayerCommand {
       ItemFrame frame = GroundCollection.GetFrame(entity).get();
       // TODO
     }
+  }
+
+  private void debugBlock(@NotNull Player player, @NotNull Block targetBlock) {
+    player.sendMessage(Component.translatable(targetBlock.translationKey()));
+    player.sendMessage(Component.text(targetBlock.getLocation().toString()));
   }
 
   @Override

@@ -18,12 +18,10 @@ public final class TaskManager {
 
   }
 
-  static void AddTask(@NotNull String uid, HWTask task) {
-    TASKS.put(uid, task);
-  }
-
-  public static void ListenTick(@NotNull String uid, @NotNull HWTask task) {
-    ListenTicks(uid, task, 1L);
+  public static @NotNull String OnTick(@NotNull Runnable onTick) {
+    String uid = UUID.randomUUID().toString();
+    ListenTick(uid, onTick);
+    return uid;
   }
 
   public static void ListenTick(@NotNull String uid, @NotNull Runnable onTick) {
@@ -35,10 +33,8 @@ public final class TaskManager {
     });
   }
 
-  public static @NotNull String OnTick(@NotNull Runnable onTick) {
-    String uid = UUID.randomUUID().toString();
-    ListenTick(uid, onTick);
-    return uid;
+  public static void ListenTick(@NotNull String uid, @NotNull HWTask task) {
+    ListenTicks(uid, task, 1L);
   }
 
   public static void ListenTicks(@NotNull String uid, @NotNull HWTask task, long periodTicks) {
@@ -46,8 +42,8 @@ public final class TaskManager {
     AddTask(uid, task);
   }
 
-  public static Optional<HWTask> GetTask(@Nullable String uid) {
-    return Optional.ofNullable(TASKS.get(uid));
+  static void AddTask(@NotNull String uid, HWTask task) {
+    TASKS.put(uid, task);
   }
 
   public static void CancelTask(@Nullable String uid) {
@@ -55,6 +51,10 @@ public final class TaskManager {
       Bukkit.getScheduler().cancelTask(task.id);
       TASKS.remove(uid);
     });
+  }
+
+  public static Optional<HWTask> GetTask(@Nullable String uid) {
+    return Optional.ofNullable(TASKS.get(uid));
   }
 
 }

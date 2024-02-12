@@ -24,15 +24,21 @@ public class GroundCollection {
 
   private static final Map<UUID, GroundItemData> GROUND_ITEMS = new HashMap<>();
 
+  public static boolean IsGroundItem(@Nullable Entity entity) {
+    if (entity == null) return false;
+    if (!(entity instanceof ItemFrame)) return false;
+    return IsGroundItem((ItemFrame) entity);
+  }
+
   public static boolean IsGroundItem(@Nullable ItemFrame frame) {
     if (frame == null) return false;
     return frame.hasMetadata(ITEM_FRAME_DATA_KEY);
   }
 
-  public static boolean IsGroundItem(@Nullable Entity entity) {
-    if (entity == null) return false;
-    if (!(entity instanceof ItemFrame)) return false;
-    return IsGroundItem((ItemFrame) entity);
+  public static @NotNull Optional<GroundItemData> GetGroundItemData(@Nullable Entity entity) {
+    if (entity == null) return Optional.empty();
+    if (!(entity instanceof ItemFrame)) return Optional.empty();
+    return GetGroundItemData((ItemFrame) entity);
   }
 
   public static @NotNull Optional<GroundItemData> GetGroundItemData(@Nullable ItemFrame frame) {
@@ -40,12 +46,6 @@ public class GroundCollection {
     if (!IsGroundItem(frame)) return Optional.empty();
     UUID uuid = frame.getUniqueId();
     return Optional.ofNullable(GROUND_ITEMS.get(uuid));
-  }
-
-  public static @NotNull Optional<GroundItemData> GetGroundItemData(@Nullable Entity entity) {
-    if (entity == null) return Optional.empty();
-    if (!(entity instanceof ItemFrame)) return Optional.empty();
-    return GetGroundItemData((ItemFrame) entity);
   }
 
   public static Optional<ItemFrame> GetFrame(@Nullable Entity entity) {
@@ -64,6 +64,16 @@ public class GroundCollection {
     frame.remove();
   }
 
+  public static void UnsetFrame(@NotNull World world, @NotNull UUID uuid) {
+    FileConfiguration data = HegeWorldPlugin.GetInstance().getWorldsData();
+    String groundItemsPath = world.getName() + "." + ITEM_FRAME_DATA_KEY;
+    if (!data.isSet(groundItemsPath)) return;
+    List<String> uuids = data.getStringList(groundItemsPath);
+    uuids.remove(uuid.toString());
+    data.set(groundItemsPath, uuids);
+    HegeWorldPlugin.GetInstance().saveWorldsData();
+  }
+
   /**
    * @param location
    * @param item
@@ -80,6 +90,17 @@ public class GroundCollection {
     hwSetMetadata(frame, ITEM_FRAME_METADATA_KEY, true);
 
     SaveFrame(frame);
+  }
+
+  public static void SaveFrame(@Nullable ItemFrame frame) {
+    if (frame == null) return;
+    FileConfiguration data = HegeWorldPlugin.GetInstance().getWorldsData();
+    World world = frame.getWorld();
+    String groundItemsPath = world.getName() + "." + ITEM_FRAME_DATA_KEY;
+    List<String> uuids = data.isSet(groundItemsPath) ? data.getStringList(groundItemsPath) : new ArrayList<>();
+    uuids.add(frame.getUniqueId().toString());
+    data.set(groundItemsPath, uuids);
+    HegeWorldPlugin.GetInstance().saveWorldsData();
   }
 
   public static void SpawnGroundItem(@NotNull Location location, @NotNull ItemStack item) {
@@ -132,27 +153,6 @@ public class GroundCollection {
       successfullyLoaded += 1;
     }
     hwLog("Loaded " + successfullyLoaded + "/" + suids.size() + " ground items.");
-  }
-
-  public static void SaveFrame(@Nullable ItemFrame frame) {
-    if (frame == null) return;
-    FileConfiguration data = HegeWorldPlugin.GetInstance().getWorldsData();
-    World world = frame.getWorld();
-    String groundItemsPath = world.getName() + "." + ITEM_FRAME_DATA_KEY;
-    List<String> uuids = data.isSet(groundItemsPath) ? data.getStringList(groundItemsPath) : new ArrayList<>();
-    uuids.add(frame.getUniqueId().toString());
-    data.set(groundItemsPath, uuids);
-    HegeWorldPlugin.GetInstance().saveWorldsData();
-  }
-
-  public static void UnsetFrame(@NotNull World world, @NotNull UUID uuid) {
-    FileConfiguration data = HegeWorldPlugin.GetInstance().getWorldsData();
-    String groundItemsPath = world.getName() + "." + ITEM_FRAME_DATA_KEY;
-    if (!data.isSet(groundItemsPath)) return;
-    List<String> uuids = data.getStringList(groundItemsPath);
-    uuids.remove(uuid.toString());
-    data.set(groundItemsPath, uuids);
-    HegeWorldPlugin.GetInstance().saveWorldsData();
   }
 
 }

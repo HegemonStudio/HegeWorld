@@ -61,10 +61,6 @@ public class ModuleManager<T extends ModuleBase> implements ModuleManagerBase<T>
     return Optional.ofNullable(modules.get(moduleClass));
   }
 
-  public @Nullable T nullableGet(@NotNull Class<? extends T> moduleClass) {
-    return modules.get(moduleClass);
-  }
-
   @Override
   public @NotNull Optional<T> getModule(@NotNull String classPath) throws ClassNotFoundException {
     Class<?> clazz = Class.forName(classPath);
@@ -100,5 +96,9 @@ public class ModuleManager<T extends ModuleBase> implements ModuleManagerBase<T>
   @Override
   public void disableModule(@NotNull Class<? extends T> moduleClass) {
     setModuleEnable(moduleClass, false);
+  }
+
+  public @Nullable T nullableGet(@NotNull Class<? extends T> moduleClass) {
+    return modules.get(moduleClass);
   }
 }

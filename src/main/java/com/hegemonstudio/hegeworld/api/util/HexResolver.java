@@ -14,6 +14,10 @@ public class HexResolver {
   private static final Pattern GRADIENT_PATTERN = Pattern.compile("<(gradient|g)(:#([a-fA-F0-9]){6})+>");
   private static final Pattern HEX_PATTERN = Pattern.compile("<(#[a-fA-F0-9]{6})>");
 
+  public static @NotNull String parseHexString(String text) {
+    return parseHexString(text, HexResolver.HEX_PATTERN);
+  }
+
   public static @NotNull String parseHexString(String text, @NotNull Pattern hexPattern) {
     Matcher hexColorMatcher = hexPattern.matcher(text);
 
@@ -28,10 +32,6 @@ public class HexResolver {
     }
 
     return ChatColor.translateAlternateColorCodes('&', text);
-  }
-
-  public static @NotNull String parseHexString(String text) {
-    return parseHexString(text, HexResolver.HEX_PATTERN);
   }
 
   private static String parseGradients(String text) {

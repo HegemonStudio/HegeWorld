@@ -22,16 +22,6 @@ public final class CraftingManager {
     recipes.remove(key);
   }
 
-  public @NotNull Optional<HWRecipe> getRecipe(@NotNull NamespacedKey recipeKey) {
-    return Optional.ofNullable(recipes.get(recipeKey));
-  }
-
-  public @NotNull Optional<HWRecipe> getRecipe(@NotNull String recipeKey) {
-    NamespacedKey key = NamespacedKey.fromString(recipeKey);
-    if (key == null) return Optional.empty();
-    return Optional.ofNullable(recipes.get(key));
-  }
-
   public @NotNull Optional<HWRecipe> getRecipe(@NotNull NamespacedKey recipeKey, @NotNull CraftingSource source) {
     Optional<HWRecipe> recipe = getRecipe(recipeKey);
     if (recipe.isEmpty()) return recipe;
@@ -39,11 +29,21 @@ public final class CraftingManager {
     return Optional.empty();
   }
 
+  public @NotNull Optional<HWRecipe> getRecipe(@NotNull NamespacedKey recipeKey) {
+    return Optional.ofNullable(recipes.get(recipeKey));
+  }
+
   public @NotNull Optional<HWRecipe> getRecipe(@NotNull String recipeKey, @NotNull CraftingSource source) {
     Optional<HWRecipe> recipe = getRecipe(recipeKey);
     if (recipe.isEmpty()) return recipe;
     if (recipe.get().canCraft(source)) return recipe;
     return Optional.empty();
+  }
+
+  public @NotNull Optional<HWRecipe> getRecipe(@NotNull String recipeKey) {
+    NamespacedKey key = NamespacedKey.fromString(recipeKey);
+    if (key == null) return Optional.empty();
+    return Optional.ofNullable(recipes.get(key));
   }
 
   public boolean containsRecipe(@NotNull NamespacedKey recipeKey) {
@@ -54,10 +54,6 @@ public final class CraftingManager {
     NamespacedKey key = NamespacedKey.fromString(recipeKey);
     if (key == null) return false;
     return recipes.containsKey(key);
-  }
-
-  public @NotNull Collection<HWRecipe> getAll() {
-    return recipes.values();
   }
 
   public @NotNull Collection<HWRecipe> getAllBySources(CraftingSource... sources) {
@@ -71,6 +67,10 @@ public final class CraftingManager {
       }
     }
     return collection;
+  }
+
+  public @NotNull Collection<HWRecipe> getAll() {
+    return recipes.values();
   }
 
 }

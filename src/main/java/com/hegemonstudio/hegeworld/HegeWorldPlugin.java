@@ -84,6 +84,15 @@ public final class HegeWorldPlugin extends JavaPlugin {
   }
 
   @Override
+  public void onDisable() {
+    long start = System.currentTimeMillis();
+    savePlayersData();
+    saveWorldsData();
+    long end = System.currentTimeMillis() - start;
+    logger.info("Disabled {} in {}ms", getName(), end);
+  }
+
+  @Override
   public void onEnable() {
     long start = System.currentTimeMillis();
     instance = this;
@@ -95,35 +104,6 @@ public final class HegeWorldPlugin extends JavaPlugin {
     afterLoad();
     long end = System.currentTimeMillis() - start;
     HWLogger.Log(Component.text("Enabled " + this + " in " + end + "ms").color(NamedTextColor.GREEN));
-  }
-
-  private void loadModules() {
-    moduleManager.addModule(new GroundCollectionModule());
-    moduleManager.addModule(new BlockHighlightModule());
-    moduleManager.addModule(new BuildingModule());
-    moduleManager.addModule(new RaidModule());
-    moduleManager.addModule(new GunModule());
-
-    moduleManager.addModule(new HegeWorldModule());
-    moduleManager.addModule(new CraftingModule());
-  }
-
-  @Override
-  public void onDisable() {
-    long start = System.currentTimeMillis();
-    savePlayersData();
-    saveWorldsData();
-    long end = System.currentTimeMillis() - start;
-    logger.info("Disabled {} in {}ms", getName(), end);
-  }
-
-  private void afterLoad() {
-    if (Bukkit.getAllowEnd()) {
-      HWLogger.Err(Component.text("PLEASE DISABLE END!"));
-    }
-    if (Bukkit.getAllowNether()) {
-      HWLogger.Err(Component.text("PLEASE DISABLE NETHER!"));
-    }
   }
 
   private void createYAMLFiles() {
@@ -141,6 +121,30 @@ public final class HegeWorldPlugin extends JavaPlugin {
     }
   }
 
+  private void loadModules() {
+    moduleManager.addModule(new GroundCollectionModule());
+    moduleManager.addModule(new BlockHighlightModule());
+    moduleManager.addModule(new BuildingModule());
+    moduleManager.addModule(new RaidModule());
+    moduleManager.addModule(new GunModule());
+
+    moduleManager.addModule(new HegeWorldModule());
+    moduleManager.addModule(new CraftingModule());
+  }
+
+  private void afterLoad() {
+    if (Bukkit.getAllowEnd()) {
+      HWLogger.Err(Component.text("PLEASE DISABLE END!"));
+    }
+    if (Bukkit.getAllowNether()) {
+      HWLogger.Err(Component.text("PLEASE DISABLE NETHER!"));
+    }
+  }
+
+  private @NotNull Pair<File, YamlConfiguration> createYAMLFile(@NotNull String fileName) throws IOException, InvalidConfigurationException {
+    return createYAMLFile(fileName, null);
+  }
+
   private @NotNull Pair<File, YamlConfiguration> createYAMLFile(@NotNull String fileName, @Nullable String defaultResource) throws IOException, InvalidConfigurationException {
     if (!fileName.endsWith(".yml")) fileName = fileName + ".yml";
     File file = new File(getDataFolder(), fileName);
@@ -154,10 +158,6 @@ public final class HegeWorldPlugin extends JavaPlugin {
     YamlConfiguration config = new YamlConfiguration();
     config.load(file);
     return Pair.of(file, config);
-  }
-
-  private @NotNull Pair<File, YamlConfiguration> createYAMLFile(@NotNull String fileName) throws IOException, InvalidConfigurationException {
-    return createYAMLFile(fileName, null);
   }
 
   private boolean saveYAML(@NotNull Pair<File, YamlConfiguration> yamlFile) {

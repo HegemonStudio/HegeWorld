@@ -16,15 +16,15 @@ public class BuildMechanics {
   private BuildMechanics() {
   }
 
-  //<editor-fold> Generated Block
-  public static boolean IsGenerated(@NotNull Block block) {
-    return block.hasMetadata(GENERATED_KEY);
-  }
-
   public static @NotNull Block SelectAsGenerated(@NotNull Block block) {
     if (IsGenerated(block)) return block;
     block.setMetadata(GENERATED_KEY, HegeWorldPlugin.CreateMetadata(true));
     return block;
+  }
+
+  //<editor-fold> Generated Block
+  public static boolean IsGenerated(@NotNull Block block) {
+    return block.hasMetadata(GENERATED_KEY);
   }
 
   public static @NotNull Block DeselectAsGenerated(@NotNull Block block) {

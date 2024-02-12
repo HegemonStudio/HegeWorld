@@ -1,6 +1,5 @@
 package com.hegemonstudio.hegeworld.crafting;
 
-import com.hegemonstudio.hegeworld.api.util.ChatUtil;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -74,11 +73,6 @@ public class HWRecipe {
     return craftingSources.contains(source);
   }
 
-  public boolean isRegistered() {
-    if (recipeId == null) return false;
-    return hwCraftingManager().containsRecipe(recipeId);
-  }
-
   public String getTranslatableName() {
     if (translatableName == null) {
       return result.translationKey();
@@ -98,6 +92,11 @@ public class HWRecipe {
   @Override
   public @NotNull String toString() {
     return MessageFormat.format("{0}'{'{1}'}'", isRegistered() ? "RegisteredHwRecipe" : "HwRecipe", hwStr(result));
+  }
+
+  public boolean isRegistered() {
+    if (recipeId == null) return false;
+    return hwCraftingManager().containsRecipe(recipeId);
   }
 
 }

@@ -29,15 +29,15 @@ public class GroundItemData {
     this.itemStack = item;
   }
 
+  public void setItemStack(@NotNull ItemStack item) {
+    itemStack = item;
+    getItemFrame().setItem(itemStack);
+  }
+
   public ItemFrame getItemFrame() {
     // TODO capture data corruption
     // TODO check frame is valid
     return (ItemFrame) world.getEntity(frameUuid);
-  }
-
-  public void setItemStack(@NotNull ItemStack item) {
-    itemStack = item;
-    getItemFrame().setItem(itemStack);
   }
 
 }

@@ -53,13 +53,13 @@ public class HWPlayer extends WrappedPlayer {
     player.getInventory().addItem(item);
   }
 
-  private @NotNull String makeDataPath(String path) {
-    return "data." + getPlayer().getUniqueId() + "." + path;
-  }
-
   public void setData(String path, Object value) {
     HegeWorldPlugin.GetInstance().getPlayersData().set(makeDataPath(path), value);
     HegeWorldPlugin.GetInstance().savePlayersData();
+  }
+
+  private @NotNull String makeDataPath(String path) {
+    return "data." + getPlayer().getUniqueId() + "." + path;
   }
 
   public boolean isDataSet(String path) {

@@ -23,17 +23,6 @@ public class Gradient {
     this.step = this.stepIndex = 0;
   }
 
-  public static @NotNull Color getGradientInterval(Color start, Color end, float interval) {
-    if (0 > interval || interval > 1)
-      throw new IllegalArgumentException("Interval must be between 0 and 1 inclusively.");
-
-    int r = (int) (end.getRed() * interval + start.getRed() * (1 - interval));
-    int g = (int) (end.getGreen() * interval + start.getGreen() * (1 - interval));
-    int b = (int) (end.getBlue() * interval + start.getBlue() * (1 - interval));
-
-    return new Color(r, g, b);
-  }
-
   public Color next() {
     Color color;
     if (this.stepIndex + 1 < this.colors.size()) {
@@ -50,5 +39,16 @@ public class Gradient {
       this.stepIndex++;
     }
     return color;
+  }
+
+  public static @NotNull Color getGradientInterval(Color start, Color end, float interval) {
+    if (0 > interval || interval > 1)
+      throw new IllegalArgumentException("Interval must be between 0 and 1 inclusively.");
+
+    int r = (int) (end.getRed() * interval + start.getRed() * (1 - interval));
+    int g = (int) (end.getGreen() * interval + start.getGreen() * (1 - interval));
+    int b = (int) (end.getBlue() * interval + start.getBlue() * (1 - interval));
+
+    return new Color(r, g, b);
   }
 }

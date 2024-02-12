@@ -39,15 +39,15 @@ public class Dimensions<T> {
   }
 
   @Override
+  public int hashCode() {
+    return Objects.hash(x, y, z);
+  }
+
+  @Override
   public boolean equals(Object object) {
     if (this == object) return true;
     if (object == null || getClass() != object.getClass()) return false;
     Dimensions<?> that = (Dimensions<?>) object;
     return x == that.x && y == that.y && z == that.z;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(x, y, z);
   }
 }
