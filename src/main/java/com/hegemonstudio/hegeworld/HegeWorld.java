@@ -46,8 +46,6 @@ import static com.impact.lib.api.util.Result.Ok;
  */
 public final class HegeWorld {
 
-  public static final Object NULL = null;
-
   private static List<String> itemSelectors;
   private static int itemSelectorsCustomItemCount;
 
@@ -500,9 +498,17 @@ public final class HegeWorld {
     return location.getWorld().spawn(location, entityType.getEntityClass());
   }
 
-  public static <T extends Metadatable> @NotNull T hwSetMetadata(@NotNull T metadatable, @NotNull String key, @NotNull Object value) {
+  public static <T extends Metadatable> void hwSetMetadata(@NotNull T metadatable, @NotNull String key, @NotNull Object value) {
     metadatable.setMetadata(key, new FixedMetadataValue(hwPlugin(), value));
-    return metadatable;
+  }
+
+  public static <T extends Metadatable> void hwRemoveMetadata(@NotNull T metadatable, @NotNull String key) {
+    metadatable.removeMetadata(key, hwPlugin());
+  }
+
+  public static <M extends Metadatable, T> @Nullable T hwGetMetadata(@NotNull M metadatable, @NotNull String key, @NotNull Class<T> type) {
+    if (!metadatable.hasMetadata(key)) return null;
+    return type.cast(metadatable.getMetadata(key).get(0).value());
   }
 
   public static void hwSpawnGroundItem(@NotNull Location location, @NotNull ItemStack item) {
