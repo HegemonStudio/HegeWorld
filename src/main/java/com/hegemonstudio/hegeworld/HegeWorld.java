@@ -3,6 +3,7 @@ package com.hegemonstudio.hegeworld;
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.HWPlayer;
 import com.hegemonstudio.hegeworld.api.tasks.TaskManager;
+import com.hegemonstudio.hegeworld.api.util.ChatUtil;
 import com.hegemonstudio.hegeworld.crafting.CraftingManager;
 import com.hegemonstudio.hegeworld.crafting.CraftingSource;
 import com.hegemonstudio.hegeworld.crafting.HWRecipe;
@@ -13,6 +14,7 @@ import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -26,11 +28,13 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * HegeWorld static method class
@@ -53,6 +57,35 @@ public class HegeWorld {
   public static void hwBroadcast(@Nullable Component message) {
     if (message == null) return;
     Bukkit.broadcast(message);
+  }
+
+  public static @NotNull String hwStr(@Nullable String str) {
+    if (str == null) return "null";
+    return str;
+  }
+
+  public static @NotNull String hwStr(@Nullable Object object) {
+    return String.valueOf(object);
+  }
+
+  public static @NotNull String hwStr(@Nullable ItemStack item) {
+    if (item == null) return "null";
+    return MessageFormat.format(
+        "{0} {1}x",
+        PlainTextComponentSerializer.plainText().serialize(item.displayName()),
+        item.getAmount()
+    );
+  }
+
+  public static @NotNull Stream<? extends Player> hwPlayers() {
+    return Bukkit.getOnlinePlayers()
+        .stream();
+  }
+
+  public static @NotNull Stream<? extends Player> hwPlayers(@NotNull World world) {
+    return Bukkit.getOnlinePlayers()
+        .stream()
+        .filter((player) -> player.getWorld().equals(world));
   }
 
   public static <T extends Entity> @NotNull List<T> hwGetEntities(@NotNull Class<T> entityClass) {
