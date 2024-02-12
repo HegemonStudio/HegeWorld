@@ -42,6 +42,7 @@ import static com.impact.lib.api.util.Result.Ok;
 
 /**
  * HegeWorld static method class
+ * @since 1.0-SNAPSHOT
  */
 public class HegeWorld {
 
@@ -54,20 +55,69 @@ public class HegeWorld {
 
   }
 
+  /**
+   * Sends message to console and every online player.<br>
+   * If message is null message will not be sent.
+   * @param message The {@link Component} message.
+   * @since 1.0-SNAPSHOT
+   */
   public static void hwBroadcast(@Nullable Component message) {
     if (message == null) return;
     Bukkit.broadcast(message);
   }
 
+  /**
+   * Sends message to console and every online player.<br>
+   * If message is null message will not be sent.
+   * @param message The string message.
+   * @since 1.0-SNAPSHOT
+   */
+  public static void hwBroadcast(@Nullable String message) {
+    if (message == null) return;
+    hwBroadcast(Component.text(message));
+  }
+
+  /**
+   * Sends stringed message of object to console and every online player.<br>
+   * If message object is null message will not be sent.
+   * @param message The object message.
+   * @since 1.0-SNAPSHOT
+   */
+  public static void hwBroadcast(@Nullable Object message) {
+    if (message == null) return;
+    hwBroadcast(hwStr(message));
+  }
+
+  /**
+   * Stringifies object and returns the string.<br>
+   * If given object is null returns "null"
+   * @param str The object to stringify.
+   * @return The stringed object.
+   * @since 1.0-SNAPSHOT
+   */
   public static @NotNull String hwStr(@Nullable String str) {
     if (str == null) return "null";
     return str;
   }
 
+  /**
+   * Stringifies {@link Object} and returns the string.<br>
+   * If given object is null returns "null"
+   * @param object The {@link Object} to stringify.
+   * @return The stringed {@link Object}.
+   * @since 1.0-SNAPSHOT
+   */
   public static @NotNull String hwStr(@Nullable Object object) {
     return String.valueOf(object);
   }
 
+  /**
+   * Stringifies {@link ItemStack} in format <i>(NAME AMOUNT)</i> and returns the string.<br>
+   * If given object is null returns "null"
+   * @param item The item stack to stringify.
+   * @return The stringed item stack.
+   * @since 1.0-SNAPSHOT
+   */
   public static @NotNull String hwStr(@Nullable ItemStack item) {
     if (item == null) return "null";
     return MessageFormat.format(
@@ -77,11 +127,24 @@ public class HegeWorld {
     );
   }
 
+  /**
+   * Stringifies {@link Material} and returns the string.<br>
+   * If given material is null returns "null".
+   * @param material The {@link Material} to stringify.
+   * @return The stringed {@link Material}.
+   * @since 1.0-SNAPSHOT
+   */
   public static @NotNull String hwStr(@Nullable Material material) {
     if (material == null) return "null";
     return WordUtils.capitalizeFully(material.toString().replace('_', ' ').toLowerCase());
   }
 
+  /**
+   * Parses given string to int and returns {@link Result}.
+   * @param value The string of number.
+   * @return The result of integer or {@link NumberFormatException}
+   * @since 1.0-SNAPSHOT
+   */
   public static Result<Integer, NumberFormatException> hwInt(@Nullable String value) {
     if (value == null) return Err(new NumberFormatException());
     try {
@@ -91,30 +154,58 @@ public class HegeWorld {
     }
   }
 
+  /**
+   * Gets the online {@link Player} stream.
+   * @return The online {@link Player} stream.
+   * @since 1.0-SNAPSHOT
+   */
   public static @NotNull Stream<? extends Player> hwPlayers() {
     return Bukkit.getOnlinePlayers()
         .stream();
   }
 
+  /**
+   * Gets the online {@link Player} stream filtered by given {@link World}.
+   * @param world The given {@link World}.
+   * @return The filtered online {@link Player} stream.
+   * @since 1.0-SNAPSHOT
+   */
   public static @NotNull Stream<? extends Player> hwPlayers(@NotNull World world) {
     return Bukkit.getOnlinePlayers()
         .stream()
         .filter((player) -> player.getWorld().equals(world));
   }
 
+  /**
+   * Gets list of {@link Entity} by given entity class in HegeWorld main world.<br>
+   * The HegeWorld main world you can access by {@link #hwWorld()}
+   * @param entityClass The given {@link Entity} class.
+   * @return The list of all entities in HegeWorld filtered by class.
+   * @param <T> The {@link Entity} type.
+   * @since 1.0-SNAPSHOT
+   */
   public static <T extends Entity> @NotNull List<T> hwGetEntities(@NotNull Class<T> entityClass) {
     return new ArrayList<>(hwWorld().getEntitiesByClass(entityClass));
   }
 
+  /**
+   * Gets the HegeWorld main {@link World}.
+   * @return The main world.
+   * @since 1.0-SNAPSHOT
+   */
   public static @NotNull World hwWorld() {
     return HegeWorldPlugin.GetMainWorld();
   }
 
+  /**
+   * Gets the stream of all {@link World}s.
+   * @return The stream of all {@link World}s.
+   * @since 1.0-SNAPSHOT
+   */
   public static @NotNull Stream<World> hwWorlds() {
     return Bukkit.getWorlds()
         .stream();
   }
-
 
   public static @NotNull List<Entity> hwGetEntitiesWildcard(@NotNull Class<? extends Entity> classes) {
     return new ArrayList<>(hwWorld().getEntitiesByClasses(classes));
@@ -152,19 +243,39 @@ public class HegeWorld {
     ImpactRegistry.register(ImpactRegistries.CUSTOM_ITEM, namespacedKey, item);
   }
 
+  /**
+   * Creates {@link NamespacedKey} with namespace of {@link HegeWorldPlugin} and given value.<br>
+   * Method takes care of spaces and character case.
+   * @param value The given value.
+   * @return The created {@link NamespacedKey}.
+   * @since 1.0-SNAPSHOT
+   */
   @Contract("_ -> new")
   public static @NotNull NamespacedKey hwKey(@NotNull String value) {
     return HegeWorldPlugin.CreateKey(value.strip().replace(' ', '_').toLowerCase());
   }
 
+  /**
+   * Runs runnable action after 1 tick.<br>
+   * 20 ticks = 1s
+   * @param action The runnable action to run.
+   * @since 1.0-SNAPSHOT
+   */
   public static void hwOnTickLater(@NotNull Runnable action) {
-    Bukkit.getScheduler().runTaskLater(hwPlugin(), action, 1L);
+    Bukkit.getScheduler().runTask(hwPlugin(), action);
   }
 
   public static boolean hwHasPlayerPermission(@Nullable Player player, @NotNull String permission) {
     return player != null && player.hasPermission(permission);
   }
 
+  /**
+   * Calls a given {@link Event} and returns after call.
+   * @param event The {@link Event} to call.
+   * @return The called {@link Event}.
+   * @param <T> The object instanceof {@link Event}.
+   * @since 1.0-SNAPSHOT
+   */
   public static <T extends Event> @NotNull T hwCallEvent(@NotNull T event) {
     Bukkit.getPluginManager().callEvent(event);
     return event;
@@ -225,7 +336,7 @@ public class HegeWorld {
   }
 
   public static @Nullable Player hwGetPlayer(@NotNull String selector) {
-    selector = selector.trim();
+    selector = selector.strip();
 
     if (selector.equalsIgnoreCase("@r")) return hwGetPlayerRandom();
 
@@ -242,26 +353,45 @@ public class HegeWorld {
     return new ArrayList<>(Bukkit.getOnlinePlayers());
   }
 
+  /**
+   * Creates {@link ItemStack} with given item name.<br>
+   * Returns null if item is not found.<br>
+   * The name can contain namespace. The default namespace is <code>minecraft:</code><br>
+   * Example: {@code "stone", "minecraft:dirt", "hegeworld:ak47", "diamond sword"}
+   * @param itemName The given item name.
+   * @return New item stack with amount equals 1.
+   * @since 1.0-SNAPSHOT
+   */
   public static @Nullable ItemStack hwGetItem(@NotNull String itemName) {
     return hwGetItem(itemName, 1);
   }
 
-  public static @Nullable ItemStack hwGetItem(@NotNull String itemName, int count) {
-    assert count >= 0;
+  /**
+   * Creates {@link ItemStack} with given item name and amount.<br>
+   * Returns null if item is not found.<br>
+   * The name can contain namespace. The default namespace is <code>minecraft:</code><br>
+   * Example: {@code "stone", "minecraft:dirt", "hegeworld:ak47", "diamond sword"}
+   * @param itemName The given item name.
+   * @param amount The item amount.
+   * @return New item stack with given amount.
+   * @since 1.0-SNAPSHOT
+   */
+  public static @Nullable ItemStack hwGetItem(@NotNull String itemName, int amount) {
+    assert amount >= 0;
     itemName = itemName.strip().replace(' ', '_').toLowerCase();
     NamespacedKey key = NamespacedKey.fromString(itemName);
     if (key != null) {
       if (!key.getNamespace().equalsIgnoreCase(NamespacedKey.MINECRAFT_NAMESPACE)) {
         CustomItem item = ImpactRegistries.CUSTOM_ITEM.get(key);
         if (item == null) return null;
-        return item.getItemStack(count);
+        return item.getItemStack(amount);
       }
       itemName = itemName.replaceFirst(NamespacedKey.MINECRAFT_NAMESPACE + ":", "");
     }
     itemName = itemName.toUpperCase();
     Material material = Material.getMaterial(itemName);
     if (material == null) return null;
-    return new ItemStack(material, count);
+    return new ItemStack(material, amount);
   }
 
   public static void hwPlayerGiveItem(@NotNull Player player, @NotNull ItemStack item) {

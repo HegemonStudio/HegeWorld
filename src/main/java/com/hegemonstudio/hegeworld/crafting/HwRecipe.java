@@ -23,7 +23,6 @@ import static com.hegemonstudio.hegeworld.HegeWorld.hwStr;
 @Builder(access = AccessLevel.PUBLIC)
 public class HwRecipe {
 
-
   private final Set<CraftingSource> craftingSources = new HashSet<>();
   private transient NamespacedKey recipeId;
   @Getter
