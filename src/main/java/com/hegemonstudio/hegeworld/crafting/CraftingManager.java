@@ -46,6 +46,16 @@ public final class CraftingManager {
     return Optional.empty();
   }
 
+  public boolean containsRecipe(@NotNull NamespacedKey recipeKey) {
+    return recipes.containsKey(recipeKey);
+  }
+
+  public boolean containsRecipe(@NotNull String recipeKey) {
+    NamespacedKey key = NamespacedKey.fromString(recipeKey);
+    if (key == null) return false;
+    return recipes.containsKey(key);
+  }
+
   public @NotNull Collection<HWRecipe> getAll() {
     return recipes.values();
   }

@@ -13,8 +13,10 @@ import com.hegemonstudio.hegeworld.modules.grounditems.GroundCollection;
 import com.impact.lib.api.item.CustomItem;
 import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
+import com.impact.lib.api.util.Result;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -35,6 +37,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.impact.lib.api.util.Result.*;
 
 /**
  * HegeWorld static method class
@@ -77,6 +81,20 @@ public class HegeWorld {
     );
   }
 
+  public static @NotNull String hwStr(@Nullable Material material) {
+    if (material == null) return "null";
+    return WordUtils.capitalizeFully(material.toString().replace('_', ' ').toLowerCase());
+  }
+
+  public static Result<Integer, NumberFormatException> hwInt(@Nullable String value) {
+    if (value == null) return Err(new NumberFormatException());
+    try {
+      return Ok(Integer.parseInt(value));
+    } catch (NumberFormatException exception) {
+      return Err(exception);
+    }
+  }
+
   public static @NotNull Stream<? extends Player> hwPlayers() {
     return Bukkit.getOnlinePlayers()
         .stream();
@@ -90,6 +108,11 @@ public class HegeWorld {
 
   public static <T extends Entity> @NotNull List<T> hwGetEntities(@NotNull Class<T> entityClass) {
     return new ArrayList<>(hwWorld().getEntitiesByClass(entityClass));
+  }
+
+  public static @NotNull Stream<World> hwWorlds() {
+    return Bukkit.getWorlds()
+        .stream();
   }
 
 
@@ -106,12 +129,16 @@ public class HegeWorld {
     return HegeWorldPlugin.CreateKey(value.strip().replace(' ', '_').toLowerCase());
   }
 
-  public static @NotNull HWModuleManager hwModules() {
+  public static @NotNull HWModuleManager hwModuleManager() {
     return HegeWorldPlugin.GetModuleManager();
   }
 
+  public static @NotNull Collection<HWModule> hwModules() {
+    return hwModuleManager().getModules();
+  }
+
   public static <T extends HWModule> @Nullable T hwGetModule(@NotNull Class<T> moduleClass) {
-    HWModule module = hwModules().getModule(moduleClass).orElse(null);
+    HWModule module = hwModuleManager().getModule(moduleClass).orElse(null);
     if (module == null) return null;
     return moduleClass.cast(module);
   }
@@ -158,40 +185,40 @@ public class HegeWorld {
     return TaskManager.OnTick(action);
   }
 
-  public static @NotNull CraftingManager hwCraftings() {
+  public static @NotNull CraftingManager hwCraftingManager() {
     return HegeWorldPlugin.GetCraftingManager();
   }
 
   public static void hwAddRecipe(@NotNull NamespacedKey key, @NotNull HWRecipe recipe) {
-    hwCraftings().addRecipe(key, recipe);
+    hwCraftingManager().addRecipe(key, recipe);
   }
 
   public static void hwAddRecipe(@NotNull String key, @NotNull HWRecipe recipe) {
-    hwCraftings().addRecipe(hwKey(key), recipe);
+    hwCraftingManager().addRecipe(hwKey(key), recipe);
   }
 
   public static @NotNull Collection<HWRecipe> hwGetRecipes() {
-    return hwCraftings().getAll();
+    return hwCraftingManager().getAll();
   }
 
   public static @NotNull Collection<HWRecipe> hwGetRecipes(CraftingSource... sources) {
-    return hwCraftings().getAllBySources(sources);
+    return hwCraftingManager().getAllBySources(sources);
   }
 
   public static @Nullable HWRecipe hwGetRecipe(@NotNull NamespacedKey key) {
-    return hwCraftings().getRecipe(key).orElse(null);
+    return hwCraftingManager().getRecipe(key).orElse(null);
   }
 
   public static @Nullable HWRecipe hwGetRecipe(@NotNull String key) {
-    return hwCraftings().getRecipe(key).orElse(null);
+    return hwCraftingManager().getRecipe(key).orElse(null);
   }
 
   public static @Nullable HWRecipe hwGetRecipe(@NotNull NamespacedKey key, @NotNull CraftingSource source) {
-    return hwCraftings().getRecipe(key, source).orElse(null);
+    return hwCraftingManager().getRecipe(key, source).orElse(null);
   }
 
   public static @Nullable HWRecipe hwGetRecipe(@NotNull String key, @NotNull CraftingSource source) {
-    return hwCraftings().getRecipe(key, source).orElse(null);
+    return hwCraftingManager().getRecipe(key, source).orElse(null);
   }
 
   public static @NotNull World hwWorld() {

@@ -11,8 +11,12 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.hegemonstudio.hegeworld.HegeWorld.hwCraftingManager;
+import static com.hegemonstudio.hegeworld.HegeWorld.hwStr;
 
 /**
  * HegeWorld Recipe
@@ -70,6 +74,11 @@ public class HWRecipe {
     return craftingSources.contains(source);
   }
 
+  public boolean isRegistered() {
+    if (recipeId == null) return false;
+    return hwCraftingManager().containsRecipe(recipeId);
+  }
+
   public String getTranslatableName() {
     if (translatableName == null) {
       return result.translationKey();
@@ -88,7 +97,7 @@ public class HWRecipe {
 
   @Override
   public @NotNull String toString() {
-    return "HWRecipe{" + ChatUtil.Format(result.getType()) + "}";
+    return MessageFormat.format("{0}'{'{1}'}'", isRegistered() ? "RegisteredHwRecipe" : "HwRecipe", hwStr(result));
   }
 
 }
