@@ -121,7 +121,7 @@ public final class HegeWorld {
     if (item == null) return "null";
     return MessageFormat.format(
         "{0} {1}x",
-        PlainTextComponentSerializer.plainText().serialize(Objects.requireNonNull(item.getItemMeta().displayName())),
+        PlainTextComponentSerializer.plainText().serialize(item.displayName()).replace("[", "").replace("]", ""),
         item.getAmount()
     );
   }
