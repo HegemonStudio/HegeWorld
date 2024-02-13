@@ -39,7 +39,7 @@ public class GiveCommand extends UniversalCommand {
       } catch (Exception ignored) {
       }
     }
-    ItemStack item = hwGetItem(itemName, count);
+    ItemStack item = hwItem(itemName, count);
     if (item == null) {
       player.sendMessage(Component.text("Unknown item.").color(NamedTextColor.RED));
       player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
@@ -80,7 +80,7 @@ public class GiveCommand extends UniversalCommand {
       } catch (Exception ignored) {
       }
     }
-    ItemStack item = hwGetItem(itemName, count);
+    ItemStack item = hwItem(itemName, count);
     if (item == null) {
       console.sendMessage(Component.text("Unknown item.").color(NamedTextColor.RED));
       return;

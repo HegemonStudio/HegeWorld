@@ -20,7 +20,6 @@ import static com.hegemonstudio.hegeworld.HegeWorld.hwStr;
 /**
  * HegeWorld Recipe
  */
-@Builder(access = AccessLevel.PUBLIC)
 public class HwRecipe {
 
   private final Set<CraftingSource> craftingSources = new HashSet<>();

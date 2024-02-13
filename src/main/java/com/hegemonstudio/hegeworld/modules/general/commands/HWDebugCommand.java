@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import static com.hegemonstudio.hegeworld.HegeWorld.hwGetItem;
+import static com.hegemonstudio.hegeworld.HegeWorld.hwItem;
 import static com.hegemonstudio.hegeworld.HegeWorld.hwPlayerGiveItem;
 
 public class HWDebugCommand extends MPlayerCommand {
@@ -39,7 +39,7 @@ public class HWDebugCommand extends MPlayerCommand {
       return;
     }
     if (args[0].equalsIgnoreCase("shoot")) {
-      hwPlayerGiveItem(player, Objects.requireNonNull(hwGetItem("hegeworld:ak47")));
+      hwPlayerGiveItem(player, Objects.requireNonNull(HegeWorld.hwItem("hegeworld:ak47")));
       return;
     }
     if (args[0].equalsIgnoreCase("giveitem")) {
@@ -57,7 +57,7 @@ public class HWDebugCommand extends MPlayerCommand {
         }
         assert count <= 0;
       }
-      ItemStack itemStack = hwGetItem(args[1], count);
+      ItemStack itemStack = HegeWorld.hwItem(args[1], count);
       assert itemStack != null;
       hwPlayerGiveItem(player, itemStack);
       return;

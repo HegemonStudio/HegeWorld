@@ -28,6 +28,7 @@ import org.bukkit.metadata.Metadatable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public final class HegeWorld {
   private static int itemSelectorsCustomItemCount;
 
   private HegeWorld() {
-
+    
   }
 
   /**
@@ -120,7 +121,7 @@ public final class HegeWorld {
     if (item == null) return "null";
     return MessageFormat.format(
         "{0} {1}x",
-        PlainTextComponentSerializer.plainText().serialize(item.displayName()),
+        PlainTextComponentSerializer.plainText().serialize(Objects.requireNonNull(item.getItemMeta().displayName())),
         item.getAmount()
     );
   }
@@ -135,6 +136,11 @@ public final class HegeWorld {
   public static @NotNull String hwStr(@Nullable Material material) {
     if (material == null) return "null";
     return WordUtils.capitalizeFully(material.toString().replace('_', ' ').toLowerCase());
+  }
+
+  public static @NotNull String hwStr(@Nullable Location location) {
+    if (location == null) return "null";
+    return location.getWorld().getName() + " " + location.getX() + " " + location.getY() + " " + location.getZ();
   }
 
   /**
@@ -360,8 +366,8 @@ public final class HegeWorld {
    * @return New item stack with amount equals 1.
    * @since 1.0-SNAPSHOT
    */
-  public static @Nullable ItemStack hwGetItem(@NotNull String itemName) {
-    return hwGetItem(itemName, 1);
+  public static @Nullable ItemStack hwItem(@NotNull String itemName) {
+    return hwItem(itemName, 1);
   }
 
   /**
@@ -374,7 +380,7 @@ public final class HegeWorld {
    * @return New item stack with given amount.
    * @since 1.0-SNAPSHOT
    */
-  public static @Nullable ItemStack hwGetItem(@NotNull String itemName, int amount) {
+  public static @Nullable ItemStack hwItem(@NotNull String itemName, int amount) {
     assert amount >= 0;
     itemName = itemName.strip().replace(' ', '_').toLowerCase();
     NamespacedKey key = NamespacedKey.fromString(itemName);
@@ -390,6 +396,14 @@ public final class HegeWorld {
     Material material = Material.getMaterial(itemName);
     if (material == null) return null;
     return new ItemStack(material, amount);
+  }
+
+  public static @NotNull ItemStack hwItem(@NotNull Material material, int amount) {
+    return new ItemStack(material, amount);
+  }
+
+  public static @NotNull ItemStack hwItem(@NotNull Material material) {
+    return hwItem(material, 1);
   }
 
   public static void hwPlayerGiveItem(@NotNull Player player, @NotNull ItemStack item) {
@@ -550,6 +564,61 @@ public final class HegeWorld {
     }
     block.setType(Material.AIR);
     return beforeDestroy != block.getType();
+  }
+
+  public static boolean hwBlockSet(@Nullable Block block, @NotNull Material material) {
+    if (block == null) return false;
+    block.setType(material);
+    return true;
+  }
+
+  public static boolean hwIsBlockExists(@Nullable Block block) {
+    if (block == null) return false;
+    return !block.getType().equals(Material.AIR);
+  }
+
+  public static boolean hwIsBlockExists(@Nullable Location location) {
+    if (location == null) return false;
+    return hwIsBlockExists(location.getBlock());
+  }
+
+  /**
+   * Creates {@link Location} with given coordinates and HegeWorld main world.<br>
+   * The  main world you can assess by {@link HegeWorld#hwWorld()}
+   * @param x The X-Coordinate
+   * @param y The Y-Coordinate
+   * @param z The Z-Coordinate
+   * @return The created location.
+   */
+  public static @NotNull Location hwLoc(double x, double y, double z) {
+    return new Location(hwWorld(), x, y, z);
+  }
+
+  public static @NotNull Location hwOffset(@NotNull Location location, double x, double y, double z) {
+    return location.clone().add(x, y, z);
+  }
+
+  public static @NotNull Block hwGetBlock(@NotNull Location location) {
+    return location.getBlock();
+  }
+
+  public static @NotNull Block hwGetBlock(int x, int y, int z) {
+    return hwLoc(x, y, z).getBlock();
+  }
+
+  public static @NotNull Block hwGetBlock(@NotNull Location location, int relativeX, int relativeY, int relativeZ) {
+    return hwGetBlock(hwOffset(location, relativeX, relativeY, relativeZ));
+  }
+
+  public static @NotNull Block hwGetBlock(@NotNull Block block, int relativeX, int relativeY, int relativeZ) {
+    return hwGetBlock(block.getLocation(), relativeX, relativeY, relativeZ);
+  }
+
+  @Contract("_ -> new")
+  public static @NotNull @Unmodifiable Stream<Block> hwGetBlockNeighbours(@NotNull Block block) {
+    return Stream.of(hwGetBlock(block, 0, 1, 0), hwGetBlock(block, 0, -1, 0),
+        hwGetBlock(block, 1, 0, 0), hwGetBlock(block, -1, 0, 0),
+        hwGetBlock(block, 0, 0, 1), hwGetBlock(block, 0, 0, -1));
   }
 
 }

@@ -23,7 +23,7 @@ public class SpawnItemCommand extends MPlayerCommand {
       error(-1, "za mało argumentów!");
     }
     int count = Integer.parseInt(args[1]);
-    ItemStack item = hwGetItem(args[0], count);
+    ItemStack item = hwItem(args[0], count);
     assert item != null;
     hwDropItem(sender.getLocation(), item)
         .setCanPlayerPickup(false);
