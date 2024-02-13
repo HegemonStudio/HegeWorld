@@ -14,7 +14,6 @@ Obtained from ground pebbles, destroying rocks and ores.
 ### Amber
 Obtained randomly by chopping wood or mining ores.
 
-### Coal
 ### Clay
 ### Limestone
 ### Leather
