@@ -89,7 +89,7 @@ public class CraftingModule extends HWModule {
 
     // WorkBench
     HwRecipe workBench = new HwRecipe();
-    workBench.setIngredients(hwItem("oak planks", 20));
+    workBench.setIngredients(hwItem("oak log", 20));
     workBench.setResult((hwItem("crafting table")));
     workBench.allowCraft(CraftingSource.HANDCRAFTING);
 
@@ -98,7 +98,7 @@ public class CraftingModule extends HWModule {
 
     //Campfire
     HwRecipe campfire = new HwRecipe();
-    campfire.setIngredients(hwItem("oak planks", 4), hwItem("coal", 2));
+    campfire.setIngredients(hwItem("oak log", 4), hwItem("coal", 2));
     campfire.setResult(hwItem("campfire"));
     campfire.allowCraft(CraftingSource.HANDCRAFTING);
 
@@ -107,7 +107,7 @@ public class CraftingModule extends HWModule {
 
     //Chest
     HwRecipe chest = new HwRecipe();
-    chest.setIngredients(hwItem("oak planks", 8));
+    chest.setIngredients(hwItem("oak log", 8));
     chest.setResult(hwItem("chest"));
     chest.allowCraft(CraftingSource.WORKBENCH);
 
