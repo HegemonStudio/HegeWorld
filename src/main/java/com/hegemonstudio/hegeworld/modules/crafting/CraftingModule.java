@@ -115,7 +115,6 @@ public class CraftingModule extends HWModule {
 
     /// Equipment
     // TODO building hammer -> building tool
-    // TODO iron pickaxe
     // TODO backpack?
 
     /// Structure

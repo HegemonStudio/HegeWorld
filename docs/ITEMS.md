@@ -25,7 +25,7 @@ Obtained randomly by chopping wood or mining ores.
 Obtained from Coal Ore.
 
 ### Iron
-Obtained from destroying iron ore.
+Obtained from Iron ore.
 
 ### Titanium
 Obtained from Titanium Ore.
