@@ -10,6 +10,8 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.md_5.bungee.api.chat.hover.content.Item;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -55,17 +57,36 @@ public class CraftCommand extends MPlayerCommand {
     );
     for (HwRecipe recipe : hwGetRecipes(CraftingSource.HANDCRAFTING)) {
       builder.appendNewline();
+      builder.appendSpace();
       createRecipeElement(builder, recipe);
     }
+    builder.appendNewline();
   }
 
   private void craftRecipe(@NotNull Player player, @NotNull String recipeId, @Nullable HwRecipe recipe) {
-    // TODO crafting
     if (recipe == null) {
-      player.sendMessage("CANNOT CRAFT " + recipeId + " | NOT FOUND");
+      player.sendMessage(Component.text("Crafting not found.").color(NamedTextColor.RED));
+      player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f,1.0f);
       return;
     }
-    player.sendMessage("CRAFT " + recipe.getRecipeId());
+
+    if (!canCraft(player, recipe)) {
+      player.sendMessage(Component.text("You don't have enough items to craft.").color(NamedTextColor.RED));
+      player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f,1.0f);
+      return;
+    }
+
+    for (ItemStack item : recipe.getIngredients()) {
+      ItemStackUtil.consumeItem(player, item.getAmount(), item);
+    }
+    hwPlayerGiveItem(player, recipe.getResult());
+
+    player.sendMessage(Component.text("\uD83D\uDD28 Crafted ")
+        .append(Component.translatable(recipe.getTranslatableName()))
+        .color(TextColor.fromCSSHexString("#0bff00"))
+        .decoration(TextDecoration.UNDERLINED, true)
+    );
+    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1);
   }
 
   private void createRecipeElement(@NotNull TextComponent.Builder builder, @NotNull HwRecipe recipe) {
