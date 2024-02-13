@@ -105,6 +105,15 @@ public class CraftingModule extends HWModule {
     hwAddRecipe("campfire", campfire);
 
 
+    //Chest
+    HwRecipe chest = new HwRecipe();
+    chest.setIngredients(hwItem("oak planks", 8));
+    chest.setResult(hwItem("chest"));
+    chest.allowCraft(CraftingSource.WORKBENCH);
+
+    hwAddRecipe("chest", chest);
+
+
     // Hw do class, hw do metod
     // wpisz sobie hw i masz cala liste metod
 
