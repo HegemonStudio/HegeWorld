@@ -1,7 +1,5 @@
 package com.hegemonstudio.hegeworld.crafting;
 
-import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;

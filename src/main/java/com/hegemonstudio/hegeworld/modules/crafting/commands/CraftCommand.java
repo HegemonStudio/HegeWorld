@@ -11,7 +11,6 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.chat.hover.content.Item;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -52,12 +51,6 @@ public class CraftCommand extends MPlayerCommand {
     HwRecipe recipe = hwGetRecipe(recipeId, CraftingSource.HANDCRAFTING);
     craftRecipe(player, recipeId, recipe);
   }
-  
-  private Collection<HwRecipe> sortedRecipes(@NotNull Player player) {
-    return hwGetRecipes(CraftingSource.HANDCRAFTING).stream()
-        .sorted(Comparator.comparingInt((recipe) -> canCraft(player, recipe) ? 1 : 0))
-        .collect(Collectors.toList());
-  }
 
   private void printRecipes(@NotNull Player player, @NotNull TextComponent.Builder builder) {
     builder.append(
@@ -76,13 +69,13 @@ public class CraftCommand extends MPlayerCommand {
   private void craftRecipe(@NotNull Player player, @NotNull String recipeId, @Nullable HwRecipe recipe) {
     if (recipe == null) {
       player.sendMessage(Component.text("Crafting not found.").color(NamedTextColor.RED));
-      player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f,1.0f);
+      player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
       return;
     }
 
     if (!canCraft(player, recipe)) {
       player.sendMessage(Component.text("You don't have enough items to craft.").color(NamedTextColor.RED));
-      player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f,1.0f);
+      player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
       return;
     }
 
@@ -99,6 +92,12 @@ public class CraftCommand extends MPlayerCommand {
     player.performCommand("craft");
   }
 
+  private Collection<HwRecipe> sortedRecipes(@NotNull Player player) {
+    return hwGetRecipes(CraftingSource.HANDCRAFTING).stream()
+        .sorted(Comparator.comparingInt((recipe) -> canCraft(player, recipe) ? 1 : 0))
+        .collect(Collectors.toList());
+  }
+
   private void createRecipeElement(@NotNull TextComponent.Builder builder, @NotNull HwRecipe recipe) {
     boolean canCraft = canCraft(player(), recipe);
     if (canCraft) {
@@ -111,6 +110,13 @@ public class CraftCommand extends MPlayerCommand {
             .hoverEvent(HoverEvent.showText(createRecipeHoverElement(recipe)))
             .decoration(TextDecoration.UNDERLINED, canCraft)
     );
+  }
+
+  private boolean canCraft(@NotNull Player player, @NotNull HwRecipe recipe) {
+    for (ItemStack ingredient : recipe.getIngredients()) {
+      if (!ItemStackUtil.getBooleanOfMaterial(player, ingredient, ingredient.getAmount())) return false;
+    }
+    return true;
   }
 
   private @NotNull Component createRecipeHoverElement(@NotNull HwRecipe recipe) {
@@ -141,13 +147,6 @@ public class CraftCommand extends MPlayerCommand {
     }
 
     return builder.build();
-  }
-
-  private boolean canCraft(@NotNull Player player, @NotNull HwRecipe recipe) {
-    for (ItemStack ingredient : recipe.getIngredients()) {
-      if (!ItemStackUtil.getBooleanOfMaterial(player, ingredient, ingredient.getAmount())) return false;
-    }
-    return true;
   }
 
   @Override

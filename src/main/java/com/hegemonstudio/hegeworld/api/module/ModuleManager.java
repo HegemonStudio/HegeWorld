@@ -41,8 +41,7 @@ public class ModuleManager<T extends ModuleBase> implements ModuleManagerBase<T>
   @Override
   public boolean isModuleEnabled(@NotNull Class<? extends T> moduleClass) {
     Optional<T> optionalModule = getModule(moduleClass);
-    if (optionalModule.isEmpty()) return false;
-    return isModuleEnabled(optionalModule.get());
+    return optionalModule.filter(this::isModuleEnabled).isPresent();
   }
 
   @Override

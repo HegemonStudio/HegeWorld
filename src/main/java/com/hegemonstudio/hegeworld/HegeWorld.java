@@ -43,6 +43,7 @@ import static com.impact.lib.api.util.Result.Ok;
 
 /**
  * HegeWorld static method class
+ *
  * @since 1.0-SNAPSHOT
  */
 public final class HegeWorld {
@@ -51,34 +52,13 @@ public final class HegeWorld {
   private static int itemSelectorsCustomItemCount;
 
   private HegeWorld() {
-    
-  }
 
-  /**
-   * Sends message to console and every online player.<br>
-   * If message is null message will not be sent.
-   * @param message The {@link Component} message.
-   * @since 1.0-SNAPSHOT
-   */
-  public static void hwBroadcast(@Nullable Component message) {
-    if (message == null) return;
-    Bukkit.broadcast(message);
-  }
-
-  /**
-   * Sends message to console and every online player.<br>
-   * If message is null message will not be sent.
-   * @param message The string message.
-   * @since 1.0-SNAPSHOT
-   */
-  public static void hwBroadcast(@Nullable String message) {
-    if (message == null) return;
-    hwBroadcast(Component.text(message));
   }
 
   /**
    * Sends stringed message of object to console and every online player.<br>
    * If message object is null message will not be sent.
+   *
    * @param message The object message.
    * @since 1.0-SNAPSHOT
    */
@@ -88,8 +68,45 @@ public final class HegeWorld {
   }
 
   /**
+   * Sends message to console and every online player.<br>
+   * If message is null message will not be sent.
+   *
+   * @param message The string message.
+   * @since 1.0-SNAPSHOT
+   */
+  public static void hwBroadcast(@Nullable String message) {
+    if (message == null) return;
+    hwBroadcast(Component.text(message));
+  }
+
+  /**
+   * Stringifies {@link Object} and returns the string.<br>
+   * If given object is null returns "null"
+   *
+   * @param object The {@link Object} to stringify.
+   * @return The stringed {@link Object}.
+   * @since 1.0-SNAPSHOT
+   */
+  public static @NotNull String hwStr(@Nullable Object object) {
+    return String.valueOf(object);
+  }
+
+  /**
+   * Sends message to console and every online player.<br>
+   * If message is null message will not be sent.
+   *
+   * @param message The {@link Component} message.
+   * @since 1.0-SNAPSHOT
+   */
+  public static void hwBroadcast(@Nullable Component message) {
+    if (message == null) return;
+    Bukkit.broadcast(message);
+  }
+
+  /**
    * Stringifies object and returns the string.<br>
    * If given object is null returns "null"
+   *
    * @param str The object to stringify.
    * @return The stringed object.
    * @since 1.0-SNAPSHOT
@@ -100,19 +117,9 @@ public final class HegeWorld {
   }
 
   /**
-   * Stringifies {@link Object} and returns the string.<br>
-   * If given object is null returns "null"
-   * @param object The {@link Object} to stringify.
-   * @return The stringed {@link Object}.
-   * @since 1.0-SNAPSHOT
-   */
-  public static @NotNull String hwStr(@Nullable Object object) {
-    return String.valueOf(object);
-  }
-
-  /**
    * Stringifies {@link ItemStack} in format <i>(NAME AMOUNT)</i> and returns the string.<br>
    * If given object is null returns "null"
+   *
    * @param item The item stack to stringify.
    * @return The stringed item stack.
    * @since 1.0-SNAPSHOT
@@ -129,6 +136,7 @@ public final class HegeWorld {
   /**
    * Stringifies {@link Material} and returns the string.<br>
    * If given material is null returns "null".
+   *
    * @param material The {@link Material} to stringify.
    * @return The stringed {@link Material}.
    * @since 1.0-SNAPSHOT
@@ -145,6 +153,7 @@ public final class HegeWorld {
 
   /**
    * Parses given string to int and returns {@link Result}.
+   *
    * @param value The string of number.
    * @return The result of integer or {@link NumberFormatException}
    * @since 1.0-SNAPSHOT
@@ -160,6 +169,7 @@ public final class HegeWorld {
 
   /**
    * Gets the online {@link Player} stream.
+   *
    * @return The online {@link Player} stream.
    * @since 1.0-SNAPSHOT
    */
@@ -170,6 +180,7 @@ public final class HegeWorld {
 
   /**
    * Gets the online {@link Player} stream filtered by given {@link World}.
+   *
    * @param world The given {@link World}.
    * @return The filtered online {@link Player} stream.
    * @since 1.0-SNAPSHOT
@@ -183,9 +194,10 @@ public final class HegeWorld {
   /**
    * Gets list of {@link Entity} by given entity class in HegeWorld main world.<br>
    * The HegeWorld main world you can access by {@link #hwWorld()}
+   *
    * @param entityClass The given {@link Entity} class.
+   * @param <T>         The {@link Entity} type.
    * @return The list of all entities in HegeWorld filtered by class.
-   * @param <T> The {@link Entity} type.
    * @since 1.0-SNAPSHOT
    */
   public static <T extends Entity> @NotNull List<T> hwGetEntities(@NotNull Class<T> entityClass) {
@@ -194,6 +206,7 @@ public final class HegeWorld {
 
   /**
    * Gets the HegeWorld main {@link World}.
+   *
    * @return The main world.
    * @since 1.0-SNAPSHOT
    */
@@ -203,6 +216,7 @@ public final class HegeWorld {
 
   /**
    * Gets the stream of all {@link World}s.
+   *
    * @return The stream of all {@link World}s.
    * @since 1.0-SNAPSHOT
    */
@@ -250,6 +264,7 @@ public final class HegeWorld {
   /**
    * Creates {@link NamespacedKey} with namespace of {@link HegeWorldPlugin} and given value.<br>
    * Method takes care of spaces and character case.
+   *
    * @param value The given value.
    * @return The created {@link NamespacedKey}.
    * @since 1.0-SNAPSHOT
@@ -262,6 +277,7 @@ public final class HegeWorld {
   /**
    * Runs runnable action after 1 tick.<br>
    * 20 ticks = 1s
+   *
    * @param action The runnable action to run.
    * @since 1.0-SNAPSHOT
    */
@@ -275,9 +291,10 @@ public final class HegeWorld {
 
   /**
    * Calls a given {@link Event} and returns after call.
+   *
    * @param event The {@link Event} to call.
+   * @param <T>   The object instanceof {@link Event}.
    * @return The called {@link Event}.
-   * @param <T> The object instanceof {@link Event}.
    * @since 1.0-SNAPSHOT
    */
   public static <T extends Event> @NotNull T hwCallEvent(@NotNull T event) {
@@ -362,6 +379,7 @@ public final class HegeWorld {
    * Returns null if item is not found.<br>
    * The name can contain namespace. The default namespace is <code>minecraft:</code><br>
    * Example: {@code "stone", "minecraft:dirt", "hegeworld:ak47", "diamond sword"}
+   *
    * @param itemName The given item name.
    * @return New item stack with amount equals 1.
    * @since 1.0-SNAPSHOT
@@ -375,8 +393,9 @@ public final class HegeWorld {
    * Returns null if item is not found.<br>
    * The name can contain namespace. The default namespace is <code>minecraft:</code><br>
    * Example: {@code "stone", "minecraft:dirt", "hegeworld:ak47", "diamond sword"}
+   *
    * @param itemName The given item name.
-   * @param amount The item amount.
+   * @param amount   The item amount.
    * @return New item stack with given amount.
    * @since 1.0-SNAPSHOT
    */
@@ -398,12 +417,12 @@ public final class HegeWorld {
     return new ItemStack(material, amount);
   }
 
-  public static @NotNull ItemStack hwItem(@NotNull Material material, int amount) {
-    return new ItemStack(material, amount);
-  }
-
   public static @NotNull ItemStack hwItem(@NotNull Material material) {
     return hwItem(material, 1);
+  }
+
+  public static @NotNull ItemStack hwItem(@NotNull Material material, int amount) {
+    return new ItemStack(material, amount);
   }
 
   public static void hwPlayerGiveItem(@NotNull Player player, @NotNull ItemStack item) {
@@ -572,19 +591,24 @@ public final class HegeWorld {
     return true;
   }
 
-  public static boolean hwIsBlockExists(@Nullable Block block) {
-    if (block == null) return false;
-    return !block.getType().equals(Material.AIR);
-  }
-
   public static boolean hwIsBlockExists(@Nullable Location location) {
     if (location == null) return false;
     return hwIsBlockExists(location.getBlock());
   }
 
+  public static boolean hwIsBlockExists(@Nullable Block block) {
+    if (block == null) return false;
+    return !block.getType().equals(Material.AIR);
+  }
+
+  public static @NotNull Block hwGetBlock(int x, int y, int z) {
+    return hwLoc(x, y, z).getBlock();
+  }
+
   /**
    * Creates {@link Location} with given coordinates and HegeWorld main world.<br>
    * The  main world you can assess by {@link HegeWorld#hwWorld()}
+   *
    * @param x The X-Coordinate
    * @param y The Y-Coordinate
    * @param z The Z-Coordinate
@@ -594,31 +618,27 @@ public final class HegeWorld {
     return new Location(hwWorld(), x, y, z);
   }
 
-  public static @NotNull Location hwOffset(@NotNull Location location, double x, double y, double z) {
-    return location.clone().add(x, y, z);
-  }
-
-  public static @NotNull Block hwGetBlock(@NotNull Location location) {
-    return location.getBlock();
-  }
-
-  public static @NotNull Block hwGetBlock(int x, int y, int z) {
-    return hwLoc(x, y, z).getBlock();
-  }
-
-  public static @NotNull Block hwGetBlock(@NotNull Location location, int relativeX, int relativeY, int relativeZ) {
-    return hwGetBlock(hwOffset(location, relativeX, relativeY, relativeZ));
+  @Contract("_ -> new")
+  public static @NotNull @Unmodifiable Stream<Block> hwGetBlockNeighbours(@NotNull Block block) {
+    return Stream.of(hwGetBlock(block, 0, 1, 0), hwGetBlock(block, 0, -1, 0),
+        hwGetBlock(block, 1, 0, 0), hwGetBlock(block, -1, 0, 0),
+        hwGetBlock(block, 0, 0, 1), hwGetBlock(block, 0, 0, -1));
   }
 
   public static @NotNull Block hwGetBlock(@NotNull Block block, int relativeX, int relativeY, int relativeZ) {
     return hwGetBlock(block.getLocation(), relativeX, relativeY, relativeZ);
   }
 
-  @Contract("_ -> new")
-  public static @NotNull @Unmodifiable Stream<Block> hwGetBlockNeighbours(@NotNull Block block) {
-    return Stream.of(hwGetBlock(block, 0, 1, 0), hwGetBlock(block, 0, -1, 0),
-        hwGetBlock(block, 1, 0, 0), hwGetBlock(block, -1, 0, 0),
-        hwGetBlock(block, 0, 0, 1), hwGetBlock(block, 0, 0, -1));
+  public static @NotNull Block hwGetBlock(@NotNull Location location, int relativeX, int relativeY, int relativeZ) {
+    return hwGetBlock(hwOffset(location, relativeX, relativeY, relativeZ));
+  }
+
+  public static @NotNull Block hwGetBlock(@NotNull Location location) {
+    return location.getBlock();
+  }
+
+  public static @NotNull Location hwOffset(@NotNull Location location, double x, double y, double z) {
+    return location.clone().add(x, y, z);
   }
 
 }

@@ -19,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import static com.hegemonstudio.hegeworld.HegeWorld.hwItem;
 import static com.hegemonstudio.hegeworld.HegeWorld.hwPlayerGiveItem;
 
 public class HWDebugCommand extends MPlayerCommand {

@@ -7,7 +7,8 @@ import com.hegemonstudio.hegeworld.modules.crafting.commands.CraftCommand;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import static com.hegemonstudio.hegeworld.HegeWorld.*;
+import static com.hegemonstudio.hegeworld.HegeWorld.hwAddRecipe;
+import static com.hegemonstudio.hegeworld.HegeWorld.hwItem;
 
 /**
  * HegeWorld module that adds crafting functionality
@@ -58,8 +59,8 @@ public class CraftingModule extends HWModule {
     ironAxe.allowCraft(CraftingSource.WORKBENCH);
 
     hwAddRecipe("iron_axe", ironAxe);
-    
-    
+
+
     //iron Pickaxe
     HwRecipe ironPickaxe = new HwRecipe();
     ironPickaxe.setIngredients(hwItem("iron ingot", 4), hwItem("stick", 3));
@@ -83,7 +84,7 @@ public class CraftingModule extends HWModule {
     spear.setIngredients(hwItem("stick", 4), hwItem("flint", 3));
     spear.setResult(hwItem("trident"));
     spear.allowCraft(CraftingSource.WORKBENCH);
-    
+
     hwAddRecipe("spear", spear);
 
 
