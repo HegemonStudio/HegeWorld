@@ -74,24 +74,6 @@ public class GroundCollection {
     HegeWorldPlugin.GetInstance().saveWorldsData();
   }
 
-  /**
-   * @param location
-   * @param item
-   * @deprecated
-   */
-  public static void SpawnGroundItemLegacy(@NotNull Location location, @NotNull ItemStack item) {
-    HWPlayerGroundSpawnEvent spawnEvent = hwCallEvent(new HWPlayerGroundSpawnEvent(location, item));
-    if (spawnEvent.isCancelled()) return;
-
-    ItemFrame frame = hwSpawn(spawnEvent.getLocation(), ItemFrame.class);
-    frame.setVisible(false);
-    frame.setRotation(Rotation.values()[(int) Math.floor(Math.random() * Rotation.values().length)]);
-    frame.setItem(spawnEvent.getItemStack());
-    hwSetMetadata(frame, ITEM_FRAME_METADATA_KEY, true);
-
-    SaveFrame(frame);
-  }
-
   public static void SaveFrame(@Nullable ItemFrame frame) {
     if (frame == null) return;
     FileConfiguration data = HegeWorldPlugin.GetInstance().getWorldsData();

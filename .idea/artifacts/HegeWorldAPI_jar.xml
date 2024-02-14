@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="HegeWorldAPI:jar">
+    <output-path>$PROJECT_DIR$/../../../../dev/Hurtworld/plugins</output-path>
+    <root id="archive" name="HegeWorldAPI.jar">
+      <element id="module-output" name="HegeWorld" />
+    </root>
+  </artifact>
+</component>
