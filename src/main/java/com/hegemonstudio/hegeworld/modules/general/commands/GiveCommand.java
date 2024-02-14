@@ -61,6 +61,11 @@ public class GiveCommand extends UniversalCommand {
   }
 
   @Override
+  public @Nullable String permission() {
+    return "hegeworld.cmd.give";
+  }
+
+  @Override
   public void onConsoleExecute(@NotNull ConsoleCommandSender console, int i, @NotNull String[] args) {
     if (args.length == 0) {
       error(-1, "Required player selector");

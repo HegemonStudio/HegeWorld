@@ -8,3 +8,5 @@ depend:
 permissions:
   hegeworld.block.admin:
     default: op
+  hegeworld.cmd.give:
+    default: op
