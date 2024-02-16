@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +21,7 @@ import static com.hegemonstudio.hegeworld.HegeWorld.*;
 public class GroundCollection {
 
   public static final String ITEM_FRAME_METADATA_KEY = "natural";
-  public static final String ITEM_FRAME_DATA_KEY = "grounditems";
+  public static final String ITEM_FRAME_DATA_KEY = "isgrounditem";
 
   private static final Map<UUID, GroundItemData> GROUND_ITEMS = new HashMap<>();
 
@@ -32,7 +33,7 @@ public class GroundCollection {
 
   public static boolean IsGroundItem(@Nullable ItemFrame frame) {
     if (frame == null) return false;
-    return frame.hasMetadata(ITEM_FRAME_DATA_KEY);
+    return hwHasData(frame, ITEM_FRAME_DATA_KEY, PersistentDataType.BOOLEAN);
   }
 
   public static @NotNull Optional<GroundItemData> GetGroundItemData(@Nullable Entity entity) {
@@ -97,6 +98,7 @@ public class GroundCollection {
 
     hwSetMetadata(frame, ITEM_FRAME_DATA_KEY, true);
     hwSetMetadata(frame, ITEM_FRAME_METADATA_KEY, true);
+    hwSetData(frame, ITEM_FRAME_DATA_KEY, PersistentDataType.BOOLEAN, true);
 
     SaveFrame(frame);
     // TODO SaveFrameData(data);

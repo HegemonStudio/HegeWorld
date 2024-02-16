@@ -18,13 +18,16 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.WorldInfo;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.Metadatable;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -639,6 +642,61 @@ public final class HegeWorld {
 
   public static @NotNull Location hwOffset(@NotNull Location location, double x, double y, double z) {
     return location.clone().add(x, y, z);
+  }
+
+  public static <P, C> void hwSetData(@NotNull ItemStack item, @NotNull String key, @NotNull PersistentDataType<P, C> type, @NotNull C value) {
+    NamespacedKey namespacedKey = hwKey(key);
+    ItemMeta meta = item.getItemMeta();
+    meta.getPersistentDataContainer().set(namespacedKey, type, value);
+    item.setItemMeta(meta);
+  }
+
+  public static <P, C> @Nullable C hwGetData(@NotNull ItemStack item, @NotNull String key, @NotNull PersistentDataType<P, C> type) {
+    if (!hwHasData(item, key, type)) return null;
+    return item.getItemMeta().getPersistentDataContainer().get(hwKey(key), type);
+  }
+
+  public static <P, C> boolean hwHasData(@NotNull ItemStack item, @NotNull String key, @NotNull PersistentDataType<P, C> type) {
+    NamespacedKey namespacedKey = hwKey(key);
+    ItemMeta meta = item.getItemMeta();
+    return meta.getPersistentDataContainer().has(namespacedKey, type);
+  }
+
+  public static <P, C> void hwSetData(@NotNull Entity entity, @NotNull String key, @NotNull PersistentDataType<P, C> type, @NotNull C value) {
+    NamespacedKey namespacedKey = hwKey(key);
+    entity.getPersistentDataContainer().set(namespacedKey, type, value);
+  }
+
+  public static <P, C> @Nullable C hwGetData(@NotNull Entity entity, @NotNull String key, @NotNull PersistentDataType<P, C> type) {
+    if (!hwHasData(entity, key, type)) return null;
+    return entity.getPersistentDataContainer().get(hwKey(key), type);
+  }
+
+  public static <P, C> boolean hwHasData(@NotNull Entity entity, @NotNull String key, @NotNull PersistentDataType<P, C> type) {
+    NamespacedKey namespacedKey = hwKey(key);
+    return entity.getPersistentDataContainer().has(namespacedKey, type);
+  }
+
+  public static <P, C> boolean hwSetData(@NotNull Block block, @NotNull String key, @NotNull PersistentDataType<P, C> type, @NotNull C value) {
+    if (!(block instanceof TileState)) return false;
+    TileState state = (TileState) block.getState();
+    NamespacedKey namespacedKey = hwKey(key);
+    state.getPersistentDataContainer().set(namespacedKey, type, value);
+    state.update();
+    return true;
+  }
+
+  public static <P, C> @Nullable C hwGetData(@NotNull Block block, @NotNull String key, @NotNull PersistentDataType<P, C> type) {
+    if (!hwHasData(block, key, type)) return null;
+    TileState state = (TileState) block.getState();
+    return state.getPersistentDataContainer().get(hwKey(key), type);
+  }
+
+  public static <P, C> boolean hwHasData(@NotNull Block block, @NotNull String key, @NotNull PersistentDataType<P, C> type) {
+    if (!(block instanceof TileState)) return false;
+    TileState state = (TileState) block.getState();
+    NamespacedKey namespacedKey = hwKey(key);
+    return state.getPersistentDataContainer().has(namespacedKey, type);
   }
 
 }
