@@ -21,13 +21,17 @@ public interface ModuleManagerBase<T extends ModuleBase> {
 
   boolean isModuleByNameEnabled(@NotNull String moduleName);
 
-  @NotNull Optional<T> getModule(@NotNull Class<? extends T> moduleClass);
+  @NotNull
+  Optional<T> getModule(@NotNull Class<? extends T> moduleClass);
 
-  @NotNull Optional<T> getModule(@NotNull String classPath) throws ClassNotFoundException;
+  @NotNull
+  Optional<T> getModule(@NotNull String classPath) throws ClassNotFoundException;
 
-  @NotNull Optional<T> getModuleByName(@NotNull String moduleName);
+  @NotNull
+  Optional<T> getModuleByName(@NotNull String moduleName);
 
-  @NotNull Collection<T> getModules();
+  @NotNull
+  Collection<T> getModules();
 
   void setModuleEnable(@NotNull Class<? extends T> moduleClass, boolean enabled);
 

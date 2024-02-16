@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/HegeWorld.iml" filepath="$PROJECT_DIR$/HegeWorld.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.hegemonstudio.HegeWorld.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.hegemonstudio.HegeWorld.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.hegemonstudio.HegeWorld.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.hegemonstudio.HegeWorld.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.hegemonstudio.HegeWorld.test~1.iml" filepath="$PROJECT_DIR$/.idea/modules/com.hegemonstudio.HegeWorld.test~1.iml" />
     </modules>
   </component>
 </project>

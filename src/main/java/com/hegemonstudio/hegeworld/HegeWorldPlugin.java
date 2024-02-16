@@ -2,6 +2,7 @@ package com.hegemonstudio.hegeworld;
 
 import com.hegemonstudio.hegeworld.api.HWLogger;
 import com.hegemonstudio.hegeworld.api.highlight.BlockHighlightModule;
+import com.hegemonstudio.hegeworld.api.persistent.HwPersistentDataType;
 import com.hegemonstudio.hegeworld.crafting.CraftingManager;
 import com.hegemonstudio.hegeworld.module.HWModuleManager;
 import com.hegemonstudio.hegeworld.modules.bulding.BuildingModule;
@@ -21,6 +22,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
