@@ -2,6 +2,7 @@
     <h1>⚔️ HegeWorld</h1>
 
 [![CodeFactor](https://www.codefactor.io/repository/github/hegemonstudio/hegeworld/badge)](https://www.codefactor.io/repository/github/hegemonstudio/hegeworld)
+[![build](https://github.com/HegemonStudio/HegeWorld/actions/workflows/gradle.yml/badge.svg)](https://github.com/HegemonStudio/HegeWorld/actions/workflows/gradle.yml)
 ![GitHub License](https://img.shields.io/github/license/HegemonStudio/HegeWorld)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/HegemonStudio/HegeWorld/total)
     
