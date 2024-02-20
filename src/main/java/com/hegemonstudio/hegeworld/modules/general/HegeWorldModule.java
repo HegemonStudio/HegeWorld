@@ -21,6 +21,7 @@ public final class HegeWorldModule extends HWModule {
     registerCommand(new SpawnItemCommand());
 
     registerCommand(new GiveCommand());
+    registerCommand(new HelpCommand());
     // TODO tp
     // TODO gamemode
     // TODO debugmode
