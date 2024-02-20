@@ -14,6 +14,7 @@ import com.impact.lib.api.registry.ImpactRegistries;
 import com.impact.lib.api.registry.ImpactRegistry;
 import com.impact.lib.api.util.Result;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.*;
@@ -63,6 +64,7 @@ public final class HegeWorld {
    * If message object is null message will not be sent.
    *
    * @param message The object message.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static void hwBroadcast(@Nullable Object message) {
@@ -75,6 +77,7 @@ public final class HegeWorld {
    * If message is null message will not be sent.
    *
    * @param message The string message.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static void hwBroadcast(@Nullable String message) {
@@ -88,6 +91,7 @@ public final class HegeWorld {
    *
    * @param object The {@link Object} to stringify.
    * @return The stringed {@link Object}.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @NotNull String hwStr(@Nullable Object object) {
@@ -99,6 +103,7 @@ public final class HegeWorld {
    * If message is null message will not be sent.
    *
    * @param message The {@link Component} message.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static void hwBroadcast(@Nullable Component message) {
@@ -112,6 +117,7 @@ public final class HegeWorld {
    *
    * @param str The object to stringify.
    * @return The stringed object.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @NotNull String hwStr(@Nullable String str) {
@@ -125,6 +131,7 @@ public final class HegeWorld {
    *
    * @param item The item stack to stringify.
    * @return The stringed item stack.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @NotNull String hwStr(@Nullable ItemStack item) {
@@ -142,6 +149,7 @@ public final class HegeWorld {
    *
    * @param material The {@link Material} to stringify.
    * @return The stringed {@link Material}.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @NotNull String hwStr(@Nullable Material material) {
@@ -159,6 +167,7 @@ public final class HegeWorld {
    *
    * @param value The string of number.
    * @return The result of integer or {@link NumberFormatException}
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static Result<Integer, NumberFormatException> hwInt(@Nullable String value) {
@@ -174,6 +183,7 @@ public final class HegeWorld {
    * Gets the online {@link Player} stream.
    *
    * @return The online {@link Player} stream.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @NotNull Stream<? extends Player> hwPlayers() {
@@ -186,6 +196,7 @@ public final class HegeWorld {
    *
    * @param world The given {@link World}.
    * @return The filtered online {@link Player} stream.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @NotNull Stream<? extends Player> hwPlayers(@NotNull World world) {
@@ -201,6 +212,7 @@ public final class HegeWorld {
    * @param entityClass The given {@link Entity} class.
    * @param <T>         The {@link Entity} type.
    * @return The list of all entities in HegeWorld filtered by class.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static <T extends Entity> @NotNull List<T> hwGetEntities(@NotNull Class<T> entityClass) {
@@ -221,6 +233,7 @@ public final class HegeWorld {
    * Gets the stream of all {@link World}s.
    *
    * @return The stream of all {@link World}s.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @NotNull Stream<World> hwWorlds() {
@@ -270,6 +283,7 @@ public final class HegeWorld {
    *
    * @param value The given value.
    * @return The created {@link NamespacedKey}.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   @Contract("_ -> new")
@@ -282,6 +296,7 @@ public final class HegeWorld {
    * 20 ticks = 1s
    *
    * @param action The runnable action to run.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static void hwOnTickLater(@NotNull Runnable action) {
@@ -298,6 +313,7 @@ public final class HegeWorld {
    * @param event The {@link Event} to call.
    * @param <T>   The object instanceof {@link Event}.
    * @return The called {@link Event}.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static <T extends Event> @NotNull T hwCallEvent(@NotNull T event) {
@@ -385,6 +401,7 @@ public final class HegeWorld {
    *
    * @param itemName The given item name.
    * @return New item stack with amount equals 1.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @Nullable ItemStack hwItem(@NotNull String itemName) {
@@ -400,6 +417,7 @@ public final class HegeWorld {
    * @param itemName The given item name.
    * @param amount   The item amount.
    * @return New item stack with given amount.
+   * @author Tymon Woźniak
    * @since 1.0-SNAPSHOT
    */
   public static @Nullable ItemStack hwItem(@NotNull String itemName, int amount) {
@@ -462,8 +480,16 @@ public final class HegeWorld {
         .createWorld();
   }
 
+  public static void hwLog(@Nullable String format, @NotNull Object... args) {
+    hwLog(hwTextColor(format, args));
+  }
+
   public static void hwLog(@NotNull Component message) {
     HWLogger.Log(message);
+  }
+
+  public static @NotNull Component hwTextColor(@Nullable String content, Object... args) {
+    return LegacyComponentSerializer.legacyAmpersand().deserialize((new MessageFormat(String.valueOf(content))).format(args));
   }
 
   public static void hwLog(@NotNull Object message) {
@@ -616,6 +642,7 @@ public final class HegeWorld {
    * @param y The Y-Coordinate
    * @param z The Z-Coordinate
    * @return The created location.
+   * @author Tymon Woźniak
    */
   public static @NotNull Location hwLoc(double x, double y, double z) {
     return new Location(hwWorld(), x, y, z);
@@ -697,6 +724,10 @@ public final class HegeWorld {
     TileState state = (TileState) block.getState();
     NamespacedKey namespacedKey = hwKey(key);
     return state.getPersistentDataContainer().has(namespacedKey, type);
+  }
+
+  public static @NotNull Component hwText(@Nullable String content, Object... args) {
+    return Component.text((new MessageFormat(String.valueOf(content))).format(args));
   }
 
 }
