@@ -86,7 +86,6 @@ public class HWDebugCommand extends MPlayerCommand {
     player.sendMessage(Component.text(entity.getLocation().toString()));
     if (isGroundItem) {
       ItemFrame frame = GroundCollection.GetFrame(entity).get();
-      // TODO
     }
   }
 

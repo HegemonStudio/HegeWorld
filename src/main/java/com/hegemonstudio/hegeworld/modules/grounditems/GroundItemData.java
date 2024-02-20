@@ -35,8 +35,6 @@ public class GroundItemData {
   }
 
   public ItemFrame getItemFrame() {
-    // TODO capture data corruption
-    // TODO check frame is valid
     return (ItemFrame) world.getEntity(frameUuid);
   }
 

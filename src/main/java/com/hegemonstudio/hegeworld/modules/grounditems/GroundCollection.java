@@ -101,7 +101,6 @@ public class GroundCollection {
     hwSetData(frame, ITEM_FRAME_DATA_KEY, PersistentDataType.BOOLEAN, true);
 
     SaveFrame(frame);
-    // TODO SaveFrameData(data);
   }
 
   public static void SaveFrame(@Nullable ItemFrame frame) {

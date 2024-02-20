@@ -27,12 +27,6 @@ public class CraftingModule extends HWModule {
    * Loads all crafting recipes
    */
   private void loadRecipes() {
-    //// INVENTORY
-
-    /// Equipment
-    // TODO spear
-    /// Structure
-    // TODO campfire
 
     // Flint Axe
     HwRecipe flintAxe = new HwRecipe();
@@ -113,23 +107,6 @@ public class CraftingModule extends HWModule {
     chest.allowCraft(CraftingSource.WORKBENCH);
 
     hwAddRecipe("chest", chest);
-
-
-    // Hw do class, hw do metod
-    // wpisz sobie hw i masz cala liste metod
-
-
-    /// Materials
-    // TODO planks -> to building
-    // TODO concrete -> to building
-
-    /// Equipment
-    // TODO building hammer -> building tool
-    // TODO backpack?
-
-    /// Structure
-    // TODO chest
-    // TODO totem of authority
 
     HwRecipe blastFurnace = new HwRecipe();
     blastFurnace.setIngredients(hwItem("clay", 50), hwItem("stone", 10));
