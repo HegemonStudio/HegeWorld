@@ -24,10 +24,10 @@ jobs:
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
       - name: Permissions
-        run: sudo chmod +x gradlew
+        run: sudo chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: gradlew build
+        run: ./gradlew build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
